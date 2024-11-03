@@ -55,9 +55,30 @@ ggplot(data = mpg) +
 
 
 
+#map the colors of your points to the class variable to reveal the class of each car
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, colour = class))
+
+#using size for a discrete variable is not advised
+ggplot(data = mpg) + 
+  geom_point((mapping = aes(x = displ, y = hwy, size = class)))
+
+#map the class to the alpha aesthetic, which controls the transparency of the points, or the shape of the points
+# Top
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, alpha = class))
+
+# Bottom
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, shape = class))
 
 
+#we can set the aesthetic properties of the geom manually
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy), colour = "blue")
 
-
-
+#Info: R has 25 built-in shapes that are identified by numbers
+## the hollow shapes (0 - 14) have a border determined by colour
+## the solid shapes (15 - 18) are filled with colour
+## the filled shapes (21 - 24) have a border of colour and are filled with fill
 
