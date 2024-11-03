@@ -82,3 +82,81 @@ ggplot(data = mpg) +
 ## the solid shapes (15 - 18) are filled with colour
 ## the filled shapes (21 - 24) have a border of colour and are filled with fill
 
+
+#Exercises:
+
+#1. What's gone wrong with this code? Why are the points not blue?
+ggplot(data = mpg) +
+  geom_point(
+    mapping = aes(x = displ, y = hwy, colour = "blue")
+  )
+
+#Answer: the parenthesis should close before colour = "blue"
+
+
+#2. Which variables in mpg are categorical? Which variables are continuous? (Hint: type ?mpg to read the documentation for the dataset). How can you see this information when you run mpg?
+?mpg
+mpg
+#library(psych)
+#describe(mpg)
+#let's first check the rows and cols
+dim(mpg)
+#we can use tibble
+#mpg_tb <- mpg %>% as_tibble_col()
+print(mpg, max_extra_cols = 11)
+
+#Answer: Categorical variables: manufacturer, model, trans, drv, fl, class
+#        Continuous variables : displ, year, cyl, cty, hwy
+#        To see this information, you can run ?mpg and it will show you the type of column we have, for example model is just the name but in much safer way, to make sure our dataframe stored correctly character, or integer, we can run print(mpg, max_extra_cols = 11) and we can simply see under each column the type, for exp: <chr>, or <dbl>, or <int>
+#        Categorical: <char>, Continuous: <dbl> and <int>
+
+
+#3. Map a continuous variable to colour, size, and shape. How do these aesthetics behave differently for categorical versus continuous variables?
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = cty, y = hwy, color = year))
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cty, y = hwy, size = year))
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cty, y = hwy, shape = year))
+#Error occurred |^|
+# OR
+#ggplot(mpg, aes(x = cty, y = hwy, color = year)) +
+#  geom_point()
+
+# Answer: 
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = class, y = fl, color = drv))
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = class, y = fl, size = drv))
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = class, y = fl, shape = drv))
+
+#Answer: to find out how continuous variables behave differently than categorical, we can map some of the categorical columns too
+#        We get an error for continuous variables when we try to use shape, and error for categorical when we use size
+
+
+#4. What happens if you map the same variable to multiple aesthetics?
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = cty, y = hwy, color = year, size = displ))
+
+#Answer: it's not practical
+
+#5. What does the stroke aesthetic do? What shapes does it work with? (Hint: use ?geom_point)
+
+?geom_point(shape)
+
+#Answer: Use the stroke aesthetic to modify the width of the border, the shapes that works with stroke are 21-25
+ggplot(mtcars, aes(wt, mpg)) +
+  geom_point(shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
+
+
+#6. What happens if you map an aesthetic to something other than a variable name, like aes(color = displ < 5)
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cty, y = hwy, color = displ < 5))
+
+#Answer: it becomes a boolean
