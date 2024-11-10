@@ -160,3 +160,6 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = cty, y = hwy, color = displ < 5))
 
 #Answer: it becomes a boolean
+
+
+##to find out about a function, you can run ?function_name in the console
