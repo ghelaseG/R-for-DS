@@ -185,7 +185,20 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(. ~ cyl)
 
- 
+#Exercises
+
+#1. What happens if you facet on a continuous variable?
+#Answer:
+#let's first see what happens on a categorical variable
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(. ~ model)
+#then on a continuous variable
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(. ~ cty)
+
+##the continuous variable converts to a categorical variable, the plot contains a facets for each value.
 
 
 
