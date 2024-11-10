@@ -163,3 +163,30 @@ ggplot(data = mpg) +
 
 
 ##to find out about a function, you can run ?function_name in the console
+
+#FACETS
+
+#to add additional variables is with aesthetics
+#another way is to split your plot into 'facets', subplots that each display one subset of the data
+
+#example
+#the first argument should be a data structure, created with ~
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~ class, nrow = 2)
+
+#to facet on the combination of 2 variables, those have to be separated by ~
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ cyl)
+
+#or
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(. ~ cyl)
+
+ 
+
+
+
+
