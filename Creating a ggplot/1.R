@@ -270,3 +270,9 @@ ggplot(data = mpg) +
 #'Other options include: scales, shrink, labeller, as.table, drop, dir, strip.position, axes, axis.labels
 #'facet_grid() does not need nrow and ncol as you already mention them in the "formula"
 
+
+#6. When using facet_grid() you should usually put the variable with more unique levels in the columns. Why?
+
+#Answer:
+
+#there will be more space for columns if the plot is horizontally
