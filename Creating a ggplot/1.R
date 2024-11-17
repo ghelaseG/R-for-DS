@@ -262,3 +262,11 @@ ggplot(data = mpg) +
 #'but with facets, we can not compare easily as will have multiple smaller subplots
 
 
+#5. Read ?facet_wrap. What does nrow do? What does ncol do? What other options control the layout of the individual panels? Why doesn't facet_grid() have nrow and ncol variables?
+
+#Answer:
+
+#'nrow and ncol shows the number of rows and columns
+#'Other options include: scales, shrink, labeller, as.table, drop, dir, strip.position, axes, axis.labels
+#'facet_grid() does not need nrow and ncol as you already mention them in the "formula"
+
