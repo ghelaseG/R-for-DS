@@ -213,6 +213,14 @@ ggplot(data = mpg) +
 ##as we're trying to plot a categorical (drv = <chr>) and a continuous (cyl = <int>), we have no observations (no data to display) as we need numerical data 
 ##we can identify it in the bigger plot, where we have no points.
 
+#3. What plots does the following code make? What does . do?
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ .)
 
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(. ~ cyl)
 
+#the '.' helps facet in row(1st plot) or column(2nd plot)
 
