@@ -363,4 +363,13 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
 
 # the one that I'll use the most will is the histogram, as it is more relevant and easy to understand.
 
+#2. Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions:
+
+ggplot(
+  data = mpg, mapping = aes(x = displ, y = hwy, colour = drv)
+) + geom_point() +
+  geom_smooth()
+
+
+
 
