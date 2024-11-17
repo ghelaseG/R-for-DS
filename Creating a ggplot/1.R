@@ -370,6 +370,17 @@ ggplot(
 ) + geom_point() +
   geom_smooth()
 
+#3. What does show.legend = FALSE do? What happens if you remove it? Why do you think I used it earlier in the chapter?
 
+#Answer:
+
+#let's first copy the example
+ggplot(data = mpg) +
+  geom_smooth(
+    mapping = aes(x = displ, y = hwy, colour = drv),
+  )
+#'show.legend = FALSE removes the category description from the right handside
+#'if we remove the show.legend we have displayed on the right handside of the graph the category for every colour
+#'it's been used because we had 3 subplots displayed
 
 
