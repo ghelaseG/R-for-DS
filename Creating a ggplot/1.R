@@ -108,7 +108,7 @@ print(mpg, max_extra_cols = 11)
 #Answer: Categorical variables: manufacturer, model, trans, drv, fl, class
 #        Continuous variables : displ, year, cyl, cty, hwy
 #        To see this information, you can run ?mpg and it will show you the type of column we have, for example model is just the name but in much safer way, to make sure our dataframe stored correctly character, or integer, we can run print(mpg, max_extra_cols = 11) and we can simply see under each column the type, for exp: <chr>, or <dbl>, or <int>
-#        Categorical: <char>, Continuous: <dbl> and <int>
+#        Categorical: <char>, Continuous: <dbl> and <int> (dbl <- float)
 
 
 #3. Map a continuous variable to colour, size, and shape. How do these aesthetics behave differently for categorical versus continuous variables?
@@ -200,6 +200,16 @@ ggplot(data = mpg) +
 
 ##the continuous variable converts to a categorical variable, the plot contains a facets for each value.
 
+#2. What do the empty cells in a plot with facet_grid(drv ~ cyl) mean? How do they relate to this plot?
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = drv, y = manufacturer))
 
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ cyl)
+
+#in order to understand this let's compare the 2 plots
+##as we're trying to plot a categorical (drv = <chr>) and a continuous (cyl = <int>), we have no observations (no data to display) as we need numerical data 
+##we can identify it in the bigger plot, where we have no points.
 
 
