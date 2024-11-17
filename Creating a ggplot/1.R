@@ -275,4 +275,8 @@ ggplot(data = mpg) +
 
 #Answer:
 
-#there will be more space for columns if the plot is horizontally
+#'there will be more space for columns if the plot is horizontally
+#'we can see this by taking the example from exercise 3
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(. ~ cyl)
