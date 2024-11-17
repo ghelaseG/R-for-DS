@@ -383,4 +383,14 @@ ggplot(data = mpg) +
 #'if we remove the show.legend we have displayed on the right handside of the graph the category for every colour
 #'it's been used because we had 3 subplots displayed
 
+#4. What does the se argument to geom_smooth() do?
 
+#Answer
+
+#let's first get an example to see:
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_boxplot(mapping = aes(colour = class)) +
+  geom_line(se = FALSE)
+
+#se shows a shadow around the line chart
