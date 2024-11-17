@@ -199,6 +199,7 @@ ggplot(data = mpg) +
   facet_grid(. ~ cty)
 
 ##the continuous variable converts to a categorical variable, the plot contains a facets for each value.
+##also multiple panels are created based on the distinct values of that value.
 
 #2. What do the empty cells in a plot with facet_grid(drv ~ cyl) mean? How do they relate to this plot?
 ggplot(data = mpg) +
@@ -211,5 +212,7 @@ ggplot(data = mpg) +
 #in order to understand this let's compare the 2 plots
 ##as we're trying to plot a categorical (drv = <chr>) and a continuous (cyl = <int>), we have no observations (no data to display) as we need numerical data 
 ##we can identify it in the bigger plot, where we have no points.
+
+
 
 
