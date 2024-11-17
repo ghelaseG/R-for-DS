@@ -341,5 +341,26 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
     se = FALSE
   )
 
+#Exercises
+
+#1. What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
+
+#Answer:
+
+#let's first see all of them
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_boxplot(mapping = aes(colour = class)) +
+  geom_line(se = FALSE)
+
+ggplot(data = mpg, aes(x = cty)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "skyblue", color = "black") +
+  geom_density(color = "red", size = 1) + # Add a density curve
+  geom_line(stat = "density", color = "blue", size = 1)
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_area(mapping = aes(colour = class)) +
+  geom_line(colour = "blue", size = 1)
+
+# the one that I'll use the most will is the histogram, as it is more relevant and easy to understand.
 
 
