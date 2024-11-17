@@ -224,3 +224,29 @@ ggplot(data = mpg) +
 
 #the '.' helps facet in row(1st plot) or column(2nd plot)
 
+#4. Take the first faceted plot in this section:
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~ class, nrow = 2)
+
+#let's first see the colored plot
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy), color = 'blue')
+
+#' What are the advantages to using faceting instead of the color aesthetic? 
+#' What are the disadvantages? 
+#' How might the balance change if you had a larger dataset?
+
+#Answer:
+
+#The advantages to using faceting instead of the color aesthetic are as follows:
+#'you have many subplots and can compare individually in a simple way, instead of checking the color for each variable
+#'also you can be using facet_wrap and get rid of the empty subplots (empty grid elements) as they're not shown
+
+#The disadvantages are:
+#'in case we have a large dataset, we can not observe much as the subplots(facets) will be too small
+#'or another disadvantage will be if we try to compare the values
+
+#If we have a larger dataset:
+#'it is difficult to check overlapping points with colour, so will need to use facets
+#'but with facets, we can not compare easily as will have multiple smaller subplots
