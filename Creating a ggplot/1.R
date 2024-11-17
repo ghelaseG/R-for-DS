@@ -280,3 +280,66 @@ ggplot(data = mpg) +
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(. ~ cyl)
+
+
+
+
+# GEOMETRIC OBJECTS
+
+#left
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+#right
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+
+#you cannot change the shape of a line, but you could set the linetype
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv))
+
+#?mpg
+#we can make it more clear by overlaying the lines on top of the raw data and then colouring everything
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv, colour = drv))
+
+#there are many others extensions that you can find at: https://exts.ggplot2.tidyverse.org/
+
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, group = drv))
+
+ggplot(data = mpg) +
+  geom_smooth(
+    mapping = aes(x = displ, y = hwy, colour = drv),
+    show.legend = FALSE
+  )
+
+#to display multiple geoms in the same plot, add multiple geom functions 
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+
+
+#to avoid repetition you can write the code in this way:
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth()
+
+#it's better to use mapping in geom function as it will treat them as local mappings for the layer
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(mapping = aes(colour = class)) +
+  geom_smooth()
+
+#we can use filter() to specify different data for each layer
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(mapping = aes(colour = class)) +
+  geom_smooth(
+    data = filter(mpg, class == "subcompact"),
+    se = FALSE
+  )
+
+
+
