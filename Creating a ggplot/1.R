@@ -187,8 +187,11 @@ ggplot(data = mpg) +
 
 #Exercises
 
+
 #1. What happens if you facet on a continuous variable?
+
 #Answer:
+
 #let's first see what happens on a categorical variable
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
@@ -201,6 +204,7 @@ ggplot(data = mpg) +
 ##the continuous variable converts to a categorical variable, the plot contains a facets for each value.
 ##also multiple panels are created based on the distinct values of that value.
 
+
 #2. What do the empty cells in a plot with facet_grid(drv ~ cyl) mean? How do they relate to this plot?
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = drv, y = manufacturer))
@@ -209,9 +213,12 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(drv ~ cyl)
 
+#Answer:
+
 #in order to understand this let's compare the 2 plots
 ##as we're trying to plot a categorical (drv = <chr>) and a continuous (cyl = <int>), we have no observations (no data to display) as we need numerical data 
 ##we can identify it in the bigger plot, where we have no points.
+
 
 #3. What plots does the following code make? What does . do?
 ggplot(data = mpg) +
@@ -222,7 +229,10 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(. ~ cyl)
 
+#Answer:
+
 #the '.' helps facet in row(1st plot) or column(2nd plot)
+
 
 #4. Take the first faceted plot in this section:
 ggplot(data = mpg) +
@@ -250,3 +260,5 @@ ggplot(data = mpg) +
 #If we have a larger dataset:
 #'it is difficult to check overlapping points with colour, so will need to use facets
 #'but with facets, we can not compare easily as will have multiple smaller subplots
+
+
