@@ -394,3 +394,22 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_line(se = FALSE)
 
 #se shows a shadow around the line chart
+
+#5. Will these two graphs look different? Why/ why not?
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth()
+
+ggplot() +
+  geom_point(
+    data = mpg,
+    mapping = aes(x = displ, y = hwy)
+  ) +
+  geom_smooth(
+    data = mpg,
+    mapping = aes(x = displ, y = hwy)
+  )
+
+#Answer
+
+#there are no differences in visualisation, the only difference is the indentation, although they're both correct, the only issue is how other people can understand thos code
