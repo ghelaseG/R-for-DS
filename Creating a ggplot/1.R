@@ -413,3 +413,15 @@ ggplot() +
 #Answer
 
 #there are no differences in visualisation, the only difference is the indentation, although they're both correct, the only issue is how other people can understand thos code
+
+
+#6. Re-create the R code necessary to generate the following graphs:
+
+#Answer
+
+#1st left
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_smooth(se = FALSE)
+
