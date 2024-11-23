@@ -444,3 +444,11 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_point(mapping = aes(colour = drv)) +
   geom_smooth(se = FALSE)
 
+#3rd row left
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, linetype = drv)) +
+  geom_point(mapping = aes(x = displ, y = hwy, colour = drv,)) +
+  geom_smooth()
+
+
+
