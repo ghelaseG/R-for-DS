@@ -437,3 +437,10 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, group = drv)) +
 ggplot(data = mpg, mapping = aes(x = displ, y =hwy, group = drv, colour = drv)) +
   geom_point() +
   geom_smooth(se = FALSE)
+
+#2nd row right
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(mapping = aes(colour = drv)) +
+  geom_smooth(se = FALSE)
+
