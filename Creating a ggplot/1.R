@@ -669,6 +669,15 @@ ggplot(data = mpg) +
 #1. What is the problem with this plot? How could you improve it?
 
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() 
+
+#Answer:
+#we can add some color and position to understand better our plot
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_point(data = mpg,mapping = aes(colour = hwy), position = "jitter") 
 
-#we can add some color and position to understand better our plot
+#2. What parameters to geom_jitter() control the amount of jittering?
+
+# Answer:
+
