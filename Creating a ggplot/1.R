@@ -607,3 +607,60 @@ ggplot(data = diamonds) +
     mapping = aes(x = cut, y = ..prop..)
   )
 
+
+
+
+
+# POSITION ADJUSTMENTS
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, colour = cut))
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = cut))
+
+#trying to use fill with other variable
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+
+
+#we can use "identity", "dodge", "fill"
+
+#for example, position = "identity", this is not helpful for bars, but it is good for 2D geoms, like points
+
+ggplot(data = diamonds,
+       mapping = aes(x = cut, fill = clarity)
+       ) +
+  geom_bar(alpha = 1/5, position = "identity")
+
+ggplot(
+  data = diamonds,
+  mapping = aes(x = cut, colour = clarity)
+) +
+  geom_bar(fill = NA, position = "identity")
+
+
+#next example, position = "fill", this works like stacking, but makes each set of stacked bars the same height
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity),
+           position = "fill"
+)
+
+#3rd example, position = "dodge", places overlapping objects directly beside one another
+
+ggplot(data = diamonds) +
+  geom_bar(
+    mapping = aes(x = cut, fill = clarity),
+    position = "dodge"
+)
+
+#4th example, position = "jitter", going back to our first example, we can see that we had 234 observations and only 126 of them were displayed in our graph. This position helps adding a small random noise to each point, spreading them.
+
+ggplot(data = mpg) +
+  geom_point(
+    mapping = aes(x = displ, y = hwy),
+    position = "jitter"
+  )
+
