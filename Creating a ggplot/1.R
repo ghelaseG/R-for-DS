@@ -681,3 +681,23 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 
 # Answer:
 
+ggplot(mpg, aes(cty, hwy)) +
+  geom_jitter(width = 0.9, height = 0.9)
+#by playing with the numbers of width and height, we can see that amount of jittering is changing
+
+#3. Compare and contrast geom_jitter() with geom_count().
+
+# Answer:
+
+# geom_jitter: The jitter geom is a convenient shortcut for geom_point(position = "jitter"). It adds a small amount of random variation to the location of each point, and is a useful way of handling overplotting caused by discreteness in smaller datasets.
+
+# geom_count: This is a variant geom_point() that counts the number of observations at each location, then maps the count to point area. It useful when you have discrete data and overplotting.
+
+#example with geom_jitter
+ggplot(mpg, aes(cty, hwy)) +
+  geom_jitter(width = 0.5, height = 0.3)
+
+#example with geom_count
+ggplot(mpg, aes(cty, hwy)) +
+  geom_count() +
+  scale_size_area()
