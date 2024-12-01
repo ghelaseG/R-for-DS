@@ -508,3 +508,32 @@ ggplot(data = diamonds) +
     fun.max = max,
     fun.y = median
   )
+
+
+#Exercises:
+
+#1. What is the default geom associated with stat_summary()? How could you rewrite the previous plot to use that geom function instead of the stat function?
+
+#Answer
+
+#checking the cheatsheet for ggplot2 at https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf, we can see that the matching one is geom_pointrange()
+
+#the reason we use stat = "summary" is because it will be the same if we do stat_summary(geom = "pointrange") similar to geom_pointrange(stat = "summary")
+ggplot(data = diamonds) +
+  geom_pointrange(mapping = aes(x = cut, y = depth), stat = "summary")
+
+
+#to replicate the same plot we can do the following:
+#fun.min and fun.max manipulate the y axis in our ggplot2
+
+ggplot(data = diamonds) +
+  geom_pointrange(
+    mapping = aes(x = cut, y = depth), 
+    stat = "summary",
+    fun.min = min,
+    fun.max = max,
+    fun = median
+  )
+
+#to see how fun.min and max works, you can run the following: 
+ggplot2::layer_data(last_plot())
