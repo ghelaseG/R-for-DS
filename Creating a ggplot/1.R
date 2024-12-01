@@ -770,6 +770,24 @@ p + labs(x = "New x label")
 
 #3. What's the difference between coord_quickmap() and coord_map()?
 
+#Answer:
+
+#coord_map() projects a portion of the earth, which is approximately spherical, onto a flat 2D plane using any projection defined by the mapproj package. Map projections do not, in general, preserve straight lines, so this requires considerable computation. coord_quickmap() is a quick approximation that does preserve straight lines. It works best for smaller areas closer to the equator.
+
+#Both coord_map() and coord_quickmap() are superseded by coord_sf(), and should no longer be used in new code. All regular (non-sf) geoms can be used with coord_sf() by setting the default coordinate system via the default_crs argument. See also the examples for annotation_map() and geom_map().
+
+#4. What does the following plot tell you about the relationship between city and highway mpg? Why is coord_fixed() important? What does geom_abline() do?
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() +
+  geom_abline() +
+  coord_fixed()
+
+#Answer:
+
+#There is no relationship between city and highway mpg.
+#coord_fixed() helps with the aspect ration of the graph, to better understand the output
+#geom_abline() add reference lines (sometimes called rules) to a plot, either horizontal, vertical, or diagonal (specified by slope and intercept). These are useful for annotating plots.
 
 
 
