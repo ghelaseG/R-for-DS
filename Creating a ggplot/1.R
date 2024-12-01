@@ -556,6 +556,7 @@ ggplot2::layer_data(last_plot())
 ##geom_bin_2d() stat_bin_2d()
 ##geom_boxplot() stat_boxplot()
 
+
 #4. What variables does stat_smooth() compute? What parameters control its behavior?
 
 #Answer:
@@ -574,4 +575,35 @@ ggplot2::layer_data(last_plot())
 # Standard error.
 
 ##The parameters that control its behavior are: mapping, data, position, method, formula, se, na.rm, orientation, show.legend, inherit.aes, geom, stat, n, span, fullrange, xseq, level, method.args
+
+
+#5. In our proportion bar chart, we need to set group = 1. Why? In other words what is the problem witht these two graphs?
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = ..prop..))
+
+ggplot(data = diamonds) +
+  geom_bar(
+    mapping = aes(x = cut, fill = colour, y = ..prop..)
+  )
+
+#Answer:
+
+#to find our answer we can simply run in the terminal ?geom_bar, scroll down or search internal for group and you get the following:
+
+#Description : "The group aesthetic is by default set to the interaction of all discrete variables in the plot. This choice often partitions the data correctly, but when it does not, or when no discrete variable is used in the plot, you will need to explicitly define the grouping structure by mapping group to a variable that has a different value for each group."
+#Details : "For most applications the grouping is set implicitly by mapping one or more discrete variables to x, y, colour, fill, alpha, shape, size, and/or linetype"
+
+#also we can simply see that the graph has got no sense, all the bars being the same but with different data.
+ggplot(data = diamonds) +
+  geom_bar(
+    mapping = aes(x = cut, y = ..prop.., group = 1)
+  )
+
+#and
+
+ggplot(data = diamonds) +
+  geom_bar(
+    mapping = aes(x = cut, y = ..prop..)
+  )
 
