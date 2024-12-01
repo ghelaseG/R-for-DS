@@ -537,3 +537,24 @@ ggplot(data = diamonds) +
 
 #to see how fun.min and max works, you can run the following: 
 ggplot2::layer_data(last_plot())
+
+
+#2. What does geom_col() do? How is it different to geom_bar()?
+
+#Answer:
+
+#running in the terminal ?geom_col we get the following description:
+##There are two types of bar charts: geom_bar() and geom_col(). geom_bar() makes the height of the bar proportional to the number of cases in each group (or if the weight aesthetic is supplied, the sum of the weights). If you want the heights of the bars to represent values in the data, use geom_col() instead. geom_bar() uses stat_count() by default: it counts the number of cases at each x position. geom_col() uses stat_identity(): it leaves the data as is.
+
+#3. Most geoms and stats come in pairs that are almost always used in concert. Read through the documentation and make a list of all the pairs. What do they have in common?
+
+#Answer:
+
+#Checking the reference website of ggplot2 at https://ggplot2.tidyverse.org/reference/ we can see the following (this is not an exhaustive list):
+
+##geom_bar() geom_col() stat_count()
+##geom_bin_2d() stat_bin_2d()
+##geom_boxplot() stat_boxplot()
+
+
+
