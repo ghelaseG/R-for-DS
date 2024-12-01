@@ -454,4 +454,57 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, linetype = drv)) +
 
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_point(mapping = aes(x = displ, y = hwy, colour = drv)) 
-  
+
+
+
+
+
+
+# STATISTICAL TRANSFORMATIONS
+
+
+#some example from the book
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut))
+
+# stat = statistical transformation
+
+#same graph using stat_count() instead of geom_bar()
+
+ggplot(data = diamonds) +
+  stat_count(mapping = aes(x = cut))
+
+
+#other good example where instead of the constant count on the y axis, we can include our own x and y
+
+demo <- tribble(
+  ~a,      ~b,
+  "bar_1", 20,
+  "bar_2", 30,
+  "bar_3", 40,
+)
+
+ggplot(data = demo) +
+  geom_bar(
+    mapping = aes(x = a, y = b), stat = "identity"
+  )
+
+
+#other example using aesthetics
+
+ggplot(data = diamonds) +
+  geom_bar(
+    mapping = aes(x = cut, y = ..prop.., group = 1)
+  )
+
+
+#we can also draw some attention to the statistical transformation in our code
+
+ggplot(data = diamonds) +
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.min = min,
+    fun.max = max,
+    fun.y = median
+  )
