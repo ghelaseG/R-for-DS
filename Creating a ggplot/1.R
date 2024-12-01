@@ -792,3 +792,14 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 
 
 
+# THE LAYERED GRAMMAR OF GRAPHICS
+
+ggplot(data = <DATA>) +
+  <GEOM_FUNCTION>(
+    mapping = aes(<MAPPING>),
+    stat = <STAT>,
+    position = <POSITION>
+  ) +
+  <COORDINATE_FUNCTION> +
+  <FACET_FUNCTION>
+
