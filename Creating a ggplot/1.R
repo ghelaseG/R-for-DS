@@ -745,3 +745,13 @@ bar <- ggplot(data = diamonds) +
 bar + coord_flip()
 bar + coord_polar()
 
+
+# Exercises:
+
+#1. Turn a stacked bar chart into a pie chart using coord_polar().
+
+bar <- ggplot(data = mpg) +
+  geom_bar(mapping = aes(x = manufacturer, fill = manufacturer),
+           show.legend = FALSE)
+
+bar + coord_polar()
