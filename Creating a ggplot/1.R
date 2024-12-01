@@ -768,5 +768,9 @@ p <- ggplot(mtcars, aes(mpg, wt, colour = cyl)) + geom_point()
 p + labs(colour = "Cylinders")
 p + labs(x = "New x label")
 
+#3. What's the difference between coord_quickmap() and coord_map()?
+
+
+
 
 
