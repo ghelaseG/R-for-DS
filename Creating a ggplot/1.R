@@ -556,5 +556,22 @@ ggplot2::layer_data(last_plot())
 ##geom_bin_2d() stat_bin_2d()
 ##geom_boxplot() stat_boxplot()
 
+#4. What variables does stat_smooth() compute? What parameters control its behavior?
 
+#Answer:
+
+##stat_smooth() calculate the following variables:
+# after_stat(y) or after_stat(x)
+# Predicted value.
+# 
+# after_stat(ymin) or after_stat(xmin)
+# Lower pointwise confidence interval around the mean.
+# 
+# after_stat(ymax) or after_stat(xmax)
+# Upper pointwise confidence interval around the mean.
+# 
+# after_stat(se)
+# Standard error.
+
+##The parameters that control its behavior are: mapping, data, position, method, formula, se, na.rm, orientation, show.legend, inherit.aes, geom, stat, n, span, fullrange, xseq, level, method.args
 
