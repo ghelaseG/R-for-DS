@@ -701,3 +701,8 @@ ggplot(mpg, aes(cty, hwy)) +
 ggplot(mpg, aes(cty, hwy)) +
   geom_count() +
   scale_size_area()
+
+#4. What's the default position adjustment for geom_boxplot()? Create a visualization of the mpg dataset that demonstrates it.
+
+ggplot(data = mpg, aes(x = cty, y = hwy, group = 1)) +
+  geom_boxplot()
