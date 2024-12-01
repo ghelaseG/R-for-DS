@@ -755,3 +755,18 @@ bar <- ggplot(data = mpg) +
            show.legend = FALSE)
 
 bar + coord_polar()
+
+#2. What does labs() do? Read the documentation.
+
+# Answer:
+
+# Running in the terminal ?labs(): Good labels are critical for making your plots accessible to a wider audience. Always ensure the axis and legend labels display the full variable name. Use the plot title and subtitle to explain the main findings. It's common to use the caption to provide information about the data source. tag can be used for adding identification tags to differentiate between multiple plots.
+
+#for example:
+
+p <- ggplot(mtcars, aes(mpg, wt, colour = cyl)) + geom_point()
+p + labs(colour = "Cylinders")
+p + labs(x = "New x label")
+
+
+
