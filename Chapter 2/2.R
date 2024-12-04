@@ -70,3 +70,9 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy))
   
 filter(mpg, cyl == 8)
+
+#3. Press Alt-Shift-K. What happens? How can you get to the same place using the menus?
+
+#Answer
+
+#by pressing Alt-Shift-K takes us to the keyboard shortcut quick reference. We can do this by going to Tools-Keyboard SHortcut Helps
