@@ -37,3 +37,18 @@ y <- seq(1, 10, length.out = 5)
 y
 
 (y <- seq(1, 10, length.out = 5))
+
+
+#Exercises
+
+#1. Why does this code not work?
+
+my_variable <- 10
+my_varable
+
+#Look carefully! (This may seem like an exercise in pointlessness, but training your brain to notice even the tiniest difference will pay off when programming.)
+
+#Answer
+
+#"i" from variable "my_variable" is missing.
+
