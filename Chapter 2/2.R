@@ -50,5 +50,23 @@ my_varable
 
 #Answer
 
-#"i" from variable "my_variable" is missing.
+# "i" from variable "my_variable" is missing.
 
+#2. Tweak each of the following R commands so that they run correctly:
+
+library(tidyverse)
+
+ggplot(dota = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+  
+fliter(mpg, cyl = 8)
+fliter(diamond, carat > 3)
+
+#Answer
+
+library(tidyverse)
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+  
+filter(mpg, cyl == 8)
