@@ -54,5 +54,23 @@ jan1 <- filter(flights, month == 1, day == 1)
 
 #if you want to save the results and print them, put them between parantheses:
 
-(dec25 <- filter(flights, month == 12, day == 24)
-)
+(dec25 <- filter(flights, month == 12, day == 24))
+
+
+#Comparisons
+
+#using = instead of ==
+filter(flights, month = 1)
+
+#another error we can encounter is when using ==: floating-point numbers
+
+sqrt(2) ^ 2 == 2
+#False
+
+1/49 * 49 == 1
+#False
+
+#this happens because we see an approximation
+#instead of == we can use near():
+near(sqrt(2) ^ 2, 2)
+near(1 / 49 * 49, 1)
