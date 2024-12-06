@@ -38,3 +38,21 @@ View(flights)
 
 #those can be used in conjuction with group_by() : used to work only on a small part(group) of the dataset
 
+
+# Filter Rows with filter()
+
+#filter() allows you to subset observations based on their values
+#first argument is the name of the dataframe
+#2nd and 3rd are the expressions that filter the data frame
+
+#1st example is to select all flights on January 1st:
+
+filter(flights, month == 1, day == 1)
+
+jan1 <- filter(flights, month == 1, day == 1)
+
+
+#if you want to save the results and print them, put them between parantheses:
+
+(dec25 <- filter(flights, month == 12, day == 24)
+)
