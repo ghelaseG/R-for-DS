@@ -204,7 +204,7 @@ View(all_rows_2)
 gg <- filter(flights, sched_dep_time <= 600 & dep_delay <= 0)
 View(gg) #what we did here, we check for the unique rows from our table, and we can only see one departure at 01:06
 
-#but there's so much more we can do with this exercise as our data is wrong, or misleading, probably after cleaning the data we can get an easier and straight result.
+#but there's so much more we can do with this exercise as our data is wrong, or misleading, probably after cleaning the data we can get an easier and straight result
 
 #2. Another useful dplyr filtering helper is between(). What does it do? can you use it to simplify the code needed to answer the previous challenges?
 
@@ -218,3 +218,17 @@ View(gg) #what we did here, we check for the unique rows from our table, and we 
 
 gg <- filter(flights, between(month, 7, 9))
 View(gg)
+
+
+#3. How many flights have a missing dep_time? What other variables are missing? What might these rows represent?
+
+#Answer:
+
+filter(flights, is.na(dep_time))
+#we can see that we got 8245 NA rows
+
+summary(flights)
+#other variables having the same missing values are: dep_delay, arr_time, arr_delay, air_time
+
+#this can mean cancelled flight or possibly not registered.
+
