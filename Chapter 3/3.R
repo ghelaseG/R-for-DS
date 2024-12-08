@@ -188,5 +188,10 @@ View(gg)
 
 #g:
 print.data.frame(flights$dep_time)
-gg <- filter(flights, dep_time < 2400 & dep_time <= 600) 
+gg <- filter(flights, dep_time < 2400 & dep_time <= 600)
 View(gg)
+
+#let's try something different, google print all the rows without duplicates in r, we find that "dplyr" library has got a distinct method, let's use it:
+#Reference: https://dplyr.tidyverse.org/reference/distinct.html
+all_rows <- distinct(flights, dep_time)
+View(all_rows) #we get all the unique rows
