@@ -74,3 +74,28 @@ sqrt(2) ^ 2 == 2
 #instead of == we can use near():
 near(sqrt(2) ^ 2, 2)
 near(1 / 49 * 49, 1)
+
+
+#Logical Operators
+
+#finding the flights departed in November or December:
+
+filter(flights, month == 11 | month == 12)
+
+#another way to write this will be x %in% y. This will select every row where x is one of the values in y, for exp:
+
+nov_dec <- filter(flights, month %in% c(11, 12))
+nov_dec
+
+#we can simplify complicated subsetting by using De Morgan's law:
+
+# !(x & y) is the same as !x | !y 
+# !(x | y) is the same as !x & !y
+
+#for example, to find flights that weren't delayed  ( either on arrival or departure ) by more than 2 hours, we could use:
+
+filter(flights, !(arr_delay > 120 | dep_delay > 120))
+  #or
+filter(flights, arr_delay <= 120, dep_delay <= 120)
+
+
