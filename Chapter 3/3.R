@@ -187,11 +187,25 @@ gg <- filter(flights, dep_delay >= 60 & arr_delay >= 30)
 View(gg)
 
 #g:
-print.data.frame(flights$dep_time)
 gg <- filter(flights, dep_time < 2400 & dep_time <= 600)
 View(gg)
+
 
 #let's try something different, google print all the rows without duplicates in r, we find that "dplyr" library has got a distinct method, let's use it:
 #Reference: https://dplyr.tidyverse.org/reference/distinct.html
 all_rows <- distinct(flights, dep_time)
 View(all_rows) #we get all the unique rows
+
+
+#2. Another useful dplyr filtering helper is between(). What does it do? can you use it to simplify the code needed to answer the previous challenges?
+
+#Answer:
+
+#let's first find out about the function between, writing in the command line ?dplyr::between
+
+#What does it do?: "This is a shortcut for x >= left & x <= right, implemented for local vectors and translated to the appropriate SQL for remote tables."
+
+#we can use it for example, at our point (d) for exercise 1.
+
+gg <- filter(flights, between(month, 7, 9))
+View(gg)
