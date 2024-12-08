@@ -232,3 +232,47 @@ summary(flights)
 
 #this can mean cancelled flight or possibly not registered.
 
+
+#4. Why is NA ^ 0 not missing? Why is NA | TRUE not missing? Why is FALSE & NA not missing? Can you figure out the general rule? (NA * 0 is a tricky counterexample!)
+
+#Answer:
+
+NA ^ 0 #that is because anything to the power of 0 is 1
+
+NA | TRUE
+#what if we do:
+FALSE | TRUE
+#or
+TRUE | TRUE
+#same answer
+
+FALSE & NA
+#let's try doing:
+FALSE & TRUE
+#or
+FALSE & FALSE
+#same answer
+
+#the general rule:
+
+NA | FALSE #NA
+#let's see why:
+
+FALSE | FALSE # FALSE
+TRUE | FALSE # TRUE
+#that's why is NA
+
+TRUE & NA #NA
+
+#let's try some examples:
+TRUE & TRUE #TRUE
+TRUE & FALSE #FALSE
+
+#now let's try the counterexample (NA * 0)
+
+NA * 0
+#anything multiplied with 0 should be zero, but if we try
+Inf * 0
+#or minus infinite
+-Inf * 0
+#r represent undefined results with NA
