@@ -187,15 +187,24 @@ gg <- filter(flights, dep_delay >= 60 & arr_delay >= 30)
 View(gg)
 
 #g:
+#wrong:
 gg <- filter(flights, dep_time < 2400 & dep_time <= 600)
-View(gg)
-
+View(gg) #wrong
 
 #let's try something different, google print all the rows without duplicates in r, we find that "dplyr" library has got a distinct method, let's use it:
 #Reference: https://dplyr.tidyverse.org/reference/distinct.html
 all_rows <- distinct(flights, dep_time)
-View(all_rows) #we get all the unique rows
+View(all_rows) #we get all the unique rows, but we can easily find a mistake, we find dep time 25, 26, ....etc
 
+#so we can run to see the unique rows for other column that is related to this, which is sched_dep_time
+all_rows_2 <- distinct(flights, sched_dep_time)
+View(all_rows_2)
+#by doing this, we can easily see that there is no written time such as 25, 48 etc (NA)
+#this lead us to do the following, because of the messy data:
+gg <- filter(flights, sched_dep_time <= 600 & dep_delay <= 0)
+View(gg) #what we did here, we check for the unique rows from our table, and we can only see one departure at 01:06
+
+#but there's so much more we can do with this exercise as our data is wrong, or misleading, probably after cleaning the data we can get an easier and straight result.
 
 #2. Another useful dplyr filtering helper is between(). What does it do? can you use it to simplify the code needed to answer the previous challenges?
 
