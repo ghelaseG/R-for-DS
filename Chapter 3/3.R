@@ -99,3 +99,94 @@ filter(flights, !(arr_delay > 120 | dep_delay > 120))
 filter(flights, arr_delay <= 120, dep_delay <= 120)
 
 
+
+#Missing Values
+
+#one of the feature of R that can make comparision tricky is missing values or NAs('not available')
+
+NA > 5
+
+10 == NA
+
+NA + 10
+
+NA / 2
+
+#the most confusing result is:
+
+NA == NA
+
+
+#for exp, x is someones age (NA) and y is someone elses age (NA)
+
+x <- NA
+y <- NA
+x == y #we don't know
+
+#checking if a value is missing
+is.na(x)
+
+#filter() includes rows where the condition is TRUE, it excludes both FALSE and NA values. If you want to preserve missing values, ask for them explicitly:
+
+df <- tibble(x = c(1, NA, 3))
+
+filter(df, x >= 1)
+
+filter(df, is.na(x) | x > 1)
+
+
+# Exercises:
+
+#1. Find all flights that:
+  #a. Had an arrival delay of two or more hours
+  #b. Flew to Houston(IAH or HOU)
+  #c. Were operated by United, American, or Delta
+  #d. Departed in summer (July, August, and September)
+  #e. Arrived more than two hours late, but didn't leave late
+  #f. Were delayed by at least an hour, but made up over 30 minutes in flight
+  #g. Departed between midnight and 6 a.m. (inclusive)
+
+#Answer
+
+#a:
+filter(flights, !(arr_delay < 120)) 
+  #or
+filter(flights, arr_delay >= 120)
+
+#b:
+#let's first see our data frame, to find our column called dest (IAH or HOU)
+print.data.frame(flights)
+View(flights)
+
+flights[,"dest", drop = FALSE]
+gg <- filter(flights, dest == "IAH" | dest == "HOU")
+View(gg)
+
+#c:
+View(flights)
+#let's identify the IATA column, which is under the name "carrier"
+#we then need to identify the IATA for United (UA), American (AA) and Delta (DL)
+#now we can filter the flights
+gg <- filter(flights, carrier == "UA" | carrier == "AA" | carrier == "DL")
+View(gg)
+
+#d:
+View(flights)
+library(dplyr)
+gg <- filter(flights, month %in% c(7, 8, 9))
+View(gg)
+
+#e:
+View(flights)
+gg <- filter(flights, arr_delay >= 120 & dep_delay <= 0)
+View(gg)
+
+#f:
+View(flights)
+gg <- filter(flights, dep_delay >= 60 & arr_delay >= 30)
+View(gg)
+
+#g:
+print.data.frame(flights$dep_time)
+gg <- filter(flights, dep_time < 2400 & dep_time <= 600) 
+View(gg)
