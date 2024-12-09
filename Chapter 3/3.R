@@ -410,3 +410,15 @@ vars <- c("year", "month", "day", "dep_delay", "arr_delay")
 
 flights %>% select(one_of(vars))
 #we can use it to check if our database got those variables.
+
+#4. Does the result of running the following code surprise you? How do the select helpers deal with case by default? How can you change that default?
+
+select(flights, contains("TIME"))
+
+#Answer:
+
+#it does actually suprise me
+#some database engines have case insensitive column names
+#to change that default:
+
+select(flights, contains("TIME", ignore.case = FALSE))
