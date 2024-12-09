@@ -298,3 +298,12 @@ arrange(df, x)
 
 df <- tibble(x = c(5, 2, NA))
 arrange(df, desc(x))
+
+
+#Exercises:
+
+#1. How could you use arrange() to sort all missing values to the start? (Hint: use is.na())
+
+#Answer:
+
+arrange(flights, desc(is.na(dep_time)))
