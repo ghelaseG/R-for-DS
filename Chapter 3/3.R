@@ -372,3 +372,19 @@ rename(flights, tail_num = tailnum)
 select(flights, time_hour, air_time, everything())
 
 
+#Exercises:
+
+#1. Brainstorm as many ways as possible to select dep_time, dep_delay, arr_time, and arr_delay from flights.
+
+#Answer:
+
+select(flights, dep_time)
+select(flights, dep_delay)
+select(flights, arr_time)
+select(flights, arr_delay)
+View(flights)
+
+select(flights, dep_time, dep_delay, arr_time, arr_delay)
+
+select(flights, dep_delay:arr_time)
+select(flights, dep_time:arr_delay, -(sched_dep_time), -(sched_arr_time))
