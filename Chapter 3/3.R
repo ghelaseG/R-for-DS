@@ -396,3 +396,17 @@ select(flights, dep_time:arr_delay, -(sched_dep_time), -(sched_arr_time))
 select(flights, dep_time, dep_time, dep_time)
 #nothing, it's still printing that
 
+#3. What does the one_of() function do? Why might it be helpful in conjunction with this vector?
+
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
+
+#Answer:
+
+#let's first find out about one_of() function. I run in the terminal ?one_of, but with not much explanation, after some research, I saw that this belongs to our package dplyr
+#then I run in the terminal, ?dplyr::one_of, and found the following:
+#"one_of() is superseded in favour of the more precise any_of() and all_of() selectors."
+
+#after reading about all_of() function:
+
+flights %>% select(one_of(vars))
+#we can use it to check if our database got those variables.
