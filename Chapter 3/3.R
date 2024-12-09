@@ -388,3 +388,11 @@ select(flights, dep_time, dep_delay, arr_time, arr_delay)
 
 select(flights, dep_delay:arr_time)
 select(flights, dep_time:arr_delay, -(sched_dep_time), -(sched_arr_time))
+
+#2. What happens if you include the name of a variable multiple times in a select() call?
+
+#Answer:
+
+select(flights, dep_time, dep_time, dep_time)
+#nothing, it's still printing that
+
