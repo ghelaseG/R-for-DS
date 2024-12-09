@@ -276,3 +276,25 @@ Inf * 0
 #or minus infinite
 -Inf * 0
 #r represent undefined results with NA
+
+
+
+#Arrange Rows with arrange()
+
+gg <- arrange(flights, year, month, day)
+View(gg)
+
+#use desc to reorder by a column in descending order:
+
+gg <- arrange(flights, desc(arr_delay))
+View(gg)
+
+#missing values are always sorted at the end:
+
+df <- tibble(x = c(5, 2, NA))
+arrange(df, x)
+
+#or 
+
+df <- tibble(x = c(5, 2, NA))
+arrange(df, desc(x))
