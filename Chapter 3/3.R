@@ -307,3 +307,16 @@ arrange(df, desc(x))
 #Answer:
 
 arrange(flights, desc(is.na(dep_time)))
+
+#2. Sort flights to find the most delayed flights. Find the flights that left earliest.
+
+#Answer:
+
+View(flights)
+arrange(flights, desc(dep_delay))
+
+#to find the flights that left earliest:
+
+arrange(flights, dep_delay) #the ones with minus
+
+
