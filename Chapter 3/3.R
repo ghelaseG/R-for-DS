@@ -325,3 +325,17 @@ arrange(flights, dep_delay) #the ones with minus
 
 gg <- arrange(flights, hour, minute)
 View(gg)
+
+#4. Which flights traveled the longest? Which traveled the shortest?
+
+#Answer:
+
+gg <- arrange(flights, distance)
+View(gg)
+
+#EWR traveled the shortest
+
+gg <- arrange(flights, desc(distance))
+View(gg)
+
+#JFK traveled the longest
