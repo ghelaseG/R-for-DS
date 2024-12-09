@@ -339,3 +339,36 @@ gg <- arrange(flights, desc(distance))
 View(gg)
 
 #JFK traveled the longest
+
+
+
+# Select columns with select()
+
+#select columns by name
+select(flights, year, month, day)
+
+#select all columns between year and day (inclusive)
+select(flights, year:day)
+
+#select all columns except those from year to day (inclusive)
+select(flights, -(year:day))
+
+#there are a number of helper functions tou can use within select():
+
+start_with("abc") #matches name that begin with "abc"
+ends_with("xyz")
+contains("ijk")
+matches("(.)\\1") #selects variables that match a regular expression. This one matches any variables that contain repeated characters.
+num_range("x", 1:3) #matches x1, x2, x3
+
+#or we can type: ?select
+
+#we can also use rename to change the column name(variable)
+
+rename(flights, tail_num = tailnum)
+
+#if you want to move a handful of variables to the start of the data frame, we can use the helper everything():
+
+select(flights, time_hour, air_time, everything())
+
+
