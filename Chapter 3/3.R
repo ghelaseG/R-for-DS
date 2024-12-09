@@ -319,4 +319,9 @@ arrange(flights, desc(dep_delay))
 
 arrange(flights, dep_delay) #the ones with minus
 
+#3. Sort flights to find the fastest flights.
 
+#Answer:
+
+gg <- arrange(flights, hour, minute)
+View(gg)
