@@ -422,3 +422,35 @@ select(flights, contains("TIME"))
 #to change that default:
 
 select(flights, contains("TIME", ignore.case = FALSE))
+
+
+
+#Add New Variables with mutate()
+
+#mutate basically adds more columns at the end of the dataset
+
+#let's create a new column
+
+flights_sml <- select(flights,
+                      year:day,
+                      ends_with("delay"),
+                      distance,
+                      air_time
+                      )
+mutate(flights_sml,
+       gain = arr_delay - dep_delay,
+       speed = distance / air_time * 60)
+
+#we can then refer to columns that we've created:
+
+mutate(flights_sml,
+       gain = arr_delay - dep_delay,
+       hours = air_time / 60,
+       gain_per_hour = gain / hours)
+
+#we can only keep the new variables with transmute():
+
+transmute(flights,
+          gain = arr_delay - dep_delay,
+          hours = air_time / 60,
+          gain_per_hour = gain / hours)
