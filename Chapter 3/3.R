@@ -454,3 +454,50 @@ transmute(flights,
           gain = arr_delay - dep_delay,
           hours = air_time / 60,
           gain_per_hour = gain / hours)
+
+
+
+#Useful Creation Functions
+
+#Arithmetic operators +, -, *, /, ^ => x / sum(x), y - mean(y)
+
+#Modular arithmetic ( %/% - integer division and %% - remainder)
+# x == y * (x %/% y) + (x %% y)
+#this is useful because it allows us to rbeak integers into pieces
+transmute(flights,
+          dep_time,
+          hour = dep_time %/% 100,
+          minute = dep_time %% 100
+          )
+
+#Logs: log(), log2(), log10()
+#good note, log2() can be used if we want to interpret a scale, let's say a difference of 1 corresponds to doubling, and a difference of -1 corresponds to halving.
+
+#Offsets: lead() and lag()
+#this allows you to compute running differences or find when values change (x != lag(x))
+(x <- 1:10)
+lag(x)
+lead(x)
+
+#Cumulative and rolling aggregates
+#R provide us with cumsum(), cumprod(), cummin(), cummax()
+#dplyr provides cummean()
+#RcppRoll helps with rolling aggregates (terminal command: install.packages("RcppRoll"))
+
+x
+cumsum(x)
+cummean(x)
+
+#Logical comparisons: <, <=, >, >=, !=
+
+#Ranking
+#min_rank(), it does the most usual type of ranking for exp: first, second, third, fourth
+#desc(x) to get the largest values from the smallest rank
+y <- c(1, 2, 2, NA, 3, 4)
+min_rank(y)
+min_rank(desc(y))
+#there are other options, such as: row_number(), dense_rank(), percent_rank(), cume_dist(), ntile()
+row_number(y)
+dense_rank(y)
+percent_rank(y)
+cume_dist(y)
