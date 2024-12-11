@@ -552,3 +552,10 @@ mutate(flights_fixed,
        air_time_fixed = arr_time - dep_time
        )
 
+#3. Compare dep_time, sched_dep_time, and dep_delay. How would you expect those three numbers to be related?
+
+#Answer:
+
+select(flights, dep_time, sched_dep_time, dep_delay)
+
+#it's pretty simple, because dep_delay is dep_time - sched_dep_time
