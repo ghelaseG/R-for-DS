@@ -563,3 +563,10 @@ select(flights, dep_time, sched_dep_time, dep_delay)
 #4. Find the 10 most delayed flights using a ranking function. How do you want to handle ties? Carefully read the documentation for min_rank().
 
 #Answer:
+
+View(flights)
+flights_10 <- select(flights,
+                     arr_delay)
+flights_10
+x <- min_rank(flights_10)
+slice(x, 1:9)
