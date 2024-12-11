@@ -559,3 +559,7 @@ mutate(flights_fixed,
 select(flights, dep_time, sched_dep_time, dep_delay)
 
 #it's pretty simple, because dep_delay is dep_time - sched_dep_time
+
+#4. Find the 10 most delayed flights using a ranking function. How do you want to handle ties? Carefully read the documentation for min_rank().
+
+#Answer:
