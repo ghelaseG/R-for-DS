@@ -520,4 +520,35 @@ transmute(flights,
           hour_sched_dep_time = sched_dep_time %/% 100,
           minute_sched_dep_time = sched_dep_time %% 100)
 
+#2. Compare air_time with arr_time - dep_time. What do you expect to see? What do you see? What do you need to do to fix it?
+
+#Answer:
+
+transmute(flights,
+          air_time,
+          difference = arr_time - dep_time)
+#I expected to see a similar time, whereas the difference between arr_time and dep_time expected to be as near as air_time.
+#all I see is, for example:
+#air_time difference
+#<dbl>      <int>
+#  1      227        313
+#2      227        317
+#3      160        381
+#4      183        460
+#5      116        258
+#6      150        186
+#7      158        358
+#8       53        152
+#9      140        281
+
+#I'll have to create a new column, using mutate:
+
+flights_fixed <- select(flights,
+                        arr_time,
+                        dep_time,
+                        )
+
+mutate(flights_fixed,
+       air_time_fixed = arr_time - dep_time
+       )
 
