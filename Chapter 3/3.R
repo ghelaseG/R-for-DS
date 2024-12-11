@@ -501,3 +501,23 @@ row_number(y)
 dense_rank(y)
 percent_rank(y)
 cume_dist(y)
+x <- c(5, 1, 3, 2, 2, NA)
+ntile(x, 4)
+
+#Exercises:
+
+#1. Currently dep_time and sched_dep_time are convenient to look at, but hard to compute with because they're not really continuous numbers. Convert them to a more onvenient representation of number of minutes since midnight.
+
+#Answer:
+
+View(flights)
+
+#we can use the formula from modular arithmetic: x == y * (x %/% y) + (x %% y)
+
+transmute(flights,
+          hour_departure = dep_time %/% 100,
+          minute_departure = dep_time %% 100,
+          hour_sched_dep_time = sched_dep_time %/% 100,
+          minute_sched_dep_time = sched_dep_time %% 100)
+
+
