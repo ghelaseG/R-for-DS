@@ -565,8 +565,53 @@ select(flights, dep_time, sched_dep_time, dep_delay)
 #Answer:
 
 View(flights)
-flights_10 <- select(flights,
-                     arr_delay)
-flights_10
-x <- min_rank(flights_10)
-slice(x, 1:9)
+#trial
+#flights_10 <- select(flights,
+#                     arr_delay)
+#flights_10
+#x <- min_rank(flights_10)
+#slice(x, 1:9)
+
+#running in the terminal ?min_rank, or ?row_number or ?dense_rank we get:
+#Integer ranking functions
+#Description
+#Three ranking functions inspired by SQL2003. They differ primarily in how they handle ties:
+  
+#  row_number() gives every input a unique rank, so that c(10, 20, 20, 30) would get ranks c(1, 2, 3, 4). It's equivalent to rank(ties.method = "first").
+
+#min_rank() gives every tie the same (smallest) value so that c(10, 20, 20, 30) gets ranks c(1, 2, 2, 4). It's the way that ranks are usually computed in sports and is equivalent to rank(ties.method = "min").
+
+#dense_rank() works like min_rank(), but doesn't leave any gaps, so that c(10, 20, 20, 30) gets ranks c(1, 2, 2, 3).
+
+flights %>% filter(min_rank(dep_delay) == 9)
+
+y <- flights$dep_delay
+y <- order(y)
+y
+
+flights_ranked <- select(flights,
+                        dep_delay,
+                        )
+flights_ranked
+
+x <- dense_rank(flights$dep_delay)
+x <- sort(x)
+x
+
+dd <- transform(flights_ranked,
+            ranked_delays = x)
+dd
+slice_head(dd)
+
+dd %>% slice_head(n = 10)
+
+xyz <- flights %>% group_by(dep_time) %>% filter(min_rank(pick(dep_delay, arr_delay)) == 10)
+View(xyz)
+
+sort(flights$dep_delay, method = "quick", index.return = TRUE)
+
+xyz2 <- flights %>% group_by(dep_delay) %>% transmute(rank_id = row_number())
+#View(xyz2)
+
+gg <- head(xyz2, 10)
+View(gg)
