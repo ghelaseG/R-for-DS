@@ -612,6 +612,12 @@ sort(flights$dep_delay, method = "quick", index.return = TRUE)
 
 xyz2 <- flights %>% group_by(dep_delay) %>% transmute(rank_id = row_number())
 #View(xyz2)
+sort(xyz2, method = "quick", index.return = TRUE)
+library(dplyr)
+answerrrr <- arrange(xyz2, dep_delay, rank_id, .by_group = TRUE, n = 10)
+View(answerrrr)
+print(answerrrr, n = 10)
+order(xyz2,"rank_id", )
 
 gg <- head(xyz2, 10)
 View(gg)
