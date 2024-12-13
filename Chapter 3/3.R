@@ -583,41 +583,52 @@ View(flights)
 
 #dense_rank() works like min_rank(), but doesn't leave any gaps, so that c(10, 20, 20, 30) gets ranks c(1, 2, 2, 3).
 
-flights %>% filter(min_rank(dep_delay) == 9)
+#flights %>% filter(min_rank(dep_delay) == 9)
 
-y <- flights$dep_delay
-y <- order(y)
-y
+#y <- flights$dep_delay
+#y <- order(y)
+#y
 
-flights_ranked <- select(flights,
-                        dep_delay,
-                        )
-flights_ranked
+#flights_ranked <- select(flights,
+#                        dep_delay,
+#                        )
+#flights_ranked
 
-x <- dense_rank(flights$dep_delay)
-x <- sort(x)
-x
+#x <- dense_rank(flights$dep_delay)
+#x <- sort(x)
+#x
 
-dd <- transform(flights_ranked,
-            ranked_delays = x)
-dd
-slice_head(dd)
+#dd <- transform(flights_ranked,
+#            ranked_delays = x)
+#dd
+#slice_head(dd)
 
-dd %>% slice_head(n = 10)
+#dd %>% slice_head(n = 10)
 
-xyz <- flights %>% group_by(dep_time) %>% filter(min_rank(pick(dep_delay, arr_delay)) == 10)
-View(xyz)
+#xyz <- flights %>% group_by(dep_time) %>% filter(min_rank(pick(dep_delay, arr_delay)) == 10)
+#View(xyz)
 
-sort(flights$dep_delay, method = "quick", index.return = TRUE)
+#sort(flights$dep_delay, method = "quick", index.return = TRUE)
 
-xyz2 <- flights %>% group_by(dep_delay) %>% transmute(rank_id = row_number())
-#View(xyz2)
-sort(xyz2, method = "quick", index.return = TRUE)
+
+
+
+
+#gg <- head(xyz2, 10)
+#View(gg)
+
+#everything in comments, were just some of my trials
+
+#I'll handle ties using row_number ranking function.
+
 library(dplyr)
-answerrrr <- arrange(xyz2, dep_delay, rank_id, .by_group = TRUE, n = 10)
+xyz2 <- flights %>% group_by(dep_delay) %>% transmute(rank_id = row_number())
+answerrrr <- arrange(xyz2, dep_delay, rank_id, .by_group = TRUE)
 View(answerrrr)
-print(answerrrr, n = 10)
-order(xyz2,"rank_id", )
-
-gg <- head(xyz2, 10)
-View(gg)
+gg_answerr <- head(answerrrr, 10)
+View(gg_answerr)
+#View(answerrrr, 10)
+#print(answerrrr, n = 10)
+#sort(xyz2, method = "quick", index.return = TRUE)
+#View(xyz2)
+#order(xyz2,"rank_id", )
