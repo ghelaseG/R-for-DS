@@ -610,10 +610,6 @@ View(flights)
 
 #sort(flights$dep_delay, method = "quick", index.return = TRUE)
 
-
-
-
-
 #gg <- head(xyz2, 10)
 #View(gg)
 
@@ -632,3 +628,7 @@ View(gg_answerr)
 #sort(xyz2, method = "quick", index.return = TRUE)
 #View(xyz2)
 #order(xyz2,"rank_id", )
+
+#5. What does 1:3 + 1:10 return? Why?
+
+
