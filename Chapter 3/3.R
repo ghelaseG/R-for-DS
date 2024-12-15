@@ -975,3 +975,16 @@ daily <- group_by(flights, year, month, day)
 daily %>%
   ungroup() %>%
   summarize(flights = n())
+
+
+
+#Exercises:
+
+#1. Brainstorm at least five different ways to assess the typical delay characteristics of a group of flights. Consider the following scenarios:
+
+# - a flight is 15 minutes early 50% of the time, and 15 minutes late 50% of the time.
+# - a flight is always 10 minutes late
+# - a flight is 30 minutes early 50% of the time, and 30 minutes late 50% of the time.
+# - 99% of the time a flight is on time. 1% of the time it's 2 hours late
+
+#Which is more important: arrival delay or departure delay?
