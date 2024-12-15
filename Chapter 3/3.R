@@ -656,3 +656,52 @@ c(1 + 1, 2 +2, 3+3, 1 +4, 2+5, 3+6, 1+7, 2+8, 3+9, 1+10) #and the error occurs b
 #cospi(x), sinpi(x), and tanpi(x), compute cos(pi*x), sin(pi*x), and tan(pi*x).
 
 
+#let's practice a bit using trigonometric functions:
+
+seq(17)
+seq(1, 9, by = pi)
+seq(1, 7, by = 3)
+seq(1.575, 5.125, by = 0.05)
+
+sin(pi)
+pi
+cos(pi)
+tan(pi)
+
+base::pi # we can use this in case the variable 'pi' is changed.
+
+x <- seq(-2, 9, by = 0.5)
+x
+sin(pi * x)
+sinpi(x)
+
+#arc sine, arc cosine and arc tangent
+
+x<- seq(-1, 1, by=0.5)
+asin(x)
+acos(x)
+atan(x)
+
+x <- seq(-3, 7, by = 1/8)
+tx <- cbind(x, cos(pi * x), cospi(x), sin(pi*x), sinpi(x), tan(pi*x), tanpi(x), deparse.level = 2)
+head(tx)
+tx[ (x %% 1) %in% c(0, 0.5) ,]
+op <- options(digits = 4, width = 90)
+options(op)
+
+cbind(1, 1:7)
+rbind(1, 1:7)
+
+x <- -1:12
+x
+
+x %% -100
+x %/% 5
+
+options(digits = 22)
+pi
+
+old.o <- options(editor = "nedit")
+old.o
+
+getOption("width") == options()$width 
