@@ -965,3 +965,13 @@ daily <- group_by(flights, year, month, day)
 
 (per_year <- summarize(per_month, flights = sum(flights)))
 
+
+
+
+#UNGROUPING
+
+#if you need to remove grouping, do the following:
+
+daily %>%
+  ungroup() %>%
+  summarize(flights = n())
