@@ -763,3 +763,20 @@ View(delays)
 
 
 
+# MISSING VALUES
+
+#let's see what happens if we don't set na.rm
+
+flights %>% group_by(year, month, day) %>% summarize(mean = mean(dep_delay))
+
+#we get a lot of NA's (missing values) because if we have any missing value in the input the output will be a missing value.
+
+flights %>% group_by(year, month, day) %>% summarize(mean = mean(dep_delay, na.rm = TRUE))
+
+#we can also remove the cancelled flights (the missing values), saving the dataset to reuse it:
+
+library(dplyr)
+not_cancelled <- flights %>% filter(!is.na(dep_delay), !is.na(arr_delay))
+
+not_cancelled %>% group_by(year, month, day) %>% summarize(mean = mean(dep_delay))
+not_cancelled
