@@ -721,3 +721,45 @@ summarize(flights, delay = mean(dep_delay, na.rm = TRUE))
 by_day <- group_by(flights, year, month, day)
 summarize(by_day, delay = mean(dep_delay, na.rm = TRUE))
 
+
+
+
+# COMBINING MULTIPLE OPERATIONS WITH THE PIPE
+
+#if we want to explore the relationship between the distance and average delay for each location:
+
+by_dest <- group_by(flights, dest)
+delay <- summarize(by_dest, 
+                   count = n(), 
+                   dist = mean(distance, na.rm = TRUE),
+                   delay = mean(arr_delay, na.rm = TRUE)
+                   )
+delay <- filter(delay, count > 20, dest != "HNL")
+View(delay)
+
+ggplot(data = delay, mapping = aes(x = dist, y = delay)) +
+  geom_point(aes(size = count), alpha = 1/3) +
+  geom_smooth(se = FALSE)
+
+#we can prepare this data in 3 steps:
+#1. group flights by destination
+#2. summarize to compute distance, average delay, and number of flights
+#3. filter to remove noisy points and Honolulu airport, which is almost twice as far away as the next closest airport
+
+#we can do this another way, using pipe: %>%:
+
+delays <- flights %>% group_by(dest) %>% summarize(count = n(),
+                                                   dist = mean(distance, na.rm = TRUE),
+                                                   delay = mean(arr_delay, na.rm = TRUE)
+                                                   ) %>% filter(count > 20, dest != "HNL")
+View(delays)
+
+#a good way to pronounce %>% when reading code is "then".
+
+#for example:
+#x %>% f(y) turns into f(x, y)
+#x %>% f(y) %>% g(z) turns into g(f(x, y), z)
+
+
+
+
