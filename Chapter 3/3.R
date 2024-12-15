@@ -645,4 +645,14 @@ View(gg_answerr)
 #Because this is equal to:
 c(1 + 1, 2 +2, 3+3, 1 +4, 2+5, 3+6, 1+7, 2+8, 3+9, 1+10) #and the error occurs because there's a difference in length
 
+#6. What trigonometric functions does R provide?
+
+#Answer:
+
+#Reference: ?Trig
+
+#These functions give the obvious trigonometric functions. They respectively compute the cosine, sine, tangent, arc-cosine, arc-sine, arc-tangent, and the two-argument arc-tangent.
+
+#cospi(x), sinpi(x), and tanpi(x), compute cos(pi*x), sin(pi*x), and tan(pi*x).
+
 
