@@ -631,4 +631,18 @@ View(gg_answerr)
 
 #5. What does 1:3 + 1:10 return? Why?
 
+#Answer:
+
+1:3 + 1:10
+
+#Returns:
+
+#4  6  8  7  9 11 10 12
+#Warning message:
+#  In 1:3 + 3:10 :
+#  longer object length is not a multiple of shorter object length
+
+#Because this is equal to:
+c(1 + 1, 2 +2, 3+3, 1 +4, 2+5, 3+6, 1+7, 2+8, 3+9, 1+10) #and the error occurs because there's a difference in length
+
 
