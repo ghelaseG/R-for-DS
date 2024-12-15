@@ -838,6 +838,7 @@ batters %>%
   arrange(desc(ba))
 
 
+
 #Exp:
 m <- matrix(rnorm(50), ncol = 5)
 colnames(m) <- c("a", "b", "c", "d", "e")
@@ -846,4 +847,113 @@ df
 
 #Note!
 #if you want to understand more about tibble, check out this video: https://www.youtube.com/watch?v=og-7bG2i9TU&ab_channel=RiffomonasProject
+
+
+
+
+# USEFUL SUMMARY FUNCTIONS
+
+#just using mean, counts and sum can get you a long way, but there are others useful functions:
+
+
+## Measures of location
+
+#we can use median(x) too
+#the mean is the sum divided by the length; whereas median is a value where 50% of x is above it, and the other is below it.
+
+#we can use aggregation with logical subsetting
+
+not_cancelled %>%
+  group_by(year, month, day) %>%
+  summarize(
+    #average delay:
+    avg_delay1 = mean(arr_delay),
+    #avearage positive delay:
+    avg_delay2 = mean(arr_delay[arr_delay > 0])
+  )
+
+
+## Measures of spread sd(x), IQR(x), mad(x)
+
+#sd(x) = mean squared deviation, or standard deviation is the standard measure of spread
+#IQR(x) = the interquartile range
+#mad(x) = robust equivalents - those 2 are useful if you have outliers
+
+#for example, why is distance to some destinations more variable than to others?
+
+not_cancelled %>%
+  group_by(dest) %>%
+  summarize(distance_sd = sd(distance)) %>%
+  arrange(desc(distance_sd))
+
+
+## Measures of rank min(x), quantile(x, 0.25), max(x)
+
+#quantiles = are a generalization of the median, for exp: quantile(x, 0.25) will find a value of x that is greater than 25% of the values, and less than the remaining 75%
+
+# when do the first and last flights leave each day?
+
+not_cancelled %>% 
+  group_by(year, month, day) %>%
+  summarize(
+    first = min(dep_time),
+    last = max(dep_time)
+  )
+
+
+## Measures of position first(x), nth(x, 2), last(x)
+
+#these work similarly to x[1], x[2], and x[length(x)]
+
+not_cancelled %>%
+  group_by(year, month, day) %>%
+  summarize(
+    first_dep = first(dep_time),
+    last_dep = last(dep_time)
+  )
+
+#these functions are complementary to filtering on ranks, because filtering gives you all variables, with each observation
+
+not_cancelled %>%
+  group_by(year, month, day) %>%
+  mutate(r = min_rank(desc(dep_time))) %>%
+  filter(r %in% range(r))
+
+
+## Counts
+
+#we know already the use of n() and sum(!is.na(x)) - counting the number of non-missing values
+#but we can also count the distinct(unique) values, with n_distinct(x)
+
+not_cancelled %>%
+  group_by(dest) %>%
+  summarize(carriers = n_distinct(carrier)) %>%
+  arrange(desc(carriers))
+
+#you can also use count
+not_cancelled %>%
+  count(dest)
+
+#you can provide a weight variable to see the total number of miles a plane flew
+not_cancelled %>%
+  count(tailnum, wt = distance)
+
+
+## Counts and proportions of logical values sum(x > 10), mean(y == 0)
+
+#when used with numeric functions, TRUE is converted to 1 and FALSE is converted to 0
+#sum(x) gives the number of TRUEs in x and mean(x) gives to proportion:
+
+#How many flights left before 5am? (these usually indicate delayed flights from the previous day)
+not_cancelled %>%
+  group_by(year, month, day) %>%
+  summarize(n_early = sum(dep_time < 500))
+
+#What proportion of fligths are delayed by more than an hour?
+not_cancelled %>%
+  group_by(year, month, day) %>%
+  summarize(hour_perc = mean(arr_delay > 60))
+
+
+
 
