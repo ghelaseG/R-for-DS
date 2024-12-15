@@ -705,3 +705,19 @@ old.o <- options(editor = "nedit")
 old.o
 
 getOption("width") == options()$width 
+
+
+
+
+
+
+# GROUPED SUMMARIES WITH summarize()
+
+
+summarize(flights, delay = mean(dep_delay, na.rm = TRUE))
+
+#summarize is useful if we pair it with group_by(), this helps to analyse individual groups from a dataset, as for exp:
+
+by_day <- group_by(flights, year, month, day)
+summarize(by_day, delay = mean(dep_delay, na.rm = TRUE))
+
