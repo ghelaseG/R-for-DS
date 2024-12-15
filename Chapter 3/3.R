@@ -779,4 +779,71 @@ library(dplyr)
 not_cancelled <- flights %>% filter(!is.na(dep_delay), !is.na(arr_delay))
 
 not_cancelled %>% group_by(year, month, day) %>% summarize(mean = mean(dep_delay))
-not_cancelled
+
+
+
+
+# COUNTS
+
+#it is always good to include a count (n()) or a count of nonmissing values (sum(!is.na(x))),
+#in this way we make sure our conclusions are based on big amounts of data.
+
+#let's see the planes that have the highest average delays
+delays <- not_cancelled %>% group_by(tailnum) %>% summarize(delay = mean(arr_delay))
+View(delays) #this shows as that there are flights with an average of 3 hours delay, but wait until we check the number of flights
+
+#let's also plot this
+ggplot(data = delays, mapping = aes(x = delay)) + geom_freqpoly(binwidth = 10)
+
+#to see more in detail what is happening, we can get more insight if we check the number of flights versus the average delay
+delays <- not_cancelled %>% group_by(tailnum) %>% summarize( delay = mean(arr_delay, na.rm = TRUE), n = n())
+View(delays)
+
+ggplot(data = delays, mapping = aes(x = n, y = delay)) +
+  geom_point(alpha = 1/10)
+
+# we can filter out the groups with the smallest numbers of observations, so you can see more of the pattern and less of the extreme variation in the smallest groups
+#we can integrate dplyr with ggplot2
+
+delays %>% filter(n > 25) %>%
+  ggplot(mapping = aes(x = n, y = delay)) +
+  geom_point(alpha = 1/10)
+
+
+#we can try to see this pattern for a different dataset, average performance of batter (ba) in baseball, related to the number of times they're at bat (ab).
+#for example:
+#1. the variation in our aggregate decreases as we get more data points
+#2. there's a positive correlation between skill (ba) and opportunities to hit the ball (ab), this can possibly be as teams control who gets to play, and obviously they'll pick their best players.
+
+#convert to a tibble so it prints nicely
+batting <- as_tibble(Lahman::Batting)
+
+batters <- batting %>%
+  group_by(playerID) %>%
+  summarize(
+    ba = sum(H, na.rm = TRUE) / sum(AB, na.rm = TRUE),
+    ab = sum(AB, na.rm = TRUE)
+  )
+
+batters %>%
+  filter(ab >100) %>%
+  ggplot(mapping = aes(x =ab, y = ba)) +
+  geom_point() +
+  geom_smooth(se = FALSE)
+
+#if we just use desc(ba) we get the people with the best batting average that were lucky, not skilled.
+#noun: skill : the ability to do something well.
+
+batters %>%
+  arrange(desc(ba))
+
+
+#Exp:
+m <- matrix(rnorm(50), ncol = 5)
+colnames(m) <- c("a", "b", "c", "d", "e")
+df <- as_tibble(m)
+df
+
+#Note!
+#if you want to understand more about tibble, check out this video: https://www.youtube.com/watch?v=og-7bG2i9TU&ab_channel=RiffomonasProject
+
