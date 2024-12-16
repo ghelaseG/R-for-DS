@@ -988,3 +988,18 @@ daily %>%
 # - 99% of the time a flight is on time. 1% of the time it's 2 hours late
 
 #Which is more important: arrival delay or departure delay?
+
+#Answer:
+
+#a. let's first transform our data, removing any cancelled flights
+not_cancelled <- flights %>% filter(!is.na(dep_delay), !is.na(arr_delay))
+View(not_cancelled)
+
+not_cancelled %>%
+  group_by(tailnum) %>%
+  summarize(
+    #15 minutes early 50% of the time
+    early_15min = median(arr_delay[arr_delay = 15]),
+    #15 minutes late 50% of the time
+    late_15min = median(arr_delay[arr_delay = -15])
+    )
