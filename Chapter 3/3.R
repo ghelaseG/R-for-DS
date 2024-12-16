@@ -995,11 +995,13 @@ daily %>%
 not_cancelled <- flights %>% filter(!is.na(dep_delay), !is.na(arr_delay))
 View(not_cancelled)
 
-not_cancelled %>%
+x <- not_cancelled %>%
   group_by(tailnum) %>%
   summarize(
     #15 minutes early 50% of the time
-    early_15min = median(arr_delay[arr_delay = 15]),
+    early_15min = mean(arr_delay[arr_delay = 15], na.rm = TRUE) == 0.5,
     #15 minutes late 50% of the time
-    late_15min = median(arr_delay[arr_delay = -15])
+    late_15min = mean(arr_delay[arr_delay = -15], na.rm = TRUE) == 0.5
     )
+
+View(x)
