@@ -1002,20 +1002,15 @@ x <- not_cancelled %>%
     #15 minutes early 50% of the time
     early_15min = mean(arr_delay == -15, na.rm = TRUE),
     #15 minutes late 50% of the time
-    late_15min = mean(arr_delay == 15, na.rm = TRUE)) %>% filter(early_15min == .5, late_15min == .5)
-x
+    late_15min = mean(arr_delay == 15, na.rm = TRUE), n()) %>% filter(early_15min == .5, late_15min == .5)
 
+View(x)
 #b.
-
-y <-not_cancelled %>% group_by(carrier, arr_delay) %>%
-  summarize(
+exercise1b <- select(not_cancelled, flight)
+mutate(exercise1b,
     #always 10 minutes late
-    late_10min = sum(arr_delay == 10) / n() %>% ungroup() %>% as_tibble() %>% filter(late_10min == 1)
-y
+    late_10min = arr_delay == 10)
+    
 View(y)
 
-flights %>% 
-  group_by(tailnum) %>% 
-  summarise(late.10 = sum(arr_delay == 10)/n()) %>% 
-  ungroup() %>% 
-  filter(late.10 == 1)
+View(y)
