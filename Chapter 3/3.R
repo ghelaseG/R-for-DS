@@ -991,15 +991,31 @@ daily %>%
 
 #Answer:
 
-#a. let's first transform our data, removing any cancelled flights
+# let's first transform our data, removing any cancelled flights
 not_cancelled <- flights %>% filter(!is.na(arr_delay))
 View(not_cancelled)
 
+#a.
 x <- not_cancelled %>%
   group_by(flight, tailnum) %>%
   summarize(
     #15 minutes early 50% of the time
-    early_15min = mean(arr_delay == 15, na.rm = TRUE),
+    early_15min = mean(arr_delay == -15, na.rm = TRUE),
     #15 minutes late 50% of the time
-    late_15min = mean(arr_delay == -15, na.rm = TRUE)) %>% filter(early_15min == .5, late_15min == .5)
+    late_15min = mean(arr_delay == 15, na.rm = TRUE)) %>% filter(early_15min == .5, late_15min == .5)
 x
+
+#b.
+
+y <-not_cancelled %>% group_by(carrier, arr_delay) %>%
+  summarize(
+    #always 10 minutes late
+    late_10min = sum(arr_delay == 10) / n() %>% ungroup() %>% as_tibble() %>% filter(late_10min == 1)
+y
+View(y)
+
+flights %>% 
+  group_by(tailnum) %>% 
+  summarise(late.10 = sum(arr_delay == 10)/n()) %>% 
+  ungroup() %>% 
+  filter(late.10 == 1)
