@@ -1006,11 +1006,23 @@ x <- not_cancelled %>%
 
 View(x)
 #b.
-exercise1b <- select(not_cancelled, flight)
-mutate(exercise1b,
-    #always 10 minutes late
-    late_10min = arr_delay == 10)
-    
+#not_cancelled <- flights %>% filter(!is.na(arr_delay))
+#late_10Min <- not_cancelled$arr_delay == 10
+#transform(not_cancelled, late_10Min)
+
+#view(late_10Min)
+
+not_cancelled <- select(flights, flight, arr_delay) %>% filter(!is.na(arr_delay))
+not_cancelled
+
+y <- mutate(not_cancelled, arr_delay = 10)
 View(y)
 
-View(y)
+#y <- not_cancelled %>% 
+#  group_by(flight, tailnum) %>%
+#  mutate(
+#    #always 10 minutes late
+#    late_10min = arr_delay == 10) %>% as_tibble() %>% filter(late_10min == 1)
+    
+#View(y)
+
