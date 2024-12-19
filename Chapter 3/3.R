@@ -1012,17 +1012,20 @@ View(x)
 
 #view(late_10Min)
 
-not_cancelled <- select(flights, flight, arr_delay) %>% filter(!is.na(arr_delay))
-not_cancelled
+not_cancelled <- select(flights, tailnum, arr_delay) %>% group_by(tailnum) %>% filter(!is.na(arr_delay), all(arr_delay == 10))
+View(not_cancelled)
 
-y <- mutate(not_cancelled, arr_delay = 10)
-View(y)
+#y <- mutate(not_cancelled, )
+#View(y)
+
+#the only flight, is N801AW
+
 
 #y <- not_cancelled %>% 
 #  group_by(flight, tailnum) %>%
 #  mutate(
 #    #always 10 minutes late
 #    late_10min = arr_delay == 10) %>% as_tibble() %>% filter(late_10min == 1)
-    
+View(flights)
 #View(y)
 
