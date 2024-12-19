@@ -1005,6 +1005,7 @@ x <- not_cancelled %>%
     late_15min = mean(arr_delay == 15, na.rm = TRUE), n()) %>% filter(early_15min == .5, late_15min == .5)
 
 View(x)
+
 #b.
 #not_cancelled <- flights %>% filter(!is.na(arr_delay))
 #late_10Min <- not_cancelled$arr_delay == 10
@@ -1029,3 +1030,17 @@ View(not_cancelled)
 View(flights)
 #View(y)
 
+#c.
+not_cancelled <- flights %>% filter(!is.na(arr_delay))
+View(not_cancelled)
+
+z <- not_cancelled %>%
+  group_by(flight) %>%
+  summarize(
+    #30 minutes early 50% of the time
+    early_30min = mean(arr_delay == -30, na.rm = TRUE),
+    #30 minutes late 50% of the time
+    late_30min = mean(arr_delay == 30, na.rm = TRUE)) %>% 
+  filter(early_30min == .5, late_30min == .5)
+
+z
