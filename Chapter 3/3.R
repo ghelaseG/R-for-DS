@@ -1032,15 +1032,18 @@ View(flights)
 
 #c.
 not_cancelled <- flights %>% filter(!is.na(arr_delay))
-View(not_cancelled)
 
-z <- not_cancelled %>%
+#let's check if we got the value 30 in our dataframe
+flights[flights$arr_delay %in% c(30, -30), ]
+
+z <- flights %>%
   group_by(flight) %>%
   summarize(
     #30 minutes early 50% of the time
     early_30min = mean(arr_delay == -30, na.rm = TRUE),
     #30 minutes late 50% of the time
-    late_30min = mean(arr_delay == 30, na.rm = TRUE)) %>% 
-  filter(early_30min == .5, late_30min == .5)
+    late_30min = mean(arr_delay == 30, na.rm = TRUE)
+  ) %>% 
+  filter(early_30min == .5 | late_30min == .5)
 
-z
+View(z)
