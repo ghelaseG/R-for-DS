@@ -1051,6 +1051,14 @@ View(z)
 #d. 99% of the time a flight is on time. 1% of the time it's 2 hours late
 
 xyz <- not_cancelled %>%
-  group_by(flight, tailnum, arr_delay) %>%
-  filter(!is.na(arr_delay), all(arr_delay == 0))    #99% of the time a flight is on time
+  group_by(tailnum, arr_delay) %>%
+  summarise(
+    #99% of the time a flight is on time
+    on_time_99 = mean(arr_delay == 0),
+    late_2h = mean(arr_delay >= 120, na.rm = TRUE)
+  ) %>% filter(on_time_99 == 0.99 & late_2h == 0.01)
 View(xyz)
+
+
+#  filter(!is.na(arr_delay), all(arr_delay == 0))    
+
