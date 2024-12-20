@@ -1047,3 +1047,10 @@ z <- flights %>%
   filter(early_30min == .5 | late_30min == .5)
 
 View(z)
+
+#d. 99% of the time a flight is on time. 1% of the time it's 2 hours late
+
+xyz <- not_cancelled %>%
+  group_by(flight, tailnum, arr_delay) %>%
+  filter(!is.na(arr_delay), all(arr_delay == 0))    #99% of the time a flight is on time
+View(xyz)
