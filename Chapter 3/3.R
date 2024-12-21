@@ -1062,3 +1062,15 @@ View(xyz)
 
 #  filter(!is.na(arr_delay), all(arr_delay == 0))    
 
+#let's try and transform the data
+
+library(dplyr)
+library(tidyr)
+
+xyz1 <- flights %>%
+  group_by(tailnum) %>%
+  mutate(rn = row_number()) %>%
+  pivot_wider(id_cols = rn, names_from = tailnum, values_from = arr_delay) %>%
+  select(-rn)
+
+View(xyz1)
