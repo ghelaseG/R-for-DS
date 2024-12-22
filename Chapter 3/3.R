@@ -1049,15 +1049,15 @@ z <- flights %>%
 View(z)
 
 #d. 99% of the time a flight is on time. 1% of the time it's 2 hours late
-not_cancelled <- flights %>% filter(!is.na(arr_delay))
-xyz <- not_cancelled %>%
-  group_by(tailnum, arr_delay) %>%
-  summarise(
-    #99% of the time a flight is on time
-    on_time_99 = mean(arr_delay == 0),
-    
-  ) %>% filter(on_time_99 == 0.99)
-View(xyz)
+# not_cancelled <- flights %>% filter(!is.na(arr_delay))
+# xyz <- not_cancelled %>%
+#   group_by(tailnum, arr_delay) %>%
+#   summarise(
+#     #99% of the time a flight is on time
+#     on_time_99 = mean(arr_delay == 0),
+#     
+#   ) %>% filter(on_time_99 == 0.99)
+# View(xyz)
 
 #let's try and transform the data
 
@@ -1098,8 +1098,10 @@ View(zzz)
 
 answer99 <- colnames(zzz)[apply(zzz, 2, function(x) any(x >= -1 & x <= 1))]
 print(answer99)
-#
 
+answer1 <- colnames(zzz)[apply(zzz, 2, function(x) any(x >= 119 & x <= 121))]
+View(answer1)
+View(zzz$N670US)
 
 #do.call(rbind.data.frame, list123)
 # 
@@ -1112,3 +1114,17 @@ print(answer99)
 
 #  filter(!is.na(arr_delay), all(arr_delay == 0))    
 
+#1% of the time a flight is delayed by 2 hours
+
+library(dplyr)
+library(tidyr)
+
+not_cancelled <- flights %>% filter(!is.na(arr_delay))
+
+xyz1 <- not_cancelled %>%
+  group_by(tailnum) %>%
+  mutate(rn = row_number()) %>%
+  pivot_wider(id_cols = rn, names_from = tailnum, values_from = arr_delay) %>%
+  select(-rn)
+
+View(xyz1)
