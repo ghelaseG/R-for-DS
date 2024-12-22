@@ -1128,6 +1128,8 @@ xyz1 <- not_cancelled %>%
   select(-rn)
 
 View(xyz1)
+#Which is more important, arrival delay or departure delay?
+#I believe the most important is arrival delay to use in our exercise.
 
 #2. Come up with another approach that will give you the same output as not_cancelled %>% count(dest) and not_cancelled %>% count(tailnum, wt = distance) (without using count())
 View(not_cancelled)
@@ -1140,3 +1142,14 @@ not_cancelled %>% count(tailnum, wt = distance)
 not_cancelled %>% group_by(dest) %>% summarize(n = n())
 #and
 not_cancelled %>% group_by(tailnum) %>% summarize(n = sum(wt = distance))
+
+#3. Our definition of cancelled flights (is.na(dep_delay) | is.na(arr_delay)) is slightly suboptimal. Why? Whohc is the most important column?
+
+cancelled_flights <- flights %>% filter(is.na(dep_delay) | is.na(arr_delay))
+View(cancelled_flights)
+
+#Answer:
+
+#the most important one is dep_delay in terms of cancelled flights.
+#even if we have values for arrival delay, if departure delay is not registered, then definetely that flight is been cancelled.
+
