@@ -1128,3 +1128,15 @@ xyz1 <- not_cancelled %>%
   select(-rn)
 
 View(xyz1)
+
+#2. Come up with another approach that will give you the same output as not_cancelled %>% count(dest) and not_cancelled %>% count(tailnum, wt = distance) (without using count())
+View(not_cancelled)
+not_cancelled %>% count(dest)
+
+not_cancelled %>% count(tailnum, wt = distance)
+
+#Answer:
+#writing in terminal ?dplyr we get the following answer using the documentation:
+not_cancelled %>% group_by(dest) %>% summarize(n = n())
+#and
+not_cancelled %>% group_by(tailnum) %>% summarize(n = sum(wt = distance))
