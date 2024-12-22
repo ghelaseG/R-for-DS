@@ -1049,28 +1049,66 @@ z <- flights %>%
 View(z)
 
 #d. 99% of the time a flight is on time. 1% of the time it's 2 hours late
-
+not_cancelled <- flights %>% filter(!is.na(arr_delay))
 xyz <- not_cancelled %>%
   group_by(tailnum, arr_delay) %>%
   summarise(
     #99% of the time a flight is on time
     on_time_99 = mean(arr_delay == 0),
-    late_2h = mean(arr_delay >= 120, na.rm = TRUE)
-  ) %>% filter(on_time_99 == 0.99 & late_2h == 0.01)
+    
+  ) %>% filter(on_time_99 == 0.99)
 View(xyz)
-
-
-#  filter(!is.na(arr_delay), all(arr_delay == 0))    
 
 #let's try and transform the data
 
 library(dplyr)
 library(tidyr)
 
-xyz1 <- flights %>%
+not_cancelled <- flights %>% filter(!is.na(arr_delay))
+
+xyz1 <- not_cancelled %>%
   group_by(tailnum) %>%
   mutate(rn = row_number()) %>%
   pivot_wider(id_cols = rn, names_from = tailnum, values_from = arr_delay) %>%
   select(-rn)
 
 View(xyz1)
+
+dim(xyz1) #2512 rows and 4044 columns
+#after deleting all the N/A values, we get to 544 rows and 4037 columns
+as.integer(xyz1)
+
+numdata <- xyz1[sapply(xyz1, is.numeric)]
+
+list123 <- lapply(numdata, mean, na.rm = TRUE) #view it as a list
+View(list123)
+
+typeof(list123)
+
+zzz <- data.frame(t(sapply(list123,c)))
+View(zzz)
+
+#99% of the time a flight is on time
+
+#Here's how it works:
+## I first transformed the data and get rid of the empty values. keeping only the tailnum of the flight with the arr_delay
+##simply because if the flight has the value -x (something) it means that has arrived earlier etc...
+## Following I transformed the data into a list to get the mean of each column (tailnum), I then tranformed it back to a dataframe to check which airplane has got a value between -1 and 1,
+##I chose those values (1-, 1) because if the average is 0 (that means the airplane is on time), but it can not be very accurate so I decided to go for 0.xxxxx or -0.yyyyyy.
+
+answer99 <- colnames(zzz)[apply(zzz, 2, function(x) any(x >= -1 & x <= 1))]
+print(answer99)
+#
+
+
+#do.call(rbind.data.frame, list123)
+# 
+# return_cols <- function(zzz, i) {
+#   zzz %>%
+#     slice(i) %>%
+#     select(where(~. <= 1)) %>%
+#     names
+# }
+
+#  filter(!is.na(arr_delay), all(arr_delay == 0))    
+
