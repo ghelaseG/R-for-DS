@@ -1076,10 +1076,10 @@ View(xyz1)
 
 dim(xyz1) #2512 rows and 4044 columns
 #after deleting all the N/A values, we get to 544 rows and 4037 columns
-as.integer(xyz1)
+#as.integer(xyz1)
 
 numdata <- xyz1[sapply(xyz1, is.numeric)]
-
+View(numdata)
 list123 <- lapply(numdata, mean, na.rm = TRUE) #view it as a list
 View(list123)
 
@@ -1153,3 +1153,26 @@ View(cancelled_flights)
 #the most important one is dep_delay in terms of cancelled flights.
 #even if we have values for arrival delay, if departure delay is not registered, then definetely that flight is been cancelled.
 
+#4. Look at the number of cancelled flights per day. Is there a pattern? Is the proportion of cancelled flights related to the average delay?
+
+#Answer:
+#the number of cancelled flights per day
+cancelled_flights <- flights %>% filter(is.na(dep_delay))
+xyzzz <- cancelled_flights %>% group_by(month, day) %>%
+  summarize(flights_cancelled = sum(is.na(dep_delay)))
+View(xyzzz)
+xyzzz1 <- not_cancelled %>% group_by(month, day) %>% summarize(average_delay = mean(dep_delay)) %>% as.integer(xyzzz1$average_delay)
+View(xyzzz1)
+
+typeof(xyzzz1)
+
+#we can see a pattern by checking the graph
+ggplot(xyzzz, mapping = aes(x = day, y = flights_cancelled)) +
+  geom_point(mapping = aes(color = flights_cancelled)) +
+  geom_smooth(se = FALSE)
+
+ggplot(xyzzz1, mapping = aes(x = day, y = average_delay)) +
+  geom_point(mapping = aes(color = average_delay)) +
+  geom_smooth(se = FALSE)
+
+# although the average delay max value is 80 and the number of cancellation in a day is 400, using geom smooth we can kind of see a similar pattern
