@@ -1182,8 +1182,9 @@ filter(airlines, carrier == "EV")
 
 #Challenge:
 
+flights %>% group_by(carrier, dest) %>% summarize(n())
 
+View(flights)
 
-
-
-
+challenge_data <- flights %>% filter(!is.na(arr_delay)) %>% select(carrier, dep_delay, air_time, distance, hour, minute, dest, arr_delay)
+View(challenge_data)
