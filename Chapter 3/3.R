@@ -1099,9 +1099,7 @@ View(zzz)
 answer99 <- colnames(zzz)[apply(zzz, 2, function(x) any(x >= -1 & x <= 1))]
 print(answer99)
 
-answer1 <- colnames(zzz)[apply(zzz, 2, function(x) any(x >= 119 & x <= 121))]
-View(answer1)
-View(zzz$N670US)
+
 
 #do.call(rbind.data.frame, list123)
 # 
@@ -1116,18 +1114,10 @@ View(zzz$N670US)
 
 #1% of the time a flight is delayed by 2 hours
 
-library(dplyr)
-library(tidyr)
+answer1 <- colnames(zzz)[apply(zzz, 2, function(x) any(x >= 119 & x <= 121))]
+View(answer1)
+View(zzz$N670US)
 
-not_cancelled <- flights %>% filter(!is.na(arr_delay))
-
-xyz1 <- not_cancelled %>%
-  group_by(tailnum) %>%
-  mutate(rn = row_number()) %>%
-  pivot_wider(id_cols = rn, names_from = tailnum, values_from = arr_delay) %>%
-  select(-rn)
-
-View(xyz1)
 #Which is more important, arrival delay or departure delay?
 #I believe the most important is arrival delay to use in our exercise.
 
@@ -1176,3 +1166,24 @@ ggplot(xyzzz1, mapping = aes(x = day, y = average_delay)) +
   geom_smooth(se = FALSE)
 
 # although the average delay max value is 80 and the number of cancellation in a day is 400, using geom smooth we can kind of see a similar pattern
+
+#5. Which carrier has the worst delays? Challenge: can you disentangle the effect of bad airports versus bad carriers? Why/why not? (Hint: think about flights %>% group_by(carrier, dest) %>% summarize(n())).
+
+#Answer:
+
+View(flights)
+xcv <- flights %>% count(carrier, wt = dep_delay)
+View(xcv)
+filter(airlines, carrier == "EV")
+
+#the carrier with the worst delays is EV (the IATA designator for Expressjet Airlines)
+
+
+
+#Challenge:
+
+
+
+
+
+
