@@ -1186,5 +1186,22 @@ flights %>% group_by(carrier, dest) %>% summarize(n())
 
 View(flights)
 
-challenge_data <- flights %>% filter(!is.na(arr_delay)) %>% select(carrier, dep_delay, air_time, distance, hour, minute, dest, arr_delay)
-View(challenge_data)
+challenge_data <- flights %>% filter(!is.na(arr_delay)) %>% select(carrier, dep_delay, air_time, distance, hour, minute, dest, arr_delay) %>% view
+
+#let's say that we name a bad airport as when there are too many delays. Delays can be made because of the airplane, but also because of the airport
+#I'll first group the destination (airport)
+challenge_data %>% group_by(dest) %>% 
+  summarize(
+    'Average total delays' = mean(arr_delay),
+    
+    ) %>% view
+#here we get CAE - Columbia Metropolitan aiport as the one with the highest delays in average
+
+
+library(nycflights13)
+airports
+filter(airports, faa == "CAE")
+data("flights")
+View(flights)
+View(airports)
+#View(airlines)
