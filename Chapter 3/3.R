@@ -1249,3 +1249,21 @@ not_cancelled %>% group_by(tailnum) %>% tally(arr_delay < 60) %>% view
 #here's an example:
 
 not_cancelled %>% group_by(tailnum) %>% count(arr_delay < 60, sort = TRUE) %>% view
+
+
+
+
+
+#GROUPED MUTATES ( AND FILTERS )
+
+
+#find the worst members of each group
+flights_sml %>% 
+  group_by(year, month, day) %>%
+  filter(rank(desc(arr_delay)) < 10) %>% view
+
+#groups bigger than a threshold
+popular_dests <- flights %>%
+  group_by(dest) %>%
+  filter(n() > 365) %>% view
+
