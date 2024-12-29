@@ -1231,3 +1231,15 @@ data("flights")
 View(flights)
 View(airports)
 #View(airlines)
+
+
+#6. For each plane, count the number of f,ights before the first delay of greater than 1 hour.
+not_cancelled$flight
+View(not_cancelled)
+
+#Answer
+not_cancelled %>% group_by(tailnum) %>% tally(arr_delay < 60) %>% view
+
+
+#7.
+
