@@ -1241,5 +1241,11 @@ View(not_cancelled)
 not_cancelled %>% group_by(tailnum) %>% tally(arr_delay < 60) %>% view
 
 
-#7.
+#7. What does the sort argument to count() do? When might you use it?
 
+#Answer:
+##"the sort argument: If TRUE, will show the largest groups at the top."
+
+#here's an example:
+
+not_cancelled %>% group_by(tailnum) %>% count(arr_delay < 60, sort = TRUE) %>% view
