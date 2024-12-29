@@ -1192,13 +1192,39 @@ challenge_data <- flights %>% filter(!is.na(arr_delay)) %>% select(carrier, dep_
 #I'll first group the destination (airport)
 challenge_data %>% group_by(dest) %>% 
   summarize(
-    'Average total delays' = mean(arr_delay),
-    
-    ) %>% view
+    'Average total delays' = mean(arr_delay)
+    ) %>% view 
+filter(airports, faa == 'CAE')
 #here we get CAE - Columbia Metropolitan aiport as the one with the highest delays in average
 
+#In the second group I'll check the speed for each airplane in average
+challenge_data_2 <- challenge_data %>% 
+  mutate(speed_airplane = distance / air_time
+  ) %>% group_by(carrier) %>%
+  summarize(
+    avg_spd = mean(speed_airplane),
+    "Average knot" = avg_spd * 52.1386
+  ) %>% view
+filter(airlines, carrier == 'HA')
+#the fastest airplanes are from the company Hawaiian Airlines Inc.
+
+
+#trial
+# challenge_data %>% mutate(spd_avg = distance/)
+# challenge_data %>% group_by(carrier) %>% 
+#   summarize(
+#     'Speed average' = mean(distance/time)
+#   ) %>% view  
+#View(challenge_data)  
+#challenge_data %>% mutate(speed_m_per_s = distance / air_time) %>% view  
+
+#Answer:
+#at first I said that I can not disentangle the effect of bad airports versus bad carriers,
+#but after doing some calculations (and more can be done for sure, but I'll pass for the moment),
+#you can definetely disentangle using some calculations.
 
 library(nycflights13)
+data()
 airports
 filter(airports, faa == "CAE")
 data("flights")
