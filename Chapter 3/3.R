@@ -1199,24 +1199,24 @@ filter(airports, faa == 'CAE')
 
 #In the second group I'll check the speed for each airplane in average
 challenge_data_2 <- challenge_data %>% 
-  mutate(speed_airplane = distance / air_time
-  ) %>% group_by(carrier) %>%
+  mutate(speed_m_per_h = (distance / air_time) * 60) %>% group_by(carrier) %>%
   summarize(
-    avg_spd = mean(speed_airplane),
-    "Average knot" = avg_spd * 52.1386
+    avg_spd = mean(speed_m_per_h),
+    "Average mach" = avg_spd * 0.00130332
   ) %>% view
 filter(airlines, carrier == 'HA')
 #the fastest airplanes are from the company Hawaiian Airlines Inc.
 
 
 #trial
-# challenge_data %>% mutate(spd_avg = distance/)
-# challenge_data %>% group_by(carrier) %>% 
-#   summarize(
-#     'Speed average' = mean(distance/time)
-#   ) %>% view  
-#View(challenge_data)  
-#challenge_data %>% mutate(speed_m_per_s = distance / air_time) %>% view  
+challenge_data %>% mutate(spd_avg = distance/air_time)
+challenge_data %>% group_by(carrier) %>%
+  summarize(
+    'Speed average' = mean(distance/time)
+  ) %>% view
+View(challenge_data)  
+#i converted from miles per minute to miles per hour
+challenge_data %>% mutate(speed_m_per_h = (distance / air_time) * 60) %>% view  
 
 #Answer:
 #at first I said that I can not disentangle the effect of bad airports versus bad carriers,
