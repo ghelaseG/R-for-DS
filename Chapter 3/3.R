@@ -1285,7 +1285,19 @@ popular_dests %>%
 flights_sml %>%
   filter(rank(desc(arr_delay)) < 10) %>% view
 
-#in the second example, if we don't use the group by, our table looks exactly the same.
+#in the second example, if we don't use the group by, our table looks exactly the same, and the same goes for the last example.
 View(flights)
 popular_dests <- flights %>%
   filter(n() > 365) %>% view
+
+gg <- flights %>%
+  filter(arr_delay > 0) %>%
+  mutate(prop_delay = arr_delay / sum(arr_delay)) %>%
+  select(year:day, dest, arr_delay, prop_delay) 
+View(gg)
+
+#2. Which plane (tailnum) has the worst on-time record?
+
+#Answer:
+
+
