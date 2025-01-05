@@ -1255,8 +1255,9 @@ not_cancelled %>% group_by(tailnum) %>% count(arr_delay < 60, sort = TRUE) %>% v
 
 
 #GROUPED MUTATES ( AND FILTERS )
+#grouping can be useful with mutate and filter(known as window functions), having similar power using summarize
 
-
+View(flights_sml)
 #find the worst members of each group
 flights_sml %>% 
   group_by(year, month, day) %>%
@@ -1266,4 +1267,10 @@ flights_sml %>%
 popular_dests <- flights %>%
   group_by(dest) %>%
   filter(n() > 365) %>% view
+
+#standardize to compute per group metrics
+popular_dests %>%
+  filter(arr_delay > 0) %>%
+  mutate(prop_delay = arr_delay / sum(arr_delay)) %>%
+  select(year:day, dest, arr_delay, prop_delay) %>% view
 
