@@ -1360,3 +1360,21 @@ not_cancelled %>%
   mutate(lagged_delay = lag(dep_delay))%>%
   select(sched_dep_time, dep_delay, dep_time, lagged_delay) %>% view
 
+#6. Look at each destination. Can you find flights that are suspiciously fast? (That is, flights that represent a potential data entry error.) Compute the air time of a flight relative to the shortest flight to that destination. Which flights were most delayed in the air?
+
+#Answer:
+
+not_cancelled %>% group_by(dest) %>% view
+#let's first chech the speed
+
+not_cancelled %>% 
+  group_by(dest) %>%
+  mutate(speed = 60 * (distance / air_time)) %>%
+  filter(air_time > 70, distance < 100) %>%
+  select(flight, origin, dest,air_time, distance, speed) %>% arrange(distance) %>% view
+
+#one of the flight is 1860, having a speed of 76 mph, for a distance of 96 miles, having an average speed of 136mph
+
+not_cancelled %>% group_by(flight == 1860) %>%
+  filter(flight == 1860) %>%
+  mutate(average_speed = mean(60 * (distance / air_time))) %>% view
