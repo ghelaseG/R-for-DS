@@ -1343,3 +1343,20 @@ filter(airports, faa == "SNA")
 not_cancelled %>% group_by(flight) %>% tally(arr_delay + dep_delay) %>% view
 #flight 415 got a total delay of 26675 minutes.
 #flight 183 got a total of early arrival of -7052 minutes.
+
+#5. Delays are typically temporally correlated: even once the problem that caused the initial delay has been resolved, later flights are delayed to allow earlier flights to leave. Using lag() explores how the delay of a flight is related to the delay of the immediately preceding flight.
+
+#Answer:
+
+# #using ?lag in the terminal, we get: "Find the "previous" (lag()) or "next" (lead()) values in a vector. Useful for comparing values behind of or ahead of the current values."
+
+#failed trial:
+# #let's use only the flight number 415, the one with the highest delays.
+# 
+# flight_415 <- not_cancelled %>% group_by() filter(flight == 415)
+# View(flight_415)
+
+not_cancelled %>%
+  mutate(lagged_delay = lag(dep_delay))%>%
+  select(sched_dep_time, dep_delay, dep_time, lagged_delay) %>% view
+
