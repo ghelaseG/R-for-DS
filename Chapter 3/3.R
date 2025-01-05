@@ -1296,8 +1296,18 @@ gg <- flights %>%
   select(year:day, dest, arr_delay, prop_delay) 
 View(gg)
 
+
 #2. Which plane (tailnum) has the worst on-time record?
 
 #Answer:
+not_cancelled <- flights %>% filter(!is.na(arr_delay)) %>% view
 
+not_cancelled %>%
+  group_by(tailnum) %>%
+  tally(arr_delay) %>% arrange(desc(n)) %>% view
 
+#those 2 are giving the same output
+not_cancelled %>% filter(tailnum == "N15910") %>% view
+not_cancelled[not_cancelled$tailnum %in% c("N15910"), ] 
+
+#the answer is tailnum N15910
