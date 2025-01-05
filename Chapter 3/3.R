@@ -1378,3 +1378,14 @@ not_cancelled %>%
 not_cancelled %>% group_by(flight == 1860) %>%
   filter(flight == 1860) %>%
   mutate(average_speed = mean(60 * (distance / air_time))) %>% view
+
+#7. Find all destinations that are flown by at least two carriers. Use that information to rank the carriers.
+
+#Answer:
+
+View(not_cancelled)
+#let's check all the destinations
+not_cancelled %>% count(dest) %>% view
+
+not_cancelled %>% group_by(dest) %>% summarize(nr_carriers = length(unique(carrier))) %>% filter(nr_carriers >= 2) %>% view
+  
