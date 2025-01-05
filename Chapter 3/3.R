@@ -1274,3 +1274,16 @@ popular_dests %>%
   mutate(prop_delay = arr_delay / sum(arr_delay)) %>%
   select(year:day, dest, arr_delay, prop_delay) %>% view
 
+#Exercises
+
+#1. Refer back to the table of useful mutate and filtering functions. Describe how each operation changes when you combine it with grouping.
+
+#Answer:
+#let's take the first example, we cut the group_by, and we run the code
+#we can see that the code is not so complex, giving us some random values
+flights_sml %>%
+  filter(rank(desc(arr_delay)) < 10) %>% view
+#in the second example, if we don't use the group by, our table looks exactly the same.
+View(flights)
+popular_dests <- flights %>%
+  filter(n() > 365) %>% view
