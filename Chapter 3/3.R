@@ -1322,3 +1322,24 @@ not_cancelled %>% group_by(dep_time, sched_dep_time) %>% tally(dep_delay <= 0) %
 
 #the best time to fly if you want to avoid delays, based on the number of flights that have not been delayed at all, is at 6 am.
 
+#4. For each destination, compute the total minutes of delay. For each flight, compute the proportion of the total delay for its destination.
+
+#Answer:
+
+#total mintes of delay
+
+View(not_cancelled)
+#not_cancelled %>% group_by(dest) %>% count(arr_delay) %>% view #here we can see how many times it's been delayed or arrived earlier
+#those 2 following block of code are doing the same thing
+not_cancelled %>% group_by(dest) %>% tally(arr_delay) %>% view
+not_cancelled %>% count(dest, wt = arr_delay) %>% arrange(desc(n))%>%view
+#ATL or Hartsfield Jackson Atlanta Intl - is got the most delays in total, and SNA or John Wayne Arpt Orange Co got the earliest arrivals in total.
+View(airports)
+filter(airports, faa == "ATL")
+filter(airports, faa == "SNA")
+
+#proportion of total delay for each flight
+
+not_cancelled %>% group_by(flight) %>% tally(arr_delay + dep_delay) %>% view
+#flight 415 got a total delay of 26675 minutes.
+#flight 183 got a total of early arrival of -7052 minutes.
