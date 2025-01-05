@@ -1311,3 +1311,14 @@ not_cancelled %>% filter(tailnum == "N15910") %>% view
 not_cancelled[not_cancelled$tailnum %in% c("N15910"), ] 
 
 #the answer is tailnum N15910
+
+#3. What time of day should you fly if you want to avoid delays as much as possible?
+
+#Answer:
+
+View(not_cancelled)
+not_cancelled %>% filter(dep_delay <= 0) %>% select(year:dep_delay) %>% view
+not_cancelled %>% group_by(dep_time, sched_dep_time) %>% tally(dep_delay <= 0) %>% arrange(desc(n)) %>% view
+
+#the best time to fly if you want to avoid delays, based on the number of flights that have not been delayed at all, is at 6 am.
+
