@@ -1386,6 +1386,4 @@ not_cancelled %>% group_by(flight == 1860) %>%
 View(not_cancelled)
 #let's check all the destinations
 not_cancelled %>% count(dest) %>% view
-
 not_cancelled %>% group_by(dest) %>% summarize(nr_carriers = length(unique(carrier))) %>% filter(nr_carriers >= 2) %>% view
-  
