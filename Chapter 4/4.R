@@ -36,4 +36,18 @@ x y <- 10 #hover over the cross and the red squiggly line
 3 == NA
 
 
+# EXERCISES:
+
+#1. Go to the RStudio Tips twitter account at @rstudiotips (https://twitter.com/rstudiotips) and find one tip that looks interesting. Practice using it!
+
+#one of the tip I just found out is "codegrip":
+# codegrip provides RStudio addins and Emacs commands for reshaping R code and navigating across syntactic constructs.
+
+#let's install it first using install.packages("devtools")
+
+#2nd tip I found is :
+# I just discovered that scripts in multiple panels was a layout option in #rstudio. This is so handy! #RStats #rtips  
+# Tools > Global Options > Pane Layout
+
+
 
