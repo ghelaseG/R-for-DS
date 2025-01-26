@@ -88,3 +88,35 @@ ggplot(data = smaller, mapping = aes(x = carat)) +
 ggplot(data = smaller, mapping = aes(x = carat, color = cut)) +
   geom_freqpoly(binwidth = 0.1)
 
+
+#TYPICAL VALUES
+
+#tall bars show the common values of a variable, and shorter bars show less common values
+#to turn this information into useful questions, look for anything unexpected:
+# - Which values are the most common? Why?
+# - Which values are rare? Why? Does that match your expectations?
+# - Can you see any unusual patterns? What might explain them?
+
+# As an example, the following histogram suggests several interesting questions:
+# - Why are there more diamonds at whole carats and common fractions of carats?
+# - Why are there more diamonds slightly to the right of each peak than there are slightly to the left of each peak?
+# - Why are there no diamonds bigger than 3 carats?
+
+ggplot(data = smaller, mapping = aes(x = carat)) +
+  geom_histogram(binwidth = 0.01)
+
+#clusters of similar values suggest that subgroups exist in your data. To understand the subgroups, ask:
+# - How are the observations within each cluster similar to each other?
+# - How are the observations in separate clusters different from each other?
+# - How can you explain or describe the clusters?
+# - Why might the appearance of clusters be misleading?
+
+# the next histogram explore the length(in minutes) of 272 eruptions of the Old Faithful Geyser in Yellowstone National park.
+#eruption times appear to be clustered into two groups:
+# -short (around 2 minutes)
+# -long(4 - 5 minutes)
+
+ggplot(data = faithful, mapping = aes(x = eruptions)) +
+  geom_histogram(binwidth = 0.25)
+
+#here we can ask if the value of one variable can explain the behavior of another variable.
