@@ -150,3 +150,56 @@ unusual
 #it's good practice to do this without the outliers, and if they have minimal effect on the results, can be replaced with missing values.
 #if they have a substantial effect, you need to disclose that those have been removed (possibly a data entry error)
 
+#Exercises:
+
+#1. Explore the distribution of each of the x, y, z variables in diamonds. What do you learn? Think about a diamond and how you might decide which dimension is the length, width, and depth.
+
+#Answer:
+
+View(diamonds)
+simplified_data_x_axis <- diamonds %>%
+  select(x, y, z) %>% arrange(x) %>% view()
+
+simplified_data_y_axis <- diamonds %>%
+  select(x, y, z) %>% arrange(y) %>% view()
+
+simplified_data_z_axis <- diamonds %>%
+  select(x, y, z) %>% arrange(z) %>% view()
+
+
+#at first, exploring the distribution of each variable, if we arrange the data in ascending order, starting with x axis, and following through,
+#we can see some missing values when x is zero, or y is zero or z is zero.
+
+#according to this website:https://rosellejewelry.com/pages/diamond-size-chart-round , a diamond can have the max size of 16mm, and we also remove the zero values and null if happens to be there.
+#we can then use plotly to build a 3d plot:
+diamond_3d_plot <- diamonds %>% filter(!is.na(x), x > 0 & x < 16) %>% filter(!is.na(y), y > 0 & y < 16) %>% filter(!is.na(z), z > 0 & z < 16) %>% select(x, y, z)
+View(diamond_3d_plot)
+
+library(plotly)
+
+#here's a 3d plot with our data
+diamond_3d_plot %>%
+  plot_ly(x = ~x,
+          y = ~y,
+          z = ~z)
+
+#according to this image: https://www.diamonds.pro/wp-content/uploads/2023/04/proportions.jpg, let's see the first rows of our dataset.
+View(diamond_3d_plot)
+
+#  x     y     z
+# 3.95  3.98  2.43
+
+#doing a quick search on Google we can see that: "In a diamond, the width is generally larger than the depth;"
+#we now need to sort the data to see how many rows of y are bigger than x, and vice versa
+
+#trial errors
+#diamond_3d_plot[rowSums(y > x)]
+#j <- diamond_3d_plot %>% summarise(y = y > x, n = n()) %>% summarise(cnt = count(y = TRUE))
+#j
+gg <- diamond_3d_plot %>% summarise(y = y > x)
+sum(gg) #as Y gave us a total number of 30,496 out of 53,917, that means according to our search on google the width is the Y axis
+#and X will have a total number of values of 23,421, will be the Depth.
+
+# x - will be the Depth measure
+# y - will be the Width measure
+# z - will be the Table measure
