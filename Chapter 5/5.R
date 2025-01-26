@@ -228,4 +228,14 @@ ggplot(data = diamonds) +
   geom_histogram(mapping = aes(x = price), binwidth = 9.99)
 #using the last binwidth of 9.99 we can simply see that the cheaper diamonds are the ones that are sold or priced the most, whereas the expensive ones are just few sold at higher price.
 
-#
+#3. How many diamonds are 0.99 carat? How many are 1 carat? What do you think is the cause of the difference?
+
+#Answer:
+View(diamonds)
+carat_0.99 <- diamonds %>% filter(carat == 0.99) %>% view
+#there are 23 diamonds with 0.99 carat
+carat_1.00 <- diamonds %>% filter(carat == 1) %>% view
+#there are 1,558 entries with 1.00 carat
+
+#having a quick search on google, we can see that people tend to want more a 1 carat diamond because: "commands a significantly higher price due to the psychological value of reaching the "full carat" mark."
+
