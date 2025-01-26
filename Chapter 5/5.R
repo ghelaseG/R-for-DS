@@ -237,5 +237,30 @@ carat_0.99 <- diamonds %>% filter(carat == 0.99) %>% view
 carat_1.00 <- diamonds %>% filter(carat == 1) %>% view
 #there are 1,558 entries with 1.00 carat
 
-#having a quick search on google, we can see that people tend to want more a 1 carat diamond because: "commands a significantly higher price due to the psychological value of reaching the "full carat" mark."
+#having a quick search on google, we can see that people tend to want more 1 carat diamond because: "commands a significantly higher price due to the psychological value of reaching the "full carat" mark."
 
+#4. Compare and contrast coord_cartesian() versus xlim() orylim() when zooming in on a histogram. What happens if you leave binwidth unset? What happens if you try and zoom so only half a bar shows?
+
+#Answer:
+
+#let's first take the example from before:
+
+ggplot(diamonds) +
+  geom_histogram(mapping = aes(x = y), binwidth = 0.5) +
+  coord_cartesian(ylim = c(0, 50))
+
+#let's try our own examples leaving the binwidth unset (we can see that the bar are a lot wider without binwidth)
+
+ggplot(diamonds) +
+  geom_histogram(mapping = aes(x = y)) +
+  coord_cartesian(ylim = c(0, 50))
+
+#xlim example
+ggplot(diamonds) +
+  geom_histogram(mapping = aes(x = y), binwidth = 0.5) +
+  coord_cartesian(xlim = c(0, 50))
+
+#if we zoom and only half the bar shows, it's pointless and not helping us explore our data.
+ggplot(diamonds) +
+  geom_histogram(mapping = aes(x = y), binwidth = 10.5) +
+  coord_cartesian(ylim = c(0, 50))
