@@ -203,3 +203,26 @@ sum(gg) #as Y gave us a total number of 30,496 out of 53,917, that means accordi
 # x - will be the Depth measure
 # y - will be the Width measure
 # z - will be the Table measure
+
+#2. Explore the distribution of price. Do you discover anything unusual or surprising? (Hint: carefully think about the bin width and make sure you try a wide range of values.)
+
+price_distr <- diamonds %>% select(price)
+View(price_distr)
+price_distr # we can see that the type of price column is <int>
+
+ggplot(data = diamonds) +
+  geom_histogram(mapping = aes(x = price))
+#we first try with the basic bin width
+
+ggplot(data = diamonds) +
+  geom_histogram(mapping = aes(x = price), binwidth = 0.5)
+#wow, look at that
+
+ggplot(data = diamonds) +
+  geom_histogram(mapping = aes(x = price), binwidth = 0.75)
+#even prettier
+
+
+ggplot(data = diamonds) +
+  geom_histogram(mapping = aes(x = price), binwidth = 9.99)
+#using the last binwidth of 9.99 we can simply see that the cheaper diamonds are the ones that are sold or priced the most, whereas the expensive ones are just few sold at higher price.
