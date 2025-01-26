@@ -120,3 +120,33 @@ ggplot(data = faithful, mapping = aes(x = eruptions)) +
   geom_histogram(binwidth = 0.25)
 
 #here we can ask if the value of one variable can explain the behavior of another variable.
+
+
+#UNUSUAL VALUES
+
+#Outliers are observations that are unusual. Data points that don't seem to fit the pattern.
+#sometimes outliers are data entry errors, other time they suggest important new science.
+#when you have a lot of data, outliers are sometimes difficult to see in a histogram.
+
+#in the following histogram, the only evidence of outliers is the unusually wide limits on the y-axis:
+
+ggplot(diamonds) +
+  geom_histogram(mapping = aes(x = y), binwidth = 0.5)
+
+#to make it easy to see the unusual values, we need to zoom in to small values of the y-axis with coord_cartesian():
+
+ggplot(diamonds) +
+  geom_histogram(mapping = aes(x = y), binwidth = 0.5) +
+  coord_cartesian(ylim = c(0, 50))
+
+#to see that there are three unusual values: 0, ~30, ~60:
+unusual <- diamonds %>%
+  filter(y < 3 | y > 20) %>%
+  arrange(y)
+unusual
+#the y variable measures one of the 3D of these diamonds in mm. We know that diamonds can't have a width of 0 mm so these values must be incorrect.
+#we also suspect that measurements of 32 mm and 59 mm are implausible, those diamonds are over an inch long, but don't cost hundreds of thousands of dollars.
+
+#it's good practice to do this without the outliers, and if they have minimal effect on the results, can be replaced with missing values.
+#if they have a substantial effect, you need to disclose that those have been removed (possibly a data entry error)
+
