@@ -43,4 +43,48 @@
 # - Tabular data is a set of values, each assciated with a variable and an observation. Tabular data is tidy if each value is places in its own "cell", each variable in its own column, and each observation in its own row. (in real life most data isn't tidy)
 # - Variation is the tendency of values of a variable to change from measurement to measurement. ( you can see variation easily in real life: for exp if you measure any continuous variable twice, you'll get two different results). Categorical variables can aslo vary if you measure across different subjects (the eye colour of different people), or different times (the energy levels of an electron at different moments). Every variable has its own pattern of variation, which can reveal interesting information. The best way to understand that pattern is to visualise the distribution of variables values.
 
+#VISUALISING DISTRIBUTIONS
+
+#visualising the distribution of a variable will depend on whether the variable is categorical or continuous.
+
+## Categorical variable: can only take one of a small set of values. In R, those are usually saved as factors or character vectors.
+
+#To examine the distribution of a categorical variable, use a bar chart:
+library(tidyverse)
+View(diamonds)
+help("diamonds")
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut))
+
+#you can visualise those values manually with dplyr::count()
+
+diamonds %>%
+  count(cut)
+
+## Continuous variable: can take any of an infinite set of ordered values. Numbers and date-times are two examples of continuous variables.
+
+# to examine the distribution of a continuous variable, use a histogram:
+
+ggplot(data = diamonds) +
+  geom_histogram(mapping = aes(x = carat), binwidth = 0.5)
+
+#you can compute this by hand by combining dplyr::count() and ggplot2::cut_width()
+
+diamonds %>% count(cut_width(carat, 0.5))
+
+#next example uses the size of less than three carats and choose a smaller binwidth:
+
+smaller <- diamonds %>% 
+  filter(carat < 3)
+
+View(smaller)
+
+ggplot(data = smaller, mapping = aes(x = carat)) +
+  geom_histogram(binwidth = 0.1)
+
+#we can overlay multiple histograms in the same plot, using geom_freqploy() instead of geom_histogram()
+#this uses lines instead, with same calculation as geom_histogram() (tip: it's much easier to understand overlapping lines than bars)
+
+ggplot(data = smaller, mapping = aes(x = carat, color = cut)) +
+  geom_freqpoly(binwidth = 0.1)
 
