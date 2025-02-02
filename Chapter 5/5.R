@@ -409,3 +409,42 @@ ggplot(data = mpg) +
     )
   ) +
   coord_flip()
+
+# Exercises:
+
+#1. Use what you've learned to improve the visualisation of the departure times of cancelled versus noncancelled flights.
+
+# Answer:
+
+test <- nycflights13::flights %>%
+  mutate(
+    cancelled = is.na(dep_time),
+    non_cancelled = is.na(dep_time) == FALSE,
+    sched_hour = sched_dep_time %/% 100,
+    sched_min = sched_dep_time %% 100,
+    sched_dep_time = sched_hour + sched_min / 60
+  ) %>% view()
+
+summary(test$dep_time)
+
+#trials, fail :)
+
+# #ggplot(data = test, mapping = aes(x = dep_time, y = cancelled)) +
+#   geom_boxplot() +
+#   coord_flip()
+# 
+# # or
+# 
+# ggplot(data = test) +
+#   geom_boxplot(
+#     mapping = aes(
+#       x = reorder(cancelled, dep_time, FUN = median),
+#       y = non_cancelled
+#     )
+#   )
+
+ggplot(
+  data = test,
+  mapping = aes(x = sched_dep_time)
+  ) +
+  geom_boxplot(mapping = aes(color = cancelled)) + coord_flip()
