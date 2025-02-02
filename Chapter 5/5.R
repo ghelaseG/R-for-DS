@@ -347,3 +347,65 @@ sum(nycflights13::flights$arr_time, na.rm = TRUE)
 
 #running in the terminal "?mean?, we can see that in the documentation: " na.rm	: a logical evaluating to TRUE or FALSE indicating whether NA values should be stripped before the computation proceeds. "
 #doing the same thing for sum, running "?sum": " na.rm : logical. Should missing values (including NaN) be removed? "
+
+
+# COVARIATION
+
+# if variation describes the behavior within a variable, 
+# covariation describes the behavior between variables.
+#the best way to spot covariation is to visualise the relationship between two or more variables.
+
+# A CATEGORICAL AND CONTINUOUS VARIABLE
+
+# geom_freqpoly is not that useful in exploring the distribuition of a continuous variable broken down by a categorical variable,
+#because the height is given by the count.
+
+ggplot(data = diamonds, mapping = aes(x = price)) +
+  geom_freqpoly(mapping = aes(color = cut), binwidth = 500) #using this is hard to see the differences
+
+ggplot(diamonds) +
+  geom_bar(mapping = aes(x = cut))
+
+#let's try and make the comparison easier, where we can swap what is displayed on the y axis.
+
+ggplot( data = diamonds, mapping = aes(x = price, y = ..density..)) +
+  geom_freqpoly(mapping = aes(color = cut), binwidth = 500)
+
+# we can also use a boxplot, popular among statisticians, each of those consists:
+# - a box that stretches from the 25% of the distribution to the 75%, a distance known as the interquartile range (IQR). In the middle of the box is a line that displays the median, 50 percentile of the distribution. These 3 lines give you a sense of the spread of the distribution and whether or not the distribution is symmetric about the median or skewed to one side.
+# - visual points that display observations that fall more than 1.5 times the IQR from either edge of the box. These outlying points are unusual, so they are plotted individually.
+# - a line ( or whisker ) that extends from each end of the box and goes to the farthest nonoutlier point in the distribution. 
+
+ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +
+  geom_boxplot()
+
+#for more info see this image: https://miro.medium.com/max/9000/1*2c21SkzJMf3frPXPAR_gZA.png
+
+#this plot supports the counterintuitive finding that better quality diamonds are cheaper on average.
+#cut is an ordered factor: fair is worse than good, which is worse than very good and so on.
+#we can use the reorder function to make a more informative display.
+
+#we can see this for the class variable in the mpg dataset
+
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
+  geom_boxplot()
+
+#to make this more interesting, we can reorder class based on the median value of hwy:
+
+ggplot(data = mpg) +
+  geom_boxplot(
+    mapping = aes(
+      x = reorder(class, hwy, FUN = median),
+      y = hwy
+    )
+  )
+
+#if you have long names, you can flip it to 90° with coord_flip()
+ggplot(data = mpg) +
+  geom_boxplot(
+    mapping = aes(
+      x = reorder(class, hwy, FUN = median),
+      y = hwy
+    )
+  ) +
+  coord_flip()
