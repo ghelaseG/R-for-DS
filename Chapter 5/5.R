@@ -308,3 +308,32 @@ nycflights13::flights %>%
     mapping = aes(color = cancelled),
     binwidth = 1/4
   )
+
+# Exercises
+
+#1. What happens to missing values in a histogram? What happens to missing values in a bar chart? Why is there a difference?
+
+# Answer:
+
+ggplot(data = nycflights13::flights, mapping = aes(x = arr_time)) +
+  geom_histogram() #?geom_histogram
+
+# in a histogram, we get the following notification: 
+
+## Warning message:
+## Removed 8713 rows containing non-finite outside the scale range (`stat_bin()`). 
+
+sum(is.na(nycflights13::flights$arr_time)) #if we count how many missing values we've got in the column arr_time, we can confirm that it is identical.
+class(nycflights13::flights$arr_time)
+##
+ggplot(data = nycflights13::flights, mapping = aes(x = tailnum)) +
+  geom_bar()
+
+#in a bar chart, we haven't got any warning messages, although if we count the number of missing values in the tailnum column, we can see that there are 2512 missing values.
+
+sum(is.na(nycflights13::flights$tailnum))
+class(nycflights13::flights$tailnum)
+#I guess the difference is coming from the type of variable inserted in the column,
+#for example, we can see that the type of variable for histogram is integer, while for the barchart is the type of character.
+
+
