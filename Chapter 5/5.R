@@ -447,4 +447,30 @@ ggplot(
   data = test,
   mapping = aes(x = sched_dep_time)
   ) +
-  geom_boxplot(mapping = aes(color = cancelled)) + coord_flip()
+  geom_boxplot(mapping = aes(color = non_cancelled)) + coord_flip()
+
+#2. What variable in the diamonds dataset is most important for predicting the price of a diamond? How is that variable correlated with cut? Why does the combination of those two relationships lead to lower quality diamonds being more expensive?
+
+# Answer:
+library(dplyr)
+library(ggplot2)
+
+View(diamonds)
+#the most important variable for predicting the price of a diamond is the variable with the same name.
+#the price is correlated with cut based on the quality of the diamond every diamond has got a price.
+# let's see why this correlation leads to the lower quality being more expensive:
+
+#first let's count the number of of each quality of the cut:
+summary(diamonds$cut)
+summary(diamonds$price)
+sum(is.na(diamonds$cut))
+sum(is.na(diamonds$price))
+rowMeans(diamonds$price, diamonds$cut)
+
+diamonds22 <- diamonds %>%
+  group_by(cut) %>%
+  summarise(count = sum(price),
+    mean = mean(price))
+View(diamonds22)
+
+#from this calculation we can simply see that the number of lower quality items are far less than the most expensive ones, therefore the mean will be different, in our case in favour of the good quality products.
