@@ -336,4 +336,14 @@ class(nycflights13::flights$tailnum)
 #I guess the difference is coming from the type of variable inserted in the column,
 #for example, we can see that the type of variable for histogram is integer, while for the barchart is the type of character.
 
+#2. What does na.rm = TRUE do in mean() and sum()?
 
+#Answer:
+
+#let's find out:
+
+mean(nycflights13::flights$arr_time, na.rm = TRUE)
+sum(nycflights13::flights$arr_time, na.rm = TRUE)
+
+#running in the terminal "?mean?, we can see that in the documentation: " na.rm	: a logical evaluating to TRUE or FALSE indicating whether NA values should be stripped before the computation proceeds. "
+#doing the same thing for sum, running "?sum": " na.rm : logical. Should missing values (including NaN) be removed? "
