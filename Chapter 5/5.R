@@ -264,3 +264,47 @@ ggplot(diamonds) +
 ggplot(diamonds) +
   geom_histogram(mapping = aes(x = y), binwidth = 10.5) +
   coord_cartesian(ylim = c(0, 50))
+
+
+# MISSING VALUES
+
+#if you've encountered unusual values in your dataset, and want to move on to the rest of your analysis, you can:
+
+#1. drop the entire row with the strange values:
+
+diamonds2 <- diamonds %>%
+  filter(between(y, 3, 20)) %>% view()
+#this option is vague, because if one value is invalid, doesn't mean all measurements are.
+#!Info: if you have low-quality data, by the time you've applied this approach to every variable you might find that you don't have anything left to analyse.
+
+#2, recommended option will be to replace the unusual values with missing values.
+
+#to do this you can use mutate() to replace the variable with a modified copy. You can use the ifelse() function to replace unusual values with NA
+
+diamonds3 <- diamonds %>%
+  mutate(y = ifelse(y < 3 | y > 20, NA, y)) %>% view()
+
+ggplot(data = diamonds2, mapping = aes(x = x, y = y)) +
+  geom_point()
+
+#we can add na.rm = TRUE
+
+ggplot(data = diamonds2, mapping = aes(x = x, y = y)) +
+  geom_point(na.rm = TRUE)
+
+#other times you want to understand what makes observations with missing values different from observations with recorded values.
+#for example, in nycflights13::flights, missing values in dep_time means that the flight was cancelled.
+#we can compare the scheduled departure times for cancelled and noncancelled times, using is.na()
+
+nycflights13::flights %>%
+  mutate(
+    cancelled = is.na(dep_time),
+    sched_hour = sched_dep_time %/% 100,
+    sched_min = sched_dep_time %% 100,
+    sched_dep_time = sched_hour + sched_min / 60
+  ) %>%
+  ggplot(mapping = aes(sched_dep_time)) +
+  geom_freqpoly(
+    mapping = aes(color = cancelled),
+    binwidth = 1/4
+  )
