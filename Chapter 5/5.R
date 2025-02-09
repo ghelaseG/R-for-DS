@@ -474,3 +474,16 @@ diamonds22 <- diamonds %>%
 View(diamonds22)
 
 #from this calculation we can simply see that the number of lower quality items are far less than the most expensive ones, therefore the mean will be different, in our case in favour of the good quality products.
+
+#3. Install the ggstance package, and create a horizontal boxplot. How does this compare to using coord_flip()?
+
+# Answer:
+install.packages("ggstance")
+#??ggstance
+
+#for better understanding of the package, use this link for the github repo: https://github.com/lionel-/ggstance
+library("ggstance")
+
+ggplot(mpg, mapping = aes(cty, class, fill = factor(year))) +
+  geom_boxploth()
+
