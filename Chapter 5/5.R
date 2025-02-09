@@ -547,3 +547,30 @@ ggplot(diamonds, aes(cut, price)) +
 
 ggplot(diamonds, aes(cut, price)) +
   geom_beeswarm() #this looks more like the violin plot
+
+
+# TWO CATEGORICAL VARIABLES
+
+#to visualise the covariation between categorical variables, you'll need to count the number of observations for each combination
+#we can do that by using geom_count()
+
+ggplot(diamonds) +
+  geom_count(mapping = aes(x = cut, y = color))
+
+#the size of each circle in the plot displays how many observations occurred at each combination of values.
+
+#we can also compute the count with dplyr
+
+diamonds %>%
+  count(color, cut)
+
+#then visualise with geom_title()
+
+diamonds %>%
+  count(color, cut) %>%
+  ggplot(mapping = aes(x = color, y = cut)) +
+  geom_tile(mapping = aes(fill = n))
+
+# we can use the "seriation" package if the variables are unordered
+# for large plots, we can try using d3heatmap, or heatmaply
+
