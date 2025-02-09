@@ -495,7 +495,29 @@ library("lvplot")
 diamonds
 
 ggplot(data = diamonds, mapping = aes(price, cut)) +
-  geom_lv(aes()) + geom_jitter()
+  geom_lv() + geom_jitter()
 
 # I learn that the prices between 0 and 5000 are the most distributed among our dataset, whereas once the price is getting higher, we get only a few of them.
 # The plots are much easier to interpret, for exp: if the points are more spread among the bar, we got more data on the x axis, and vice versa.
+
+#5. Compare and contrast geom_violin() with a faceted geom_histogram(), or a colored geom_freqpoly(). What are the pros and cons of each method?
+
+# Answer:
+
+ggplot(data = diamonds, aes(carat, price)) +
+  geom_violin()
+
+ggplot(data = diamonds, aes(carat)) +
+  geom_histogram()
+
+ggplot(diamonds, aes(carat, colour = cut)) +
+  geom_freqpoly(binwidth = 500)
+
+#Pros: histograms display the counts with bars.
+#Cons: you can not compare x and y axis.
+
+#Pros: frequency polygons are better when you want to compare two categorical variable.
+#Cons: they use lines to display the visualisation.
+
+#Pros: violin plot can plot continuous distribution.
+#Cons: alternative to boxplot
