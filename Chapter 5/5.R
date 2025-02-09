@@ -521,7 +521,29 @@ ggplot(diamonds, aes(carat, colour = cut)) +
 #Pros: violin plot can plot continuous distribution.
 #Cons: alternative to boxplot
 
+#6. If you have a small dataset, it;s sometimes useful to use geom_jitter() to see the relationship between a continuous and categorical variable. The ggbeeswarm package provides a number of methods similar to geom_jitter(). List them and briefly describe what each one does.
+
+#Answer:
+
+?geom_jitter #alternative to geom_point
+#example from the documentation
+ggplot(diamonds, aes(price, cut)) +
+  geom_jitter() #this looks more like the boxplot
+
+install.packages("ggbeeswarm")
+library("ggbeeswarm")
+?ggbeeswarm #https://github.com/eclarke/ggbeeswarm
+
+#first method is geom_quasirandom ( alternative to geom_jitter )
+#The quasirandom geom is a convenient means to offset points within categories to reduce overplotting
 
 
+ggplot(diamonds, aes(cut, price)) +
+  geom_quasirandom(method = "tukey") + coord_flip() #if we use the tukey method, then it looks similar to geom_jitter
 
 
+# second methid is geom_beeswarm
+# The beeswarm geom is a convenient means to offset points within categories to reduce overplotting
+
+ggplot(diamonds, aes(cut, price)) +
+  geom_beeswarm() #this looks more like the violin plot
