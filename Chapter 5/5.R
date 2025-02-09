@@ -487,3 +487,15 @@ library("ggstance")
 ggplot(mpg, mapping = aes(cty, class, fill = factor(year))) +
   geom_boxploth()
 
+#4. One problem with boxplots is that they were developed in an era of much smaller datasets and tend to display a prohibitively large number of "outlying values". One approach to remedy this problem is the letter value plot. Install the lvplot package, and try using geom_lv() to display the distribution of price versus cut. What do you learn? How do you interpret the pltos?
+
+# Answer:
+install.packages("lvplot")
+library("lvplot")
+diamonds
+
+ggplot(data = diamonds, mapping = aes(price, cut)) +
+  geom_lv(aes()) + geom_jitter()
+
+# I learn that the prices between 0 and 5000 are the most distributed among our dataset, whereas once the price is getting higher, we get only a few of them.
+# The plots are much easier to interpret, for exp: if the points are more spread among the bar, we got more data on the x axis, and vice versa.
