@@ -609,3 +609,16 @@ resc_data <- ggg %>% mutate(resc_dta = rescale(ggg$n)) %>% view
 resc_data %>%
   ggplot(mapping = aes(x = color, y = cut)) +
   geom_tile(mapping = aes(fill = resc_dta))
+
+#2. Use geom_tile() together with dplyr to explore how average flight delays vary by destination and month of year. What makes the plot difficult to read? How could you improve it?
+
+#Answer:
+library(dplyr)
+library(nycflights13)
+
+flights %>% filter(!is.na(dep_delay)) %>%
+  group_by(dest, month) %>%
+  summarise(n = mean(dep_delay)) %>% 
+  ggplot(aes(x = dest, y = month)) +
+  geom_tile(aes(fill = n))
+
