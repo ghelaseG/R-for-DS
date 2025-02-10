@@ -573,4 +573,39 @@ diamonds %>%
 
 # we can use the "seriation" package if the variables are unordered
 # for large plots, we can try using d3heatmap, or heatmaply
+install.packages("seriation")
 
+# Exercises:
+
+#1. How could you rescale the count dataset to more clearly show the distribution of cut within color, or color within cut?
+
+#some trials with d3heatmap ( ignore :D )
+# install.packages("devtools")
+# devtools::install_github("rstudio/d3heatmap")
+# library(d3heatmap)
+# 
+# #Type citation('d3heatmap') for how to cite the package.
+# #Type ?d3heatmap for the main documentation.
+# library(tidyverse)
+# 
+# ggg <- diamonds %>%
+#   count(cut, color) %>% view()
+# 
+# d3heatmap(ggg, colors = "Blues",key = TRUE, scale = "column", dendrogram = "row", colors = "Spectral", notecol = 'white', key.title = "Legend", print.values = T)
+
+# Answer:
+
+library(tidyverse)
+
+ggg <- diamonds %>%
+  count(cut, color) %>% view()
+library(scales)
+rescale(ggg$n)
+resc_data <- ggg %>% mutate(resc_dta = rescale(ggg$n)) %>% view
+
+#we can do that by using rescale function
+
+#let's have a look now at our data.
+resc_data %>%
+  ggplot(mapping = aes(x = color, y = cut)) +
+  geom_tile(mapping = aes(fill = resc_dta))
