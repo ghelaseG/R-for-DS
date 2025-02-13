@@ -616,9 +616,43 @@ resc_data %>%
 library(dplyr)
 library(nycflights13)
 
+#this plot is hard to read because the x axis has got all the destinations tighten up together.
+flights %>% count(dest) %>% view() #with this we know that we got 105 destinations, where we have to show on our heat maop
+
 flights %>% filter(!is.na(dep_delay)) %>%
   group_by(dest, month) %>%
-  summarise(n = mean(dep_delay)) %>% 
+  summarise(average_delay = mean(dep_delay)) %>% 
   ggplot(aes(x = dest, y = month)) +
-  geom_tile(aes(fill = n))
+  geom_tile(aes(fill = average_delay))
+
+#trials
+#flights$month_year <- paste(flights&month, flights$year) 
+#unite(month_year, c(n, s), sep = " ", remove = FALSE)
+#rounded_delays = ceiling(average_delay)
+
+converted_data <- flights %>% filter(!is.na(dep_delay)) %>% mutate(Date = with(., sprintf("%d-%02d", year, month))) %>% view()
+
+
+converted_data %>% group_by(dest, Date) %>%
+  summarise(average_delay = mean(dep_delay)) %>% 
+  ggplot(aes(x = dest, y = Date, fill = average_delay)) +
+  geom_tile() +
+  scale_x_discrete(guide = guide_axis(n.dodge=3))
+
+#+ coord_flip()
+
+#to fix this problems I merged the month and year into one column using mutate, and then I used 
+#scale_x_discrete, which helps us see our 105 destinations
+
+#if you want a simpler version, you can simply flip x and y axis using coord_flip, see here:
+
+converted_data %>% group_by(dest, Date) %>%
+  summarise(average_delay = mean(dep_delay)) %>% 
+  ggplot(aes(x = dest, y = Date, fill = average_delay)) +
+  geom_tile() + coord_flip()
+
+
+
+
+
 
