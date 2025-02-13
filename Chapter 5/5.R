@@ -651,8 +651,20 @@ converted_data %>% group_by(dest, Date) %>%
   ggplot(aes(x = dest, y = Date, fill = average_delay)) +
   geom_tile() + coord_flip()
 
+#3. Why is it slightly better to use aes(x = color, y = cut) rather than aes(x = cut, y = color) in the previous example?
 
+#Answer:
 
+#let's have a look:
+resc_data %>%
+  ggplot(mapping = aes(x = color, y = cut)) +
+  geom_tile(mapping = aes(fill = resc_dta))
 
+# and
 
+resc_data %>%
+  ggplot(mapping = aes(x = cut, y = color)) +
+  geom_tile(mapping = aes(fill = resc_dta))
+
+#because it will be harder to read the cut variable and to understand the legend (rescaled data)
 
