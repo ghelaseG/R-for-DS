@@ -721,8 +721,33 @@ ggplot(data = smaller, mapping = aes(x = carat, y = price)) +
 ggplot(data = smaller, mapping = aes(x = carat, y = price)) + 
   geom_boxplot(mapping = aes(group = cut_number(carat, 20)))
 
+# Exercises:
 
+#1. Instead of summarising the conditional distribution with a boxplot, you could use a frequency polygon. What do you need to consider when using cut_width() versus cut_number()? How does that impact a visualisation of the 2D distribution of carat and price?
 
+# Answer:
+
+# using the documentation, ?cut_width:
+## cut_width() makes groups of width width.
+## cut_number() makes n groups with (approximately) equal numbers of observations
+
+##let's first visualise using a frequency polygon without cut_width and cut_number
+ggplot(data = smaller, mapping = aes(x = price, color = carat)) +
+  geom_freqpoly(binwidth = 0.1)
+
+#this is hard to understand, we could of done the same using geom_histogram, 
+
+#instead let's transform our column using cut_width:
+#we can play with the numbers for cut_width, for me the best is 0.5, but this can be changed at anytime
+ggplot(smaller, aes(x = price, color = cut_width(carat, 0.5))) +
+  geom_freqpoly()
+
+#now let's use cut_number()
+ggplot(smaller, aes(x = price, color = cut_number(carat, 5))) +
+  geom_freqpoly()
+
+#you need to consider the number of intervals you choose as well as the width if applied
+#this choice will impact the visualisation in the way that if you choose a small nr of intervals to create then it's not enought to understand your dataset, as well if it is too big.
 
 
 
