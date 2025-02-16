@@ -849,3 +849,16 @@ ggplot(data = diamonds2) +
   geom_boxplot(mapping = aes(x = cut, y = resid ))
 
 
+#ggplot2 CALLS
+
+ggplot(data = faithful, mapping = aes(x = eruptions)) +
+  geom_freqpoly(binwidth = 0.25)
+
+ggplot(faithful, aes(eruptions)) +
+  geom_freqpoly(binwidth = 0.25)
+
+#sometimes the end of a pipeline of data is transformed into a plot
+diamonds %>%
+  count(cut, clarity) %>%
+  ggplot(aes(clarity, cut, fill = n)) +
+  geom_tile()
