@@ -746,8 +746,14 @@ ggplot(smaller, aes(x = price, color = cut_width(carat, 0.5))) +
 ggplot(smaller, aes(x = price, color = cut_number(carat, 5))) +
   geom_freqpoly()
 
-#you need to consider the number of intervals you choose as well as the width if applied
-#this choice will impact the visualisation in the way that if you choose a small nr of intervals to create then it's not enought to understand your dataset, as well if it is too big.
+#you need to consider the number of intervals you choose as well as the width if applied (for example if your dataset has a large number, you have to consider this too)
+#this choice will impact the visualisation in the way that if you choose a small nr of intervals to create then it's not enough to understand your dataset, as well as if it is too big.
 
+#2. Visualise the distribution of carat, partitioned by price.
+
+#Answer:
+
+ggplot(smaller, aes(x = carat, color = cut_width(price, 10000))) +
+  geom_freqpoly()
 
 
