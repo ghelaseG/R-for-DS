@@ -668,3 +668,61 @@ resc_data %>%
 
 #because it will be harder to read the cut variable and to understand the legend (rescaled data)
 
+
+# TWO CONTINUOUS VARIABLES
+
+# exponential relationship between the carat size and price of a diamond:
+
+ggplot( data = diamonds ) +
+  geom_point(mapping = aes(x = carat, y = price))
+
+#scatterplots are less useful when the size of the dataset grows. We can solve this issue with alpha aesthetic, to add transparency:
+
+ggplot(data = diamonds) +
+  geom_point(
+    mapping = aes(x = carat, y = price),
+    alpha = 1 / 100
+  )
+
+# another solution is to use bin.
+#we previously bin in one dimension using geom_histogram and geom_freqpoly
+#now we'll use geom_bin2d and geom_hex
+
+#geom_bin2d creates rectangular bins
+#geom_hex creates hexagonal bins
+
+#we have to install hexbin package to use this
+#install.packages("hexbin")
+library(hexbin)
+library(tidyverse)
+
+smaller <- diamonds %>% 
+  filter(carat < 3)
+
+ggplot(data = smaller) +
+  geom_bin2d(mapping = aes(x = carat, y = price))
+
+ggplot(data = smaller) +
+  geom_hex(mapping = aes(x = carat, y = price))
+
+#we can bin one continuous variable so it acts like a categorical variable
+#then we can use one of the techniques for visualising the combination of a categorical and a continuous variable
+#for example, we can bin carat and display a boxplot for each group
+
+ggplot(data = smaller, mapping = aes(x = carat, y = price)) +
+  geom_boxplot(mapping = aes(group = cut_width(carat, 0.1)))
+
+#cut_width(x, width) divides x into bins of width.
+#by default, all boxplots look almost identical, so its difficult to read what they represent
+#to solve this issue, we can make the width of the boxplot proportional to the number of points using varwidth = TRUE
+
+#we can also use cut_number() to display approx the same nr of points in each bin
+
+ggplot(data = smaller, mapping = aes(x = carat, y = price)) + 
+  geom_boxplot(mapping = aes(group = cut_number(carat, 20)))
+
+
+
+
+
+
