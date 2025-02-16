@@ -742,11 +742,11 @@ ggplot(data = smaller, mapping = aes(x = price, color = carat)) +
 ggplot(smaller, aes(x = price, color = cut_width(carat, 0.5))) +
   geom_freqpoly()
 
-#now let's use cut_number()
+#now let's use cut_number(), (I prefer this visualisation)
 ggplot(smaller, aes(x = price, color = cut_number(carat, 5))) +
   geom_freqpoly()
 
-#you need to consider the number of intervals you choose as well as the width if applied (for example if your dataset has a large number, you have to consider this too)
+#you need to consider the number of intervals you choose as well as the width if applied (for example if your dataset has a large number, you have to consider this too) (if the dataset is too small, you can get this error: Insufficient data values to produce 5 bins)
 #this choice will impact the visualisation in the way that if you choose a small nr of intervals to create then it's not enough to understand your dataset, as well as if it is too big.
 
 #2. Visualise the distribution of carat, partitioned by price.
@@ -756,4 +756,22 @@ ggplot(smaller, aes(x = price, color = cut_number(carat, 5))) +
 ggplot(smaller, aes(x = carat, color = cut_width(price, 10000))) +
   geom_freqpoly()
 
+#3. How does the price distribution of very large diamonds compare to small diamonds. Is it as you expect, or does it surprise you?
 
+#Answer:
+
+large <- diamonds %>%
+  filter(carat >= 3)
+View(large)
+
+#let's see for the smaller diamonds, less than 3
+ggplot(smaller, aes(x = price, color = cut_number(carat, 5))) +
+  geom_freqpoly()
+
+#now for the larger diamonds,
+#if we use a bin number greater than 3 we get this error: Insufficient data values to produce 4 bins
+
+ggplot(data = large, aes(x = price, color = cut_number(carat, 3))) +
+  geom_freqpoly()
+
+#I did not expect that, and yes, it does suprise me :)
