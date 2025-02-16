@@ -774,4 +774,15 @@ ggplot(smaller, aes(x = price, color = cut_number(carat, 5))) +
 ggplot(data = large, aes(x = price, color = cut_number(carat, 3))) +
   geom_freqpoly()
 
-#I did not expect that, and yes, it does suprise me :)
+#I did not expect that, and yes, it does surprise me :)
+
+#4. Combine two of the techniques you've learned to visualise the combined distribution of cut, carat, and price.
+
+#Answer:
+
+#in this plot I used the 2 techniques: geom_hex and cut_number
+
+ggplot(data = diamonds, mapping = aes(y = cut_number(carat,25), x = price)) +
+  geom_hex(aes(fill = cut), colour = "black") + 
+  labs(y = "Range Carat")
+  
