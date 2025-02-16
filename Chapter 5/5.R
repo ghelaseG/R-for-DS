@@ -785,4 +785,18 @@ ggplot(data = large, aes(x = price, color = cut_number(carat, 3))) +
 ggplot(data = diamonds, mapping = aes(y = cut_number(carat,25), x = price)) +
   geom_hex(aes(fill = cut), colour = "black") + 
   labs(y = "Range Carat")
-  
+
+#5. Two-dimensional plots reveal outliers that are not visible in one-dimensional plots. For example, some points in the following plot have an unusual combination of x and y values, which makes the points outliers even though their x and y values appear normal when examined separately:
+
+ggplot(data = diamonds) +
+  geom_point(mapping = aes(x = x, y = y)) +
+  coord_cartesian(xlim = c(4, 11), ylim = c(4, 11))
+#Why is a scatterplot a better display than a binned plot for this case?
+
+# Answer:
+
+ggplot(diamonds) +
+  geom_bin2d(mapping = aes(x= x, y = y)) +
+  coord_cartesian(xlim = c(4, 11), ylim = c(4, 11))
+
+#the answer it is obvious as it is easier to understand our data the way it is presented.
