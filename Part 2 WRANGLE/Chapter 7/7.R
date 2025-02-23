@@ -153,4 +153,10 @@ tbl[, c("abc", "xyz")]
 #   <dbl> <chr>
 #1    1     a
 
+#3. If you have the name of a variable stored in an object, e.g., var <- "mpg", how can you extract the reference variable from a tibble?
+
+#Answer:
+
+#we can use as_tibble()
+as_tibble(mpg)
 
