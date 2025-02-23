@@ -78,3 +78,31 @@ package?tibble # use this to see a complete list of options
 
 # another option is to use view()
 nycflights13::flights %>% view()
+
+
+# Subsetting
+
+#if you want to pull out a single variable, you need some new tools, $ and [[.
+
+#[[ can extract by name or position
+#$ only extracts by name
+
+df <- tibble(
+  x = runif(5),
+  y = rnorm(5)
+)
+
+#extract by name
+df$x
+df[["x"]]
+
+#extract by position
+df[[1]]
+
+#to use these in a pipe, you'll need to use the special placeholder . (dot):
+
+df %>% .$x
+#or
+df %>% .[["x"]]
+
+#tibble will generate a warning if the column you are trying to access does not exist
