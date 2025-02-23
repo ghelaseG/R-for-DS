@@ -183,3 +183,12 @@ annoying <- annoying %>% mutate(`3` = `2` / `1`)
 annoying
 #d.
 annoying %>% rename(one = `1`, two = `2`, three = `3`)
+
+#5. What does tibble::enframe() do? When might you use it?
+
+#Answer:
+
+tibble::enframe()
+?tibble::enframe()
+# Converting vectors to data frames, and vice versa
+# enframe() converts named atomic vectors or lists to one- or two-column data frames. For a list, the result will be a nested tibble with a column of type list. For unnamed vectors, the natural sequence is used as name column.
