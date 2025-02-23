@@ -6,3 +6,14 @@
 
 #Press Cmd/Ctrl-Shift-F10 to restart R Studio.
 #Press Cmd/Ctrl-Shift-S to rerun the current script.
+
+
+#Where does your analysis live?
+
+#print this out in R by running getwd():
+
+getwd()
+#or you can see it at the top of the console.
+#you can set the working directory from within R:
+
+setwd("/path/to/my/CoolProject")
