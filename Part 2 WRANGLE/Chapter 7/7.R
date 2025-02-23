@@ -106,3 +106,17 @@ df %>% .$x
 df %>% .[["x"]]
 
 #tibble will generate a warning if the column you are trying to access does not exist
+
+# interacting with older code
+
+class(as.data.frame(tb))
+
+# Exercises:
+
+#1. How can you tell if an object is a tibble? (Hint: try printing mtcars, which is a regular data frame).
+
+#Answer:
+
+print(mtcars)
+# we can easily see the difference by checking the way it prints the data frame
+#tibble report each column type and only the first 10 rows.
