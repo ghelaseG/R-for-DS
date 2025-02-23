@@ -120,3 +120,37 @@ class(as.data.frame(tb))
 print(mtcars)
 # we can easily see the difference by checking the way it prints the data frame
 #tibble report each column type and only the first 10 rows.
+
+#2. Compare and contrast the following operations on a data.frame and equivalent tibble. What is different? Why might the default data frame behaviors cause you frustration?
+
+# Answer:
+
+#the difference are in comments, and some of the behaviors are different between the 2.
+
+df <- data.frame(abc = 1, xyz = "a")
+df$x # [1] "a"
+df[, "xyz"] # [1] "a"
+df[, c("abc", "xyz")] #   abc xyz
+                      #1   1   a
+
+tbl <- tibble(abc = 1, xyz = "a")
+
+tbl$x
+#we get the following: 
+##NULL
+##Warning message:
+##  Unknown or uninitialised column: `x`.
+
+tbl[, 'xyz']
+## A tibble: 1 × 1
+#  xyz  
+# <chr>
+#1  a 
+
+tbl[, c("abc", "xyz")]
+## A tibble: 1 × 2
+#    abc   xyz  
+#   <dbl> <chr>
+#1    1     a
+
+
