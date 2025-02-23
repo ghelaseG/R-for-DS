@@ -192,3 +192,9 @@ tibble::enframe()
 ?tibble::enframe()
 # Converting vectors to data frames, and vice versa
 # enframe() converts named atomic vectors or lists to one- or two-column data frames. For a list, the result will be a nested tibble with a column of type list. For unnamed vectors, the natural sequence is used as name column.
+
+#6. What option controls how many additional column names are printed at the footer of a tibble?
+
+#Answer:
+
+#you can print all the columns using width = Inf or use options(tibble.width = Inf) to always print all columns.
