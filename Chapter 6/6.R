@@ -22,3 +22,11 @@ setwd("/path/to/my/CoolProject")
 #RStudio Projects
 
 #R experts keep all the files associated with a project together - input data, R scripts, analytical results, figures.
+
+# Summary:
+
+# create an RStudio project for each data analysis project
+# keep data files there;
+# keep scripts there;
+# save your outputs (plots and cleaned data) there;
+# only ever use relative paths, not absolute paths.
