@@ -160,3 +160,26 @@ tbl[, c("abc", "xyz")]
 #we can use as_tibble()
 as_tibble(mpg)
 
+#4. Practice referring to nonsyntactic names in the following data frame by:
+    #a. Extracting the variable called 1.
+    #b. Plotting a scatterplot of 1 versus 2.
+    #c. Creating a new column called 3, which is 2 divided by 1.
+    #d. Renaming the columns to one, two, and three:
+annoying <- tibble(
+  `1` = 1:10,
+  `2` = `1` * 2 + rnorm(length(`1`))
+)
+
+annoying
+#Answer:
+#a.
+annoying$`1`
+class(annoying[[1]])
+#b.
+ggplot(data = annoying, aes(x = `1`, y = `2`)) +
+  geom_point()
+#c.
+annoying <- annoying %>% mutate(`3` = `2` / `1`)
+annoying
+#d.
+annoying %>% rename(one = `1`, two = `2`, three = `3`)
