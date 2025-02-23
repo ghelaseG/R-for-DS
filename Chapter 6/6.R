@@ -17,3 +17,8 @@ getwd()
 #you can set the working directory from within R:
 
 setwd("/path/to/my/CoolProject")
+
+
+#RStudio Projects
+
+#R experts keep all the files associated with a project together - input data, R scripts, analytical results, figures.
