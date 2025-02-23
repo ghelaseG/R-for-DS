@@ -44,3 +44,37 @@ tribble(
   "a", 2, 3.6,
   "b", 1, 8.5
 )
+
+
+# Tibbles versus data.frame
+
+#there are two main differences in the usage of a tibble versus a classic data.frame: printing and subsetting.
+
+# Printing
+
+#tibbles have a refined print method that shows only the first 10 rows, and all the columns that fit on screen.
+#this makes it much easier to work with large data.
+#in addition, each column reports its type.
+
+tibble(
+  a = lubridate::now() + runif(1e3) * 86400,
+  b = lubridate::today() + runif(1e3) * 30,
+  c = 1:1e3,
+  d = runif(1e3),
+  e = sample(letters, 1e3, replace = TRUE)
+)
+
+#you can print all the columns using width = Inf, and n for the rows
+nycflights13::flights %>%
+  print(n = 10, width = Inf)
+
+#you can also control the default print behavior by setting options:
+
+# options(tibble.print_max = n, tibble.print_min = m)
+# options(dplyr.print_min = Inf) to show all rows.
+# options(tibble.width = Inf) to always print all columns.
+
+package?tibble # use this to see a complete list of options
+
+# another option is to use view()
+nycflights13::flights %>% view()
