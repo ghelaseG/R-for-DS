@@ -138,4 +138,30 @@ fwf_cols() # Supply named arguments of paired start and end positions or column 
 
 read_csv("x,y\n1,'a,b'", quote = "'")
 
-         
+#5. Identify what is wrong with each of the following inline CSV files. What happens when you run the code?
+
+read_csv("a,b\n1,2,3\n4,5,6")
+read_csv("a,b,c\n1,2n\1,2,3,4")
+read_csv("a,b\n\"1")
+read_csv("a,b\n1,2\na,b")
+read_csv("a;b\n1;3")
+
+#Answer:
+
+read_csv("a,b\n1,2,3\n4,5,6") # here we got a missing column, and the row values are registering together
+
+read_csv("a,b,c\n1,2n\1,2,3,4") # for this we get the following:
+a b              c
+<dbl> <chr>      <dbl>
+  1     1 "2n\u0001"   234
+#this is caused by the missing value on the first row and the extra value in the second row
+
+read_csv("a,b\n\"1") #this will not identify the row value, therefore Rows: 0 Columns: 2                                                                    
+
+read_csv("a,b\n1,2\na,b") #this ones works perfectly
+
+read_csv("a;b\n1;3") #here we should of used read_csv2()
+
+
+
+
