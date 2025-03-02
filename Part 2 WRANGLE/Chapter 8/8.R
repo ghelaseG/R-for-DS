@@ -334,3 +334,22 @@ read_csv2() # reads semicolon-separated files (common in countries where , is us
 #The most common encoding used in Europe is ISO-8859-1 (also known as Latin-1), which is a standard character encoding for Western European languages and includes accented characters needed for various European languages like French, German, and Scandinavian languages. 
 #The most common encoding used in Asia is UTF-8 which is part of the Unicode standard, allowing for the representation of characters from various Asian languages like Chinese, Japanese, and Korean, making it the preferred choice for web pages and digital communication across the region. 
 
+#7. Generate the correct format string to parse each of the following dates and times:
+
+d1 <- "January 1, 2010"
+d2 <- "2015-Mar-07"
+d3 <- "06-Jun-2017"
+d4 <- c("August 19 (2015)", "July 1 (2015)")
+d5 <- "12/30/14" # Dec 30, 2014
+t1 <- "1705"
+t2 <- "11:15:10.12 PM"
+
+#Answer:
+
+parse_date(d1, "%B %d, %Y") #d1
+parse_date(d2, "%Y-%b-%d") #d2
+parse_date(d3, "%d-%b-%Y") #d3
+parse_date(d4, c("%B %d (%Y)")) #d4
+parse_date(d5, "%m/%d/%y") #d5
+parse_time(t1, "%H%M") #t1
+parse_time(t2, "%I:%M:%S %p") #t2
