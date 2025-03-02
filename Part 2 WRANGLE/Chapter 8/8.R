@@ -319,3 +319,10 @@ parse_time("20:10:01", locale = locale(time_format = "%H:%M:%S"))
 #Answer:
 
 parse_date("6 ianuarie 2025", "%d %B %Y", locale = locale("ro"))
+
+#5. What's the difference between read_csv() and read_csv2()?
+
+# Answer:
+
+read_csv() # reads comma-delimited files
+read_csv2() # reads semicolon-separated files (common in countries where , is used as the decimal place)
