@@ -313,3 +313,9 @@ parse_number("1.23", locale = locale(decimal_mark = , grouping_mark = ".")) #put
 
 parse_date("01/02/15", locale = locale(date_format = "%d/%m/%y"))
 parse_time("20:10:01", locale = locale(time_format = "%H:%M:%S"))
+
+#4. If you live outside the US, create a new locale object that encapsulates the settings for the types of files you read most commonly.
+
+#Answer:
+
+parse_date("6 ianuarie 2025", "%d %B %Y", locale = locale("ro"))
