@@ -304,3 +304,12 @@ parse_date("1 janvier 2015", "%d %B %Y", locale = locale("fr"))
 parse_number("1,23", locale = locale(decimal_mark = ",", grouping_mark = ",")) #we get this error: Error: `decimal_mark` and `grouping_mark` must be different
 parse_number("1,23", locale = locale(decimal_mark = ",", grouping_mark = )) #it is set by default to False
 parse_number("1.23", locale = locale(decimal_mark = , grouping_mark = ".")) #puts the number together
+
+#3. I didn't discuss the date_format and time_format options to locale(). What do they do? Construct an example that shows when they might be useful.
+
+#Answer:
+
+#date_format and time_format gives the default date and time formats
+
+parse_date("01/02/15", locale = locale(date_format = "%d/%m/%y"))
+parse_time("20:10:01", locale = locale(time_format = "%H:%M:%S"))
