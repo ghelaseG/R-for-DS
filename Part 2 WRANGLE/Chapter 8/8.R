@@ -288,3 +288,12 @@ parse_date("01/02/15", "%y/%m/%d")
 
 parse_date("1 janvier 2015", "%d %B %Y", locale = locale("fr"))
 
+# Exercises:
+
+#1. What are the most important arguments to locale()?
+
+# Answer:
+
+# the most important arguments to locale() are, depending on the circumstances:
+## date_names, date_format, time_format, decimal_mark, grouping_mark, tz, encoding
+
