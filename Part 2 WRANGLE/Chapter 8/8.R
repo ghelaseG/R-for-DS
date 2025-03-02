@@ -326,3 +326,11 @@ parse_date("6 ianuarie 2025", "%d %B %Y", locale = locale("ro"))
 
 read_csv() # reads comma-delimited files
 read_csv2() # reads semicolon-separated files (common in countries where , is used as the decimal place)
+
+#6. What are the most common encodings used in Europe? What are the most common encodings used in Asia? Do some googling to find out.
+
+#Answer:
+
+#The most common encoding used in Europe is ISO-8859-1 (also known as Latin-1), which is a standard character encoding for Western European languages and includes accented characters needed for various European languages like French, German, and Scandinavian languages. 
+#The most common encoding used in Asia is UTF-8 which is part of the Unicode standard, allowing for the representation of characters from various Asian languages like Chinese, Japanese, and Korean, making it the preferred choice for web pages and digital communication across the region. 
+
