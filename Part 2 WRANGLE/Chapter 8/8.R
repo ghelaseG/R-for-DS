@@ -41,4 +41,15 @@ read_csv("a,b,c\n1,2,.", na= ".") #na is used to represent missing values
 
 # Compared to Base R
 
+#for a raw speed when doing long running jobs - try data.table::fread
 
+
+#Exercises:
+
+#1. What function would you use to read a file where fields are separated with "|"?
+
+# Answer:
+
+#we use read_delim(), for example:
+
+read_delim(I("a|b\n1.0|2.0"), delim = "|")
