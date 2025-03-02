@@ -108,5 +108,15 @@ read_delim(I("a|b\n1.0|2.0"), delim = "|")
 
 #they're both identical
 
+# 3. What are the most important arguments to read_fwf()?
 
+#Answer:
+
+fwf_empty() # Guesses based on the positions of empty columns.
+
+fwf_widths() # Supply the widths of the columns.
+
+fwf_positions() # Supply paired vectors of start and end positions.
+
+fwf_cols() # Supply named arguments of paired start and end positions or column widths.
 
