@@ -162,6 +162,129 @@ read_csv("a,b\n1,2\na,b") #this ones works perfectly
 
 read_csv("a;b\n1;3") #here we should of used read_csv2()
 
+# PARSING A VECTOR
 
+#parse_*() function
+#these functions take a character vector and return a more specialized vector like a logical, integer, or date:
 
+str(parse_logical(c("TRUE", "FALSE", "NA")))
+str(parse_integer(c("1","2","3")))
+str(parse_date(c("2010-01-01", "1979-10-14")))
+
+parse_integer(c("1","231", ".", "456"), na = ".")
+#if parsing fails, the next warning will come:
+x <- parse_integer(c("123", "345", "abc", "123.45"))
+#Warning: 2 parsing failures.
+# row col               expected actual
+# 3  -- no trailing characters abc   
+# 4  -- no trailing characters 123.45
+x
+# attr(,"problems")
+# # A tibble: 2 × 4
+# row   col expected               actual
+# <int> <int> <chr>                  <chr> 
+#   1     3    NA no trailing characters abc   
+# 2     4    NA no trailing characters 123.45
+
+#if there are many parsing failures, you can use problems() to see the complete set
+problems(x)
+
+#there are 8 important parsers:
+
+# parse_logical() and parse_integer() 
+# parse_double() - is a strict numeric parser
+# parse_number() - flexible numeric parser (those are more complicated, because different parts of the world write numbers in different ways)
+# parse_character() - you can encounter character encodings
+# parse_factor() - creates factors, the data structure that R uses to represent categorical variables with fixed and known values
+# parse_datetime(), parse_date(), parse_time()
+
+# NUMBERS
+
+# some countries use . in between the integer while others use ,
+
+parse_double("1.23")
+#you can override the default value of . by creating a new locale
+parse_double("1,23", locale = locale(decimal_mark = ","))
+
+# parse_number() ignores non-numeric characters
+parse_number("$100")
+parse_number("20%")
+parse_number("It cost $123.45")
+
+#we can use parse_number() in combination with locale
+parse_number("$123,456,789") #used in America
+parse_number(
+  "123.456.789",
+  locale = locale(grouping_mark = ".")) #used in many parts of Europe
+parse_number("123'456'789", locale = locale(grouping_mark = "'")) #used in Switzerland
+
+# STRINGS
+
+charToRaw("George") #getting the underlying representation of a string
+#each hexadecimal represent a byte of information
+#the mapping from hexadecimal number to character is called the encoding, ASCII.
+#two common encodings are Latin1(W European) and Latin2(E European)
+#UTF-8 can encode just about every character used by humans today, even emoji!
+
+x1 <- "El Ni\xf1o was particularly bad this year"
+x2 <- "\x82\xb1\x82\xf1\x82\xc9\x82\xbf\x82\xcd"
+
+#to fix this you need to specify the encoding:
+parse_character(x1, locale = locale(encoding = "Latin1"))
+parse_character(x2, locale = locale(encoding = "Shift-JIS"))
+
+#if you can't find the correct encoding, guess_encoding() can be used to help you figure it out; this works better when you have lots of text
+guess_encoding(charToRaw(x1))
+guess_encoding(charToRaw(x2))
+
+#FACTORS
+
+fruit <- c("apple", "banana")
+parse_factor(c("apple", "banana", "bananana"), levels = fruit)
+
+#DATES, DATE-TIME, AND TIMES
+
+parse_datetime("2010-10-01T2010")
+parse_datetime("20101010")
+#parse_datetime expects an ISO8601
+
+parse_date("2010-10-01") - year, month, day
+
+library(hms)
+parse_time("01:10 am")
+parse_time("20:10:01")
+
+#Year
+%Y (4 digits)
+%y (2 digits)
+
+#Month
+%m (2 digits)
+%b (abbreviated name, like "Jan")
+%B (full name, "January")
+
+#Day
+%d (2 digits)
+%e (optional leading space)
+
+#Time
+%H (0-23 hour)
+%I (0-12, used with %p)
+%p (a.m./p.m indicator)
+%M (minutes)
+%S (integer seconds)
+%OS (real seconds)
+%Z (time zone)
+%z (as offset from UTC)
+
+#Non digits
+%. (skips one nondigit character)
+%* (skips any number of nondigits)
+
+#examples:
+parse_date("01/02/15", "%m/%d/%y")
+parse_date("01/02/15", "%d/%m/%y")
+parse_date("01/02/15", "%y/%m/%d")
+
+parse_date("1 janvier 2015", "%d %B %Y", locale = locale("fr"))
 
