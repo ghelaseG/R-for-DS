@@ -53,3 +53,60 @@ read_csv("a,b,c\n1,2,.", na= ".") #na is used to represent missing values
 #we use read_delim(), for example:
 
 read_delim(I("a|b\n1.0|2.0"), delim = "|")
+
+#2. Apart from file, skip, and comment, what other arguments do read_csv() and read_tsv() have in common?
+
+#Answer:
+
+#read_csv(
+# file,
+# col_names = TRUE,
+# col_types = NULL,
+# col_select = NULL,
+# id = NULL,
+# locale = default_locale(),
+# na = c("", "NA"),
+# quoted_na = TRUE,
+# quote = "\"",
+# comment = "",
+# trim_ws = TRUE,
+# skip = 0,
+# n_max = Inf,
+# guess_max = min(1000, n_max),
+# name_repair = "unique",
+# num_threads = readr_threads(),
+# progress = show_progress(),
+# show_col_types = should_show_types(),
+# skip_empty_rows = TRUE,
+# lazy = should_read_lazy()
+# )
+
+# and
+
+# read_tsv(
+#   file,
+#   col_names = TRUE,
+#   col_types = NULL,
+#   col_select = NULL,
+#   id = NULL,
+#   locale = default_locale(),
+#   na = c("", "NA"),
+#   quoted_na = TRUE,
+#   quote = "\"",
+#   comment = "",
+#   trim_ws = TRUE,
+#   skip = 0,
+#   n_max = Inf,
+#   guess_max = min(1000, n_max),
+#   progress = show_progress(),
+#   name_repair = "unique",
+#   num_threads = readr_threads(),
+#   show_col_types = should_show_types(),
+#   skip_empty_rows = TRUE,
+#   lazy = should_read_lazy()
+# )
+
+#they're both identical
+
+
+
