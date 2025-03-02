@@ -120,3 +120,22 @@ fwf_positions() # Supply paired vectors of start and end positions.
 
 fwf_cols() # Supply named arguments of paired start and end positions or column widths.
 
+#4. Sometimes strings in a CSV file contain commas. To prevent them from causing problems they need to be surrounded by a quoting character, like " or '. By convention, read_csv() assumes that the quoting character will be ". and if you want to change it you'll need to use read_delim() instead. What arguments do you need to specify to read the following text into a data frame?
+
+"x,y\n1,'a,b'"
+
+#Answer:
+
+# data <- read_csv("x,y\n1,'a,b'")
+# read_csv(I("x,y\n1,'a,b'"))
+# problems(data)
+# data
+# 
+# read_fwf("x,y\n1,'a,b'", fwf_widths(c(1,6)))
+# 
+# read_delim("x,y\n1,'a,b'", skip = 1)
+# after many attempts I managed to do it:
+
+read_csv("x,y\n1,'a,b'", quote = "'")
+
+         
