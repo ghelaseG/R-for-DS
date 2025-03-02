@@ -297,3 +297,10 @@ parse_date("1 janvier 2015", "%d %B %Y", locale = locale("fr"))
 # the most important arguments to locale() are, depending on the circumstances:
 ## date_names, date_format, time_format, decimal_mark, grouping_mark, tz, encoding
 
+#2. What happens if you try and set decimal_mark and grouping_mark to the same character? What happens to the default value of grouping_mark when you set decimal_mark to ","? What happens to the default value of decimal_mark when you set the grouping_mark to "."?
+
+#Answer:
+
+parse_number("1,23", locale = locale(decimal_mark = ",", grouping_mark = ",")) #we get this error: Error: `decimal_mark` and `grouping_mark` must be different
+parse_number("1,23", locale = locale(decimal_mark = ",", grouping_mark = )) #it is set by default to False
+parse_number("1.23", locale = locale(decimal_mark = , grouping_mark = ".")) #puts the number together
