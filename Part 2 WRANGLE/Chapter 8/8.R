@@ -441,4 +441,34 @@ type_convert(df) #note the column type
 # use read_lines() if you have major parsing problems
 # use read_file() if the length is 1
 
-# Writing to a File
+#WRITING TO a FILE
+
+#write_csv() and write_tsv() (using UTF-8 and ISO8601 for date-time)
+#write_excel_csv() - to export a csv to excel
+
+write_csv(challenge, "challenge.csv")
+challenge
+
+write_csv(challenge, "challenge-2.csv")
+read_csv("challenge-2.csv")
+
+#to store data in R's custom binary format, use:
+#write_rds() and read_rds()
+
+library(feather)
+#install.packages("feather")
+
+#this can be used across programming languages
+write_feather(challenge, "challenge.feather")
+read_feather("challenge.feather")
+
+#for rectangular data, you can use:
+#haven -reads spss, stata and sas files
+#readxl - read excel files .xls and .xlsx
+#DBI along with RMySQL, RSQLite, RPostgresSQL - run sql queries
+
+#for hierarchical data use jsonlite for JSON and xml2 for XML
+
+#for other file types: https://cran.r-project.org/doc/manuals/r-release/R-data.html
+
+# rio package: https://github.com/leeper/rio.db
