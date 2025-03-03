@@ -353,3 +353,92 @@ parse_date(d4, c("%B %d (%Y)")) #d4
 parse_date(d5, "%m/%d/%y") #d5
 parse_time(t1, "%H%M") #t1
 parse_time(t2, "%I:%M:%S %p") #t2
+
+
+# PARSING A FILE
+
+guess_parser("2010-10-01")
+guess_parser("15:01")
+guess_parser(c("TRUE", "FALSE"))
+guess_parser(c("1", "5", "9"))
+guess_parser(c("12,352,561"))
+
+str(parse_guess("2010-10-10"))
+
+#the heuristic tries each type:
+
+# logical - contains only F, T, FALSE, or TRUE
+# integer - contains only numeric characters (and -)
+# double - contains only valid doubles (including nr like 4.5e-5)
+# number - contains valid doubles with the grouping mark inside
+# time - matches the default time_format
+# date - matches the default date_format
+# date-time - any ISO8601 date
+
+# Problems: these defaults don't always work for larger files, for example depdens on the first 1000 rows.
+
+challenge <- read_csv(readr_example("challenge.csv"))
+problems(challenge)
+
+challenge <- read_csv(
+  readr_example("challenge.csv"),
+  col_types = cols(
+    x = col_integer(),
+    y = col_character()
+  )
+)
+
+challenge <- read_csv(
+  readr_example("challenge.csv"),
+  col_types = cols(
+    x = col_double(),
+    y = col_character()
+  )
+) #this block of code will fix the first problem
+
+tail(challenge)
+
+#we can specify that y is a date column:
+challenge <- read_csv(
+  readr_example("challenge.csv"),
+  col_types = cols(
+    x = col_double(),
+    y = col_date()
+  )
+)
+tail(challenge)
+
+# use parse_xyz when the data is in a character vector
+# use col_xyz when you want to tell readr how to load the data
+# use stop_for_problems() when you want to be really strict (will throw an error and stop your script if there are any parsing problems)
+
+#Other strategies
+
+challenge2 <- read_csv(
+  readr_example("challenge.csv"),
+  guess_max = 1001
+)
+spec(challenge2)
+
+#you can diagnose problems if you just read in all the columns as character vectors:
+challenge2 <- read_csv(readr_example("challenge.csv"),
+                       col_types = cols(.default = col_character()))
+challenge2
+
+#this is useful with type_convert()
+
+df <- tribble(
+  ~x, ~y,
+  "1", "1.21",
+  "2", "2.32",
+  "3", "4.56"
+)
+df
+type_convert(df) #note the column type
+
+#if reading a large file, you can set n_max to a smaller number
+
+# use read_lines() if you have major parsing problems
+# use read_file() if the length is 1
+
+# Writing to a File
