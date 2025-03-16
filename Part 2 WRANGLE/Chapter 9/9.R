@@ -8,3 +8,31 @@
 
 # useful videos: https://www.youtube.com/watch?v=xrrWLKRfZWY&list=PLu6UwBFCnlEc7m2aK-AGfLLM-auJ5K3i5&ab_channel=StatisticsGlobe and https://www.youtube.com/watch?v=pLg-Bf_ppSU&ab_channel=DataWithinReach
 
+library(tidyverse)
+
+#the following shows the same data organised in 4 different ways
+table1
+table2
+table3
+table4a
+table4b
+
+#there are 3 rules which makes a dataset tidy:
+# 1. each variable must have its own column
+# 2. each observation must have its own row
+# 3. each value must have its own cell
+
+#view: https://ismayc.github.io/moderndiver-book/4-tidy.html
+
+#these three rules are interrelated because it's impossible to only satisfy two of the three.
+
+#in our example, only table1 is tidy.
+table1 %>% 
+  mutate(rate = cases / population * 10000)
+
+table1 %>%
+  count(year, wt = cases)
+
+library(ggplot2)
+ggplot(table1, aes(year, cases)) +
+  
