@@ -49,3 +49,7 @@ ggplot(table1, aes(year, cases)) +
   #d. Store back in the appropriate place.
 
 #3. Re-create the plot showing change in cases over time using table2 instead of table1. What do you need to do first?
+
+# SPREADING AND GATHERING
+
+#starting to learn R part 2
