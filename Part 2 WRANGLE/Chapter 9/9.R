@@ -42,6 +42,27 @@ ggplot(table1, aes(year, cases)) +
 
 #1. Using prose, describe how the variables and observations are organised in each of the sample tables.
 
+library(tidyverse)
+
+#sample table 1
+table1
+##in table 1, every observation is presented in rows, and the variables has it's own name in the column
+###EXP: if measuring height, the height of an individual is an observation, and "height" is the variable. 
+
+#sample table 2
+table2
+##in table 2, each observation has it's own row, including the country name, the year, the type (cases or population) and the count value, whereas the variable has it's own name in column (country, year, type, count)
+
+#sample table 3
+table3
+##in table 3, we got a new variable name (column name) - rate. this is merged from the type of cases and population
+
+#sample table 4
+table4a
+table4b
+##in table 4, cases and population are represented in separate tables
+
+
 #2. Compute the rate for table2, and table 41 + tabl4b. You will need to perform four operations:
   #a. Extract the number of TB cases per country per year.
   #b. Extract the matching population per country per year.
@@ -51,5 +72,4 @@ ggplot(table1, aes(year, cases)) +
 #3. Re-create the plot showing change in cases over time using table2 instead of table1. What do you need to do first?
 
 # SPREADING AND GATHERING
-
 #starting to learn R part 2
