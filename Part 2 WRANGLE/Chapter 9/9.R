@@ -66,7 +66,9 @@ table4b
 #2. Compute the rate for table2, and table 4a + table4b. You will need to perform four operations:
   #a. Extract the number of TB cases per country per year.
 table2_cases <- filter(table2, type == "cases") %>% arrange(country, year)
-  #b. Extract the matching population per country per year.
+table2_cases
+  #b. Extract the matching population per country per year
+filter(table2, type == "population") %>% arrange(country, year)
   #c. Divide cases by population, and multiply by 10,000.
   #d. Store back in the appropriate place.
 
