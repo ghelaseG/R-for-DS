@@ -65,11 +65,17 @@ table4b
 
 #2. Compute the rate for table2, and table 4a + table4b. You will need to perform four operations:
   #a. Extract the number of TB cases per country per year.
-table2_cases <- filter(table2, type == "cases") %>% arrange(country, year)
+table2_cases <- filter(table2, type == "cases") %>% rename(cases = count) %>% arrange(country, year)
 table2_cases
   #b. Extract the matching population per country per year
-filter(table2, type == "population") %>% arrange(country, year)
+table2_population <- filter(table2, type == "population") %>% rename(population = count) %>% arrange(country, year)
+table2_population
   #c. Divide cases by population, and multiply by 10,000.
+tb_division <- tibble(year = table2_cases$country,
+                      country = table2_cases$year,
+                      cases = table2_cases$cases,
+                      population = table2_population$population) %>% mutate(cases_part2 = (cases / population) * 10000) %>% select(country, year, cases_part2)
+
   #d. Store back in the appropriate place.
 
 #3. Re-create the plot showing change in cases over time using table2 instead of table1. What do you need to do first?
