@@ -79,6 +79,13 @@ tb_division
   #d. Store back in the appropriate place.
 tb_division <- tb_division %>% mutate(type = "cases_part2") %>% rename(count = cases_part2)
 tb_division
+
+#for table 4:
+
+table4N <- tibble(country = table4a$country,
+                  `1999` = table4a[["1999"]] / table4b[["1999"]] * 10000,
+                  `2000` = table4a[["2000"]] / table4b[["2000"]] * 10000)
+table4N
 #3. Re-create the plot showing change in cases over time using table2 instead of table1. What do you need to do first?
 
 # SPREADING AND GATHERING
