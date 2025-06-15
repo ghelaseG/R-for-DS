@@ -87,6 +87,11 @@ table4N <- tibble(country = table4a$country,
                   `2000` = table4a[["2000"]] / table4b[["2000"]] * 10000)
 table4N
 #3. Re-create the plot showing change in cases over time using table2 instead of table1. What do you need to do first?
+# table2 %>% count(year, wt = type == 'cases')
+library(ggplot2)
+table2_cases
+# ggplot(table2_cases)
+table2 %>% filter(type == "cases") %>% ggplot(aes(year, count)) + geom_line(aes(group = country), colour = "grey50") + geom_point(aes(color = country)) + scale_x_continuous(breaks = unique(table2$year)) + ylab("cases")
 
 # SPREADING AND GATHERING
 #starting to learn R part 2
