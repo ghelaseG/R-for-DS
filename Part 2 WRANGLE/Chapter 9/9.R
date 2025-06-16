@@ -93,5 +93,23 @@ table2_cases
 # ggplot(table2_cases)
 table2 %>% filter(type == "cases") %>% ggplot(aes(year, count)) + geom_line(aes(group = country), colour = "grey50") + geom_point(aes(color = country)) + scale_x_continuous(breaks = unique(table2$year)) + ylab("cases")
 
+#two common problems:
+##one variable might be spread across multiple columns.
+##one observation might be scattered across multiple rows.
+
+#to fix these prolems, you'll need the function gather() and spread()
+
 # SPREADING AND GATHERING
-#starting to learn R part 2
+
+#one common problem, is the cikumn name are not names of variables, for exp table4a
+table4a
+
+#fixing the table, gathering those columns into a new pair of variables
+
+tidy4a <- table4a %>% gather('1999', '2000', key = "year", value = "cases")
+
+tidy4b <- table4b %>% gather('1999', '2000', key = "year", value = "population")
+
+# to combine those 2 table, we can use dplyr::left_join()
+
+left_join(tidy4a, tidy4b)
