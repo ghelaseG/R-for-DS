@@ -99,7 +99,7 @@ table2 %>% filter(type == "cases") %>% ggplot(aes(year, count)) + geom_line(aes(
 
 #to fix these prolems, you'll need the function gather() and spread()
 
-# SPREADING AND GATHERING
+# GATHERING
 
 #one common problem, is the cikumn name are not names of variables, for exp table4a
 table4a
@@ -113,3 +113,12 @@ tidy4b <- table4b %>% gather('1999', '2000', key = "year", value = "population")
 # to combine those 2 table, we can use dplyr::left_join()
 
 left_join(tidy4a, tidy4b)
+
+# SPREADING  
+
+#spreading is the opposite of gathering, use this when an observation is scattered across multiple rows
+
+# for table2 we can do the following:
+spread(table2, key = type, value = count)
+
+table2
