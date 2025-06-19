@@ -146,3 +146,22 @@ stocks %>%
 
 ## ?gather: "convert - If TRUE will automatically run type.convert() on the key column. This is useful if the column types are actually numeric, integer, or logical."
 
+#2. Why does this code fail?
+
+table4a %>%
+  gather(1999, 2000, key = "year", value = "cases")
+
+
+#3. Why does spreading this tibble fail? How could you add a new column to fix the problem?
+
+table4a <- tribble(
+  ~name,                ~key,           ~value,
+  #---------------------/---------------/-----
+  "Phillip Woods",       "age",          45,
+  "Phillip Woods",       "height",       186,
+  "Phillip Woods",       "age",          50,
+  "Jessica Cordero",     "age",          37,
+  "Jessica Cordero",     "height",       156
+)
+table4a
+
