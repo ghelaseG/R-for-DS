@@ -135,5 +135,10 @@ stocks %>%
   spread(year, return) %>%
   gather("year", "return", `2015`:`2016`)
 
+#Hint: look at the variable types and think about column names
+##Both spread() and gather() have a convert argument. What does it do?
 
-)
+# Answer:
+
+## are not symmetrical because, because the type of key for year becomes character.
+## the convert argument will help change the key column type.
