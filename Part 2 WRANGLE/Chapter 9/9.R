@@ -140,5 +140,9 @@ stocks %>%
 
 # Answer:
 
-## are not symmetrical because, because the type of key for year becomes character.
+## are not symmetrical, because the type of key for year becomes character.
+
 ## the convert argument will help change the key column type.
+
+## ?gather: "convert - If TRUE will automatically run type.convert() on the key column. This is useful if the column types are actually numeric, integer, or logical."
+
