@@ -151,6 +151,12 @@ stocks %>%
 table4a %>%
   gather(1999, 2000, key = "year", value = "cases")
 
+#Answer:
+#we need the quotation marks on the year
+
+table4a %>%
+  gather("1999", "2000", key = "year", value = "cases")
+
 
 #3. Why does spreading this tibble fail? How could you add a new column to fix the problem?
 
