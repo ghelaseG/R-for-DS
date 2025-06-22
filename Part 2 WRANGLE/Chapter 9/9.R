@@ -171,3 +171,16 @@ table4a <- tribble(
 )
 table4a
 
+#4. Tidy this simple tibble. Do you need to spread or gather it? What are the variables?
+
+preg <- tribble(
+  ~pregnant, ~male, ~female,
+  "yes",      NA,   10,
+  "na",       20,   12
+)
+
+#Answer:
+#need to gather gender
+
+preg %>% gather(male, female, key="gender", value="number")
+
