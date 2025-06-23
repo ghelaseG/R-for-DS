@@ -184,3 +184,16 @@ preg <- tribble(
 
 preg %>% gather(male, female, key="gender", value="number")
 
+
+##Separating and Pull
+
+#here we learn how to tidy table3 using separate() function
+
+#for exp:
+table3
+
+#we can use separate for the rate column
+table3 %>% separate(rate, into = c("cases", "population"))
+
+#we could also rewrite this:
+table3 %>% separate(rate, into = c("cases", "population"), sep = "/")
