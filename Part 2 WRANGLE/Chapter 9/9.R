@@ -276,3 +276,6 @@ tibble(x = c("G1", "G2", "G3", "G4")) %>%
 
 tibble(x = c("G_1", "G_2", "BB_1", "BB_2")) %>%
   extract(x, c("variable", "id"), regex = "([A-Z])_([0-9])")
+
+tibble(variable = c("X", "X", "Y", "Y"), id = c(1,2,1,2)) %>%
+  unite(x, variable, id, sep = "_")
