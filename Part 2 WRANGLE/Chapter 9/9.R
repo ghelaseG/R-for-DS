@@ -256,6 +256,23 @@ tibble(x = c("a,b,c", "d,e", "f,g,i")) %>%
   separate(x, c("one", "two", "three"), fill = "right")
 
 
-#2. Both unite() and separate() have a remove argument. What does it do? Why would you se it to FALSE?
+#2. Both unite() and separate() have a remove argument. What does it do? Why would you set it to FALSE?
 #Answer: 
-#remove	: If TRUE, remove input column from output data frame.
+#remove	: If TRUE, remove input column from output data frame, if FALSE creates a new column.
+tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>%
+  separate(x, c("one", "two", 'three'), extra = "merge", remove = FALSE)
+
+tibble(x = c("a,b,c", "d,e", "f,g,i")) %>%
+  separate(x, c("one", "two", "three"), fill = "right",  remove = FALSE)
+
+#3. Compare and contrast separate() and extract(). Why are there three variations of separation (by position, by separator, and with groups), but only one unite?
+#Answer:
+#extract function: "Extract a character column into multiple columns using regular expression groups"
+#separate function: "Separate a character column into multiple columns with a regular expression or numeric locations"
+
+#example:
+tibble(x = c("G1", "G2", "G3", "G4")) %>%
+  separate(x, c("variable", "into"), sep = c(1))
+
+tibble(x = c("G_1", "G_2", "BB_1", "BB_2")) %>%
+  extract(x, c("variable", "id"), regex = "([A-Z])_([0-9])")
