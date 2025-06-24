@@ -221,3 +221,36 @@ table5 %>% unite(new, century, year)
 #to fix this we need to use sep
 
 table5 %>% unite(new, century, year, sep = "")
+
+
+#Exercises:
+
+#1. What do the extra and fill arguments do in separate()? Experiment with the various options for the following two toy datasets:
+
+tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>%
+  separate(x, c("one", "two", 'three'))
+
+tibble(x = c("a,b,c", "d,e", "f,g,i")) %>%
+  separate(x, c("one", "two", "three"))
+
+#Answer:
+#using in the terminal ?separate: we can see that:
+
+##extra	 If sep is a character vector, this controls what happens when there are too many pieces. There are three valid options:
+#"warn" (the default): emit a warning and drop extra values.
+#"drop": drop any extra values without a warning.
+#"merge": only splits at most length(into) times
+
+#fill	
+#If sep is a character vector, this controls what happens when there are not enough pieces. There are three valid options:
+#"warn" (the default): emit a warning and fill from the right
+#"right": fill with missing values on the right
+#"left": fill with missing values on the left
+
+#for the first example we use extra:
+tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>%
+  separate(x, c("one", "two", 'three'), extra = "merge")
+
+#second exp, using fill:
+tibble(x = c("a,b,c", "d,e", "f,g,i")) %>%
+  separate(x, c("one", "two", "three"), fill = "right")
