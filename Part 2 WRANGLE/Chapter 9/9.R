@@ -254,3 +254,8 @@ tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>%
 #second exp, using fill:
 tibble(x = c("a,b,c", "d,e", "f,g,i")) %>%
   separate(x, c("one", "two", "three"), fill = "right")
+
+
+#2. Both unite() and separate() have a remove argument. What does it do? Why would you se it to FALSE?
+#Answer: 
+#remove	: If TRUE, remove input column from output data frame.
