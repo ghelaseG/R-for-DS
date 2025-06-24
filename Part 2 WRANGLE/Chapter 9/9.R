@@ -197,3 +197,18 @@ table3 %>% separate(rate, into = c("cases", "population"))
 
 #we could also rewrite this:
 table3 %>% separate(rate, into = c("cases", "population"), sep = "/")
+
+class(table3$rate)
+
+#separate default column type is character, to convert this we can use:
+
+table3 %>% separate(
+  rate,
+  into = c("cases", "population"),
+  convert = TRUE
+)
+
+#another example:
+table3 %>% 
+  separate(year, into = c("century", "year"), sep = 2)
+
