@@ -212,3 +212,12 @@ table3 %>% separate(
 table3 %>% 
   separate(year, into = c("century", "year"), sep = 2)
 
+## UNITE
+
+#unite is the inverse of separate(): combines multiple columns into single column
+
+table5 %>% unite(new, century, year)
+
+#to fix this we need to use sep
+
+table5 %>% unite(new, century, year, sep = "")
