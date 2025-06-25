@@ -339,3 +339,29 @@ df %>%
     fill = list(value1 = 0, value2 = 99)
   )
 
+#2. What does the direction argument to fill() do?
+
+#Answer:
+
+?fill
+#.direction: Direction in which to fill missing values. Currently either "down" (the default), "up", "downup" (i.e. first down and then up) or "updown" (first up and then down).
+
+tidy_pets <- tibble::tribble(
+  ~rank, ~pet_type, ~breed,
+  1L,        NA,    "Boston Terrier",
+  2L,        NA,    "Retrievers (Labrador)",
+  3L,        NA,    "Retrievers (Golden)",
+  4L,        NA,    "French Bulldogs",
+  5L,        NA,    "Bulldogs",
+  6L,     "Dog",    "Beagles",
+  1L,        NA,    "Persian",
+  2L,        NA,    "Maine Coon",
+  3L,        NA,    "Ragdoll",
+  4L,        NA,    "Exotic",
+  5L,        NA,    "Siamese",
+  6L,     "Cat",    "American Short"
+)
+
+tidy_pets %>%
+  fill(pet_type, .direction = "up")
+
