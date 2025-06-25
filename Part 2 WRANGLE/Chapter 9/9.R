@@ -432,4 +432,72 @@ who %>%
       separate(code, c("new", "var", "sexage")) %>%
       select(-new, -iso2, -iso3) %>%
       separate(sexage, c("sex", "age"), sep = 1)
-  
+
+#Exercises:
+
+#1. In this case study 1 set na.rm = TRUE just to make it easier to check that we had the correct values. Is this reasonable? Think about how missing values are represented in this dataset. Are there implicit missing values? What's the difference between an NA and zero?
+
+#Answer:
+
+#Yes it is, because we have data only for certain age, location etc. I believe there are implicit missing values, and the difference is that na is missing and zero is the value zero.
+
+#2. What happens if you neglect the mutate() step? (mutate(key = stringr::str_replace(key, "newrel", "new_rel"))).
+
+#Answer:
+
+#if we neglect the mutate step, for the values that starts with newrel, we couldn't separate straight away, and we had to right a different block of code.
+
+
+#3. I claimed that iso2 and iso3 were redundant with country. Confirm this claim.
+
+#Answer:
+
+#yes, because these are the country codes.
+
+#4. For each country, year, and sex compute the total number of cases of TB. Make an informative visualisation of the data.
+
+#Answer:
+
+who99 <- who %>%
+  gather(code, value, new_sp_m014:newrel_f65, na.rm = TRUE) %>%
+  mutate(
+  code = stringr::str_replace(code, "newrel", "new_rel")) %>%
+  separate(code, c("new", "var", "sexage")) %>%
+  select(-new, -iso2, -iso3) %>%
+  separate(sexage, c("sex", "age"), sep = 1)
+view(who99)
+
+who_count <- who99 %>% count(country, year, wt=value)
+colnames(who_count)[3] <- "total_nr_TB"
+view(who_count)
+
+#1st trial FAIL
+
+# library(ggplot2)
+# library(ggExtra)
+# ?ggExtra
+# 
+# myvis <- ggplot(who_count, aes(x = year, y = country, color = total_nr_TB, size = total_nr_TB)) +
+#   geom_point() +
+#   theme(legend.position ="none")
+# myvis1 <- ggMarginal(myvis, type = "histogram")
+# myvis1
+
+
+#2nd TRIAL (this works if we zoom out)
+
+ggplot(who_count, aes(year, country, color = total_nr_TB)) +
+  geom_bar(stat = "identity")
+
+#3rd trial: something interactive :D
+
+library(ggplot2)
+library(plotly)
+view(who_count)
+interactive <- who_count %>% ggplot(aes(total_nr_TB, year, size = total_nr_TB, colour = country)) +
+  geom_point() +
+  theme_bw()
+
+ggplotly(interactive)
+
+#nice website to try : https://r-graph-gallery.com/
