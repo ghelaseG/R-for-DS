@@ -279,3 +279,63 @@ tibble(x = c("G_1", "G_2", "BB_1", "BB_2")) %>%
 
 tibble(variable = c("X", "X", "Y", "Y"), id = c(1,2,1,2)) %>%
   unite(x, variable, id, sep = "_")
+
+## Missing values
+
+#there are 2 types of missing values: explicit and implicit, these differ from one another, as the first one is represented by NA and the other as missing data.
+
+#for example:
+
+stocks <- tibble(
+  year    = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+  qtr     = c(   1,    2,    3,    4,    2,    3,    4),
+  return  = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66)
+)
+stocks
+
+stocks %>% spread(year, return)
+
+stocks %>% spread(year, return) %>%
+  gather(year, return, '2015':'2016', na.rm = TRUE)
+
+#using complete
+stocks %>% complete(year, qtr)
+
+#if you want the missing value to be carried forward:
+treatment <- tribble(
+  ~ person,            ~ treatment,  ~ response,
+  "Derrick Whitmore",  1,            7,
+  NA,                  2,            10,
+  NA,                  3,            9,
+  "Katherine Burke",   1,            4
+)
+
+#we can use fill() - this operation carry forward the last observation.
+
+treatment %>%
+  fill(person)
+
+#Exercises:
+
+#1. Compare and contrast the fill arguments to spread() and complete().
+
+#Answer:
+
+?spread
+# fill argument: If set, missing values will be replaced with this value. Note that there are two types of missingness in the input: explicit missing values (i.e. NA), and implicit missings, rows that simply aren't present. Both types of missing value will be replaced by fill.
+?complete
+# fill argument: A named list that for each variable supplies a single value to use instead of NA for missing combinations.
+df <- tibble(
+  group = c(1:2, 1, 2),
+  item_id = c(1:2, 2, 3),
+  item_name = c("a", "a", "b", "b"),
+  value1 = c(1, NA, 3, 4),
+  value2 = 4:7
+)
+df %>%
+  complete(
+    group,
+    nesting(item_id, item_name),
+    fill = list(value1 = 0, value2 = 99)
+  )
+
