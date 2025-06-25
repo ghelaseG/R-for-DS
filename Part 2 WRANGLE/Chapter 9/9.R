@@ -365,3 +365,71 @@ tidy_pets <- tibble::tribble(
 tidy_pets %>%
   fill(pet_type, .direction = "up")
 
+#CASE STUDY
+
+tidyr::who
+
+view(who)
+#our dataset contains redundant columns, odd variable codes, and many missing values.
+
+#the best place to start is almost always to gather together the columns that are not variables.
+
+#country, iso2 and 3 specify the country
+#year is a variable too
+#as we got 60 variables(columns) starting at new_sp_m014 all the way to newrel_f65, it is most likely introduced as values
+
+#we're going to gather together all the columns that we think are values, this includes the count of cases
+#with the missing values, we use na.rm for now.
+
+who1 <- who %>% 
+  gather(
+    new_sp_m014:newrel_f65, key = "key",
+    value = "cases",
+    na.rm = TRUE
+  )
+who1
+
+#we can count the new columns that we think there are values
+
+who1 %>% count(key)
+
+#using the data dictionary, we understand that the first 3 letters, means the type of TB, new / old
+#the next 2 letters: rel stands for cases of relapse, ep = extrapulmonary, etc...
+#the 3rd letter gives the sex of the patients
+#the remaining, is the age group
+
+#the names of the variables are inconsistent, instead of new_rel we got newrel
+who2 <- who1 %>% mutate(key = stringr::str_replace(key, "newrel", "new_rel"))
+view(who2)
+
+#we can separate the values in each code with two passes of separate()
+who3 <- who2 %>%
+  separate(key, c("new", "type", "sexage"), sep = "_")
+who3
+
+#we can alos remove the column "new", iso2 and 3
+
+who3 %>%
+  count(new)
+
+who4 <- who3 %>%
+  select(-new, -iso2, -iso3)
+who4
+
+who5 <- who4 %>% 
+  separate(sexage, c("sex", "age"), sep = 1)
+who5
+?separate
+
+#now the dataset is tidy
+
+#to integrate this into a complex pipe, we could of:
+?stringr
+who %>%
+  gather(code, value, new_sp_m014:newrel_f65, na.rm = TRUE) %>%
+  mutate(
+    code = stringr::str_replace(code, "newrel", "new_rel")) %>%
+      separate(code, c("new", "var", "sexage")) %>%
+      select(-new, -iso2, -iso3) %>%
+      separate(sexage, c("sex", "age"), sep = 1)
+  
