@@ -37,7 +37,26 @@ weather
 #Answer:
 
 #I would combine flights with the airports via the origin and destination variables.
+#we can try to make a plot:
+flights_edited <- flights %>%
+  inner_join(select(airports, origin = faa, origin_lat = lat, origin_lon = lon),
+             by = "origin") %>%
+  inner_join(select(airports, dest = faa, dest_lat = lat, dest_lon = lon),
+             by = "dest")
 
+#we choose the first 100 flights in the next plot
+flights_edited %>% slice(1:100) %>% ggplot(aes(
+  x = origin_lon, xend = dest_lon,
+  y = origin_lat, yend = dest_lat
+)) +
+  borders("state") +
+  geom_segment(arrow = arrow(length = unit(0.1, "cm"))) +
+  coord_quickmap() +
+  labs(y = "Latitude", x = "Longitude")
+
+
+?borders
+?coord_quickmap
 #2. I forgot to draw the relationship between weather and airports. What is the relationship and how should it appear in the diagram?
 
 #Answer:
@@ -63,3 +82,83 @@ special <- tribble(
 )
 
 #primary key will be year,month,day and we can use the variable special_day to join in other data frames.
+
+
+## KEYS
+
+#there are 2 types of keys:
+#1. primary key: uniquely identifies an observation in its own table.
+#2. foreign key: uniquely identifies an observation in another table.
+
+#a variable can be both a primary key and a foreign key, for exp:origin is a primary key in the weather data, and foreign key in the airport table.
+
+planes %>%
+  count(tailnum) %>%
+  filter(n > 1)
+weather %>%
+  count(year, month, day, hour, origin) %>%
+  filter(n >1)
+#in our data there's a many to many relationship between airlines and airports.
+
+#Exercises:
+
+#1. Add a surrogate key to flights.
+
+#Answer:
+# "if a table lacks a primary key, it's sometimes useful to add one with mutate() and row_number(). That makes it easier to match observations (surrogate key)" - source book
+# "A surrogate key is a unique, system-generated identifier added to a database table to serve as the primary key" - source Google
+# "A surrogate key in a database is a unique identifier for either an entity in the modeled world or an object in the database" - source Wikipedia
+
+#?glimpse - we use glimpse to see all the columns
+?row_number
+flights %>%
+  arrange(year, month, day, sched_dep_time, carrier, flight) %>%
+  mutate(flight_nr = row_number()) %>%
+  glimpse()
+
+#2. Identify the keys in the following datasets:
+#a. Lahman::Batting
+#b. babynames::babynames
+#c. nasaweather::atmos
+#d. fueleconomy::vehicles
+#e. ggplot2::diamonds
+#(you might need to install some packages and read some documentation.)
+
+#Answer:
+
+#a.
+view(Lahman::Batting)
+#in order to understand the keys, we need to know more about the database, you can find more info here: https://cran.r-project.org/web/packages/Lahman/Lahman.pdf
+Lahman::Batting %>%
+  count(playerID, yearID, stint) %>%
+  filter(n > 1)
+#stint - player’s stint (order of appearances within a season)
+
+#b.
+babynames::babynames %>%
+  count(year, sex, name) %>%
+  filter(n > 1) %>%
+  nrow()
+#install.packages("babynames")
+
+#c.
+nasaweather::atmos %>%
+  count(lat, long, year, month) %>%
+  filter(n > 1)
+#install.packages("nasaweather")
+
+#d.
+fueleconomy::vehicles %>%
+  count(id) %>%
+  filter(n > 1)
+#install.packages("fueleconomy")
+
+#e.
+view(ggplot2::diamonds)
+#there's no primary key here, as for example, these diamonds got the same details.
+### 129 0.91 Fair H SI2 64.4 57.0 2763 6.11 6.09 3.93 
+### 130 0.91 Fair H SI2 65.7 60.0 2763 6.03 5.99 3.95
+
+#3. Draw a diagram illustrating the connections between the Batting, Master, and Salaries tables in the Lahman package. Draw another diagram that shows the relationship between master, Managers, and AwardsManagers.
+#How would you characterise the relationship between the Batting, Pitching, and Fielding tables?
+
