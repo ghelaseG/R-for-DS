@@ -174,19 +174,27 @@ library("DiagrammeR")
 ?DiagrammeR
 
 DiagrammeR::grViz(" digraph {
-                  graph [layout = dot, rankdir = LR, labelloc='t' , label='    Batting             Master              Salaries    ']
-                  node [shape = rectangle]
+                  graph [overlap = true, labelloc='t' , label='          Batting          Master        Salaries    ']
+                  
+                  node [shape = box3d, fixedsize = true]
+                  
+                  A [label = 'playerID']
+                  B [label = 'playerID']
+                  C [label = 'playerID']
+                  
+                  node [shape = rectangle, fixedsize = true]
                   
                   1 [label = 'yearID']
-                  1 [label = 'teamID']
-                  1 [label = 'playerID']
-                  1 [label = '...']
-                  2 [label = 'playerID']
-                  2 [label = '...']
-                  3 [label = 'playerID']
-                  3 [label = 'yearID']
-                  3 [label = 'stint']
+                  2 [label = 'teamID']
                   3 [label = '...']
-                  1 -> 2 -> 3
+                  4 [label = '...']
+                  5 [label = 'yearID']
+                  6 [label = 'stint']
+                  7 [label = '...']
                   
-                  }", height = 100)
+                
+                  A -> 1 1 -> 2 2 -> 3
+                  B -> 4 
+                  C -> 5 5 -> 6 6 -> 7 
+                  
+                  }", height = 333)
