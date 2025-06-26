@@ -534,4 +534,6 @@ ggplot(who_count, aes(x = year, y = country, fill = total_nr_TB)) +
   #                                              title.position = "top",
   #                                              title.hjust = 0.5)) +
 
+
+
                         
