@@ -501,3 +501,37 @@ interactive <- who_count %>% ggplot(aes(total_nr_TB, year, size = total_nr_TB, c
 ggplotly(interactive)
 
 #nice website to try : https://r-graph-gallery.com/
+
+#4th trial, heatmap:
+
+library(dplyr)
+library(ggplot2)
+
+#we can create a custom colour gradient, for example:
+
+colours_palet <- c(
+  colorRampPalette(c("#e7f0fa", "#c9e2f6", "#95cbee", "#0099dc", "#4ab04a", "#ffd73e", "#eec73a", "#e29421"))(20),
+  colorRampPalette(c("#e29421", "#f05336", "#ce472e"))(80)
+)
+
+ggplot(who_count, aes(x = year, y = country, fill = total_nr_TB)) +
+  geom_tile(colour = "white", linewidth = 0.5, width = 0.9, height = 0.9) +
+  theme_minimal() +
+  scale_x_continuous(expand = c(0,0),
+                     breaks = seq(1980, 2013, by = 5),
+                     limits = c(1978, 2015)) +
+  ggtitle("Total Number of TB, 1980 - 2013")
+  # scale_fill_gradientn(colours = cols,
+  #                      limits = c(0, 1200000),
+  #                      breaks = seq(0,1200000, by = 150000),
+  #                      labels = c("0k", "150k", "300k", "450k", "600k", "750k", "900k", "1050m", "1200m"),
+  #                      guide = guide_colourbar(ticks = TRUE,
+  #                                              nbin = 50,
+  #                                              barheight = 0.5,
+  #                                              label = TRUE,
+  #                                              barwidth = 10,
+  #                                              title = "Cases per thousands",
+  #                                              title.position = "top",
+  #                                              title.hjust = 0.5)) +
+
+                        
