@@ -162,3 +162,31 @@ view(ggplot2::diamonds)
 #3. Draw a diagram illustrating the connections between the Batting, Master, and Salaries tables in the Lahman package. Draw another diagram that shows the relationship between master, Managers, and AwardsManagers.
 #How would you characterise the relationship between the Batting, Pitching, and Fielding tables?
 
+#Answer:
+
+#Note: the Master table is now the People table in the Lahman dataset.
+
+Lahman::People
+Lahman::Batting
+Lahman::Salaries
+#install.packages("DiagrammeR")
+library("DiagrammeR")
+?DiagrammeR
+
+DiagrammeR::grViz(" digraph {
+                  graph [layout = dot, rankdir = LR, labelloc='t' , label='    Batting             Master              Salaries    ']
+                  node [shape = rectangle]
+                  
+                  1 [label = 'yearID']
+                  1 [label = 'teamID']
+                  1 [label = 'playerID']
+                  1 [label = '...']
+                  2 [label = 'playerID']
+                  2 [label = '...']
+                  3 [label = 'playerID']
+                  3 [label = 'yearID']
+                  3 [label = 'stint']
+                  3 [label = '...']
+                  1 -> 2 -> 3
+                  
+                  }", height = 100)
