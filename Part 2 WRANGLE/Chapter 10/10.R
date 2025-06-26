@@ -176,7 +176,7 @@ library("DiagrammeR")
 DiagrammeR::grViz(" digraph {
                   graph [overlap = true, labelloc='t' , label='          Batting          Master        Salaries    ']
                   
-                  node [shape = box3d, fixedsize = true]
+                  node [shape = box3d, fixedsize = true, arrowhead = vee]
                   
                   A [label = 'playerID']
                   B [label = 'playerID']
@@ -198,3 +198,4 @@ DiagrammeR::grViz(" digraph {
                   C -> 5 5 -> 6 6 -> 7 
                   
                   }", height = 333)
+#reference: https://graphviz.org/docs/graph/
