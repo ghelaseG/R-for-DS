@@ -174,9 +174,10 @@ library("DiagrammeR")
 ?DiagrammeR
 
 DiagrammeR::grViz(" digraph {
-                  graph [overlap = true, labelloc='t' , label='          Batting          Master        Salaries    ']
+                  graph [overlap = true,pad=0.5, ranksep=0.525, nodesep=1, labelloc='t' , label='Master                         Batting                           Salaries']
+                  splines=false;
+                  node [shape = box3d, fixedsize = true, fontsize = 9, constraint=false]
                   
-                  node [shape = box3d, fixedsize = true, arrowhead = vee]
                   
                   A [label = 'playerID']
                   B [label = 'playerID']
@@ -192,10 +193,25 @@ DiagrammeR::grViz(" digraph {
                   6 [label = 'stint']
                   7 [label = '...']
                   
-                
-                  A -> 1 1 -> 2 2 -> 3
-                  B -> 4 
-                  C -> 5 5 -> 6 6 -> 7 
+                  edge[style=invis];
+
+                  1 -> 2 -> A -> 3
+                  B -> 4
+                  C -> 5 -> 6 -> 7
                   
+                  edge[style=solid, constraint=false];
+                  
+                  B -> 4 [arrowhead=none, arrowtail=none] B -> A B-> C
+                  
+                  1 -> 2 [arrowhead=none, arrowtail=none]; 2 -> A [arrowhead=none, arrowtail=none] A -> 3 [arrowhead=none, arrowtail=none]
+                  
+                  C -> 5 [arrowhead=none, arrowtail=none] 5 -> 6 [arrowhead=none, arrowtail=none] 6 -> 7 [arrowhead=none, arrowtail=none]
+
                   }", height = 333)
+
 #reference: https://graphviz.org/docs/graph/
+#or we can use: https://cran.r-project.org/web/packages/DiagrammeR/DiagrammeR.pdf
+#this is just an example, we can build many more, using mermaid(javascript) diagram etc.
+
+
+
