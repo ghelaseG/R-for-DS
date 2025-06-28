@@ -213,5 +213,54 @@ DiagrammeR::grViz(" digraph {
 #or we can use: https://cran.r-project.org/web/packages/DiagrammeR/DiagrammeR.pdf
 #this is just an example, we can build many more, using mermaid(javascript) diagram etc.
 
+#trial
+DiagrammeR::mermaid("
+  graph LR
+  A-->B
+  A-->C
+  C-->E
+  B-->D
+  C-->D
+  D-->F
+  E-->F
+")
 
+DiagrammeR::mermaid("graph LR;
+A(Rounded)-->B[Squared];B-->C{A Decision};
+ C-->D[Square One];C-->E[Square Two];
+ style A fill:#E5E25F;  style B fill:#87AB51; style C fill:#3C8937;
+ style D fill:#23772C;  style E fill:#B6E6E6;")
 
+#for the Lahman: Master, Managers and AwardsManagers, another way of building this diagram:
+Lahman::People
+Lahman::Managers
+Lahman::AwardsManagers
+
+#install.packages("remotes")
+#remotes::install_github("bergant/datamodelr")
+
+library(datamodelr)
+install.packages(datamodelr)
+??datamodelr
+
+dm2 <- dm_from_data_frames(list(
+  Master = Lahman::People,
+  Managers = Lahman::Managers,
+  AwardsManagers = Lahman::AwardsManagers
+)) %>%
+  dm_set_key("Master", "playerID") %>%
+  dm_set_key("Managers", c("yearID", "teamID", "inseason")) %>%
+  dm_set_key("AwardsManagers", c("playerID", "awardID", "yearID")) %>%
+  dm_add_references(
+    Managers$playerID == Master$playerID,
+    AwardsManagers$playerID == Master$playerID
+  )
+
+dm_create_graph(dm2, rankdir = "LR", columnArrows = TRUE) %>%
+  dm_render_graph()
+
+library("nycflights13")
+dm_f <- dm_from_data_frames(flights, airlines, weather, airports, planes)
+
+graph <- dm_create_graph(dm_f, rankdir = "BT", col_attr = c("column", "type"))
+dm_render_graph(graph)
