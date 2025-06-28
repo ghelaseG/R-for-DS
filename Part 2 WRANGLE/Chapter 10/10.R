@@ -264,3 +264,150 @@ dm_f <- dm_from_data_frames(flights, airlines, weather, airports, planes)
 
 graph <- dm_create_graph(dm_f, rankdir = "BT", col_attr = c("column", "type"))
 dm_render_graph(graph)
+
+
+##MUTATING JOINS
+
+#combine variables from 2 tables
+
+flights2 <- flights %>%
+  select(year:day, hour, origin, dest, tailnum, carrier)
+flights2
+
+view(airlines)
+#using left join
+flights2 %>%
+  select(-origin, -dest) %>%
+  left_join(airlines, by = "carrier")
+
+#same result using mutate
+
+flights2 %>%
+  select(-origin, -dest) %>%
+  mutate(name = airlines$name[match(carrier, airlines$carrier)])
+
+#using mutating joins is better for bigger datasets
+
+#UNDERSTANDING JOINS
+
+#for exp:
+
+x <- tribble(
+  ~key,  ~val_x,
+     1,    "x1",
+     2,    "x2",
+     3,    "x3"
+)
+
+y <- tribble(
+  ~key,  ~val_x,
+  1,    "y1",
+  2,    "y2",
+  3,    "y3"
+)
+
+#a join is a way of connecting each row in x to zero, one, or more rows in y.
+
+#INNER JOIN
+
+#simplest type of join is the inner join.
+#the output of an inner join is a new data frame that contains the key, the x values, and the y values.
+
+x %>%
+  inner_join(y, by = "key")
+
+#unmatched rows are not included in the result
+
+#OUTER JOINS
+
+#an outer join keeps observations that appear in at least one of the tables.
+
+#3 types:
+##a left join keeps all observations in x
+##a right join keeps all observations in y
+##a full join keeps all observations in x and y.
+
+#the most commonly used is left join, you use this whenever you look up additional data from another table.
+
+#DUPLICATE KEYS
+
+#this section explains what happens when the keys are not unique:
+#one table has duplicate keys (one-to=many relationships):
+
+x <- tribble(
+  ~key,   ~val_x,
+     1,     "x1",
+     2,     "x2",
+     2,     "x3",
+     1,     "x4",
+)
+
+y <- tribble(
+  ~key,   ~val_y,
+  1,     "y1",
+  2,     "y2"
+)
+
+left_join(x, y, by = "key")
+
+x <- tribble(
+  ~key,   ~val_x,
+  1,     "x1",
+  2,     "x2",
+  2,     "x3",
+  3,     "x4",
+)
+
+y <- tribble(
+  ~key,   ~val_y,
+  1,     "y1",
+  2,     "y2",
+  2,     "y3",
+  3,     "y4"
+)
+
+left_join(x, y, by = "key")
+
+
+#DEFINING THE KEY COLUMNS
+
+#natural join
+flights2 %>%
+  left_join(weather)
+
+#character vector, by = "x"
+flights2 %>%
+  left_join(planes, by = "tailnum")
+
+#names character vector, by = c("a" = "b")
+
+flights2 %>%
+  left_join(airports, c("dest" = "faa"))
+
+flights2 %>%
+  left_join(airports, c("origin" = "faa"))
+
+#Exercises:
+
+#1. Compute the average delay by destination, then join on the airports data frame so you can show the spatial distribution of delays. Here's an easy way to draw a map of the United States:
+view(airports)
+airports %>%
+  semi_join(flights, c("faa" = "dest")) %>%
+  ggplot(aes(lon, lat)) +
+  borders("state") +
+  geom_point() +
+  coord_quickmap()
+#You might want to use the size or color of the points to display the average delay for each airport.
+
+#Answer:
+
+avg_delays <-
+  flights %>%
+  group_by(dest) %>%
+  summarise(delay = mean(arr_delay, na.rm = TRUE)) %>%
+  inner_join(airports, by = c(dest = "faa"))
+avg_delays %>%
+  ggplot(aes(lon, lat, colour = delay)) +
+  borders("state") +
+  geom_point() +
+  coord_quickmap()
