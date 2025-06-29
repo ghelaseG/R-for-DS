@@ -411,3 +411,24 @@ avg_delays %>%
   borders("state") +
   geom_point() +
   coord_quickmap()
+
+#2. Add the location of the origin and destination (i.e., the lat and lon) to flights.
+
+#Answer:
+
+view(flights)
+airport_edited <- airports %>% select(faa, lat, lon)
+view(airport_edited)
+
+#left join keeps all observations in x
+flights %>%
+  select(year:day, hour, origin, dest) %>%
+  left_join(
+    airport_edited, by = c("origin" = "faa")
+  ) %>%
+  left_join(
+    airport_edited,
+    by = c("dest" = "faa"),
+    suffix = c("_origin", "_dest")
+  )
+
