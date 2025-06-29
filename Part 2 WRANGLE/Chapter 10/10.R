@@ -504,3 +504,22 @@ flight_weather_delays %>%
 
 view(flight_weather_delays)
 
+#5. What happend on June 13, 2013? Display the spatial pattern of delays, and then use Google to cross-reference with the weather.
+
+#Answer:
+view(airports)
+june_13_delays <- flights %>%
+  filter(year == 2013, month == 6, day == 13) %>%
+  group_by(dest) %>%
+  summarise(delay = mean(arr_delay, na.rm = TRUE)) %>%
+  inner_join(airports, by = c("dest" = "faa"))
+
+#map plot
+ggplot(june_13_delays, aes(y = lat, x = lon, size = delay, colour = delay)) +
+  borders("state") +
+  geom_point() +
+  coord_quickmap() +
+  scale_color_viridis_b()
+#according to Google: "Storms: Airlines cancel 900 flights, delay thousands"
+            
+view(june_13_delays)
