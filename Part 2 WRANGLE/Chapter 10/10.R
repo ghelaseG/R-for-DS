@@ -432,3 +432,43 @@ flights %>%
     suffix = c("_origin", "_dest")
   )
 
+#3. Is there a relationship between the age of a plane and its delays?
+
+#Answer:
+
+view(planes)
+view(flights)
+#we can calculate the mean for arrival and departure delay for each age of a flight, to do this, we can use inner join because it matches pairs of observations whenever their keys are equal:
+
+planes_delays_by_year <- 
+  inner_join(flights,
+             select(planes, tailnum, plane_year = year),
+             by = "tailnum") %>% 
+  mutate(age = year - plane_year) %>%
+  filter(!is.na(age)) %>%
+  group_by(age) %>%
+  summarise(
+    dep_delay_mean = mean(dep_delay, na.rm = TRUE),
+    dep_delay_sd = sd(dep_delay, na.rm = TRUE),
+    arr_delay_mean = mean(arr_delay, na.rm = TRUE),
+    arr_delay_sd = sd(arr_delay, na.rm = TRUE),
+    n_arr_delay = sum(!is.na(arr_delay)),
+    n_dep_delay = sum(!is.na(dep_delay))
+  )
+
+#let's have a look at the departure delay plot:
+
+ggplot(planes_delays_by_year, aes(age, dep_delay_mean)) +
+  geom_point() +
+  scale_x_continuous("Age of plane (years)", breaks = seq(0, 60, by = 10)) +
+  scale_y_continuous("Mean departure delay (minutes)")
+
+#now let's look at the arrival delayed plot:
+
+ggplot(planes_delays_by_year, aes(age, arr_delay_mean)) +
+  geom_point() +
+  scale_x_continuous("Age of plane(years)", breaks = seq(0, 60, by = 10)) +
+  scale_y_continuous("Mean departure delay (minutes)")
+
+view(planes_delays_by_year)
+
