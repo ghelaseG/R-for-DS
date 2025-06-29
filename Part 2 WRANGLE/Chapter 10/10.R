@@ -472,3 +472,35 @@ ggplot(planes_delays_by_year, aes(age, arr_delay_mean)) +
 
 view(planes_delays_by_year)
 
+#4. What weather conditions make it more likely to see a delay?
+
+#Answer:
+
+view(weather)
+flight_weather_delays <- flights %>% inner_join(weather, 
+                                    by = c("origin" = "origin",
+                                           "year" = "year",
+                                           "month" = "month",
+                                           "day" = "day",
+                                           "hour" = "hour",
+                                           "time_hour" = "time_hour")
+                                    )
+
+#checking the precipitation for the departure delay
+flight_weather_delays %>%
+  group_by(precip) %>%
+  summarise(delay = mean(dep_delay, na.rm = TRUE)) %>%
+  ggplot(aes(x = precip, y = delay)) +
+  geom_line() + geom_point()
+
+#checking the wind_speed for the arrival delay
+flight_weather_delays %>%
+  group_by(wind_speed) %>%
+  summarise(delay = mean(arr_delay, na.rm = TRUE)) %>%
+  ggplot(aes(wind_speed, delay)) +
+  geom_point() +
+  geom_line()
+
+
+view(flight_weather_delays)
+
