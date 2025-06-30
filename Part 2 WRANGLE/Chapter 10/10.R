@@ -523,3 +523,27 @@ ggplot(june_13_delays, aes(y = lat, x = lon, size = delay, colour = delay)) +
 #according to Google: "Storms: Airlines cancel 900 flights, delay thousands"
             
 view(june_13_delays)
+
+#Other implementations
+
+base::merge() #can perform:
+# dplyr          or    merge
+#inner_join(x, y) or merge(x, y)
+#left_join(x, y) or merge(x, y, all.x = TRUE)
+#right_join(x, y) or merge(x, y, all.x = TRUE)
+#full_join(x, y) or merge(x, y, all.x = TRUE, all.y = TRUE)
+
+#dplyr packages are faster
+#SQL is the inspiration for dplyr
+
+# dplyr                    or           SQL
+#inner_join(x, y, by = "x") or SELECT * FROM x INNER JOIN y USING (x)
+#left_join(x, y, by = "x"). or SELECT * FROM x LEFT OUTER JOIN y USING (x)
+#right_join(x, y, by = "x") or SELECT * FROM x RIGHT OUTER JOIN y USING (x)
+#full_join(x, y, by = "z") or SELECT * FROM x FULL OUTER JOIN y USING (x)
+
+#inner and outer are optional
+
+#there's a difference between dplyr and SQL when:
+#inner_join(x, y, by = c("a" = "b")) and SQL: SELECT * FROM x INNER JOIN y ON x.a = y.b (SQL supports a wider range of join types)
+
