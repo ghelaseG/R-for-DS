@@ -572,10 +572,35 @@ flights %>%
 view(flights %>%
   semi_join(top_dest))
 
-flights %>%
+missing <- flights %>%
   anti_join(planes, by = "tailnum") %>%
   count(tailnum, sort = TRUE)
+view(missing)
 #for exp, there are  575 entries of N725MQ that cannot be found in the planes dataset.
 
+#Exercises:
 
+#1. What does it mean for a flight to have a missing tailnum? What do the tail numbers that don't have a matching record in planes have in common? (Hint: one variable explains ~90% of the problems.)
 
+#Answer:
+
+#if the flight has a missing "tailnum", it means that the flight has never happened/cancelled.
+flights %>%
+  filter(is.na(tailnum))
+
+#one of the reason before I done some research was that I believe that the carrier is MQ, and possibly because the airplanes are old, but,
+##reading the metadata, we can see that: American Airways (AA) and Envoy Air (MQ) report fleet numbers rather than tail numbers so can't be matched.
+?planes
+
+#2. Filter flights to only show flights with planes that have flown at least 100 flights.
+
+#Answer:
+
+flown_100T <- flights %>%
+  filter(!is.na(tailnum)) %>%
+  group_by(tailnum) %>%
+  count() %>%
+  filter(n >= 100)
+
+flights %>%
+  semi_join(flown_100T)
