@@ -547,3 +547,35 @@ base::merge() #can perform:
 #there's a difference between dplyr and SQL when:
 #inner_join(x, y, by = c("a" = "b")) and SQL: SELECT * FROM x INNER JOIN y ON x.a = y.b (SQL supports a wider range of join types)
 
+# Filtering Join
+
+#filtering joins match observations in the same way as mutating joins:
+#semi_join(x, y) - keeps all observations in x that have a match in y
+#anti_join(x, y) - drops all observations in x that have a match in y
+
+#semi-joins are useful for matching filtered summary tables back to the original rows:
+
+#Example:
+
+#imagine you've found the top-10 most popular destinations:
+top_dest <- flights %>%
+  count(dest, sort = TRUE) %>%
+  head(10)
+top_dest
+
+#now you want to find each flight that went to one of those destinations:
+flights %>%
+  filter(dest %in% top_dest$dest)
+
+#to extend this approach to multipla variables, it's difficult, but we can do this with semi_join
+
+view(flights %>%
+  semi_join(top_dest))
+
+flights %>%
+  anti_join(planes, by = "tailnum") %>%
+  count(tailnum, sort = TRUE)
+#for exp, there are  575 entries of N725MQ that cannot be found in the planes dataset.
+
+
+
