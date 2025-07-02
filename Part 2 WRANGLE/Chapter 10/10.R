@@ -612,11 +612,14 @@ flights %>%
 view(fueleconomy::vehicles)
 view(fueleconomy::common)
 ?fueleconomy::common
+
 #n stands for total number of models 
 #years stands for total number of model-years
+
 most_common_veh <- fueleconomy::common %>%
   group_by(make) %>%
   filter(n >= 100)
+
 view(most_common_veh)
 
 view(fueleconomy::vehicles %>%
