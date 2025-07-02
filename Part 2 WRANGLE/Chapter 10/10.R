@@ -621,7 +621,27 @@ most_common_veh <- fueleconomy::common %>%
   filter(n >= 100)
 
 view(most_common_veh)
-
 view(fueleconomy::vehicles %>%
-  semi_join(most_common_veh))
+       semi_join(most_common_veh))
+
+#4. Find the 48 hours (over the course of the whole year) that have the worst delays. Cross-reference it with the weather data. Can you see any patterns?
+
+#Answer:
+
+#?lag : Find the "previous" (lag()) or "next" (lead()) values in a vector. Useful for comparing values behind of or ahead of the current values.
+# two_day_delay <- flights %>%
+#   group_by(month, day) %>%
+#   summarise(avg_delay = sum(arr_delay + dep_delay, na.rm = TRUE)) %>%
+#   mutate(twoday_delay = avg_delay + lag(avg_delay)) %>%
+#   arrange(-twoday_delay)
+
+two_day_delay <- flights %>%
+  group_by(year, month, day) %>%
+  summarise(total_24 = sum(arr_delay, na.rm = TRUE) + sum(dep_delay, na.rm = TRUE)) %>%
+  mutate(total_48 = total_24 + lag(total_24)) %>%
+  arrange(desc(total_48))
+
+view(two_day_delay)
+
+
   
