@@ -669,6 +669,31 @@ view(airports)
 #there are more rows, once we start using anti_join;
 #for example: in the first block of code, anti_join is uniting the 2 datasets, having extra flights taken from the airports dataset and added to the flights dataset.
 #             in the second example, anti_join helps with the airports (destinations) that are not present in the flights dataset.
+one_gg %>% distinct(dest)
 
 
-  
+
+#6. You might expect that there is an implicit relationship between plane and airline, because each plane is flown by a single airline. Confirm or reject this hypothesis using the tools you've learned in the preceding section.
+
+# Answer:
+
+#let's find all distinct airlines, plane combinations:
+
+relationship <- flights %>%
+  filter(!is.na(tailnum)) %>%
+  distinct(tailnum, carrier)
+
+relationship %>% 
+  count(tailnum) %>% 
+  filter(n > 1) %>% 
+  nrow()
+
+#to understand the names of the airlines we can:
+
+names_carrier <- relationship %>% 
+  group_by(tailnum) %>% 
+  filter(n() > 1) %>% 
+  left_join(airlines, by = "carrier") %>% 
+  arrange(tailnum, carrier)
+
+names_carrier %>% view()
