@@ -641,7 +641,34 @@ two_day_delay <- flights %>%
   mutate(total_48 = total_24 + lag(total_24)) %>%
   arrange(desc(total_48))
 
+?vars
+?summarise_at
+weather_adj <- weather %>%
+  group_by(month, day) %>%
+  summarise_at(vars(humid, temp, precip), mean, na.rm = TRUE)
+?left_join
+
+two_day_delay %>%
+  left_join(weather_adj) %>%
+  arrange(total_48)
+
 view(two_day_delay)
+
+#5. What does anti_join(flights, airports, by = c("dest" = "faa")) tell you? What does anti_join(airports, flights, by = c("faa" = "dest")) tell you?
+
+#Answer:
+
+one_gg <- anti_join(flights, airports, by = c("dest" = "faa"))
+view(one_gg)
+two_gg <- anti_join(airports, flights, by = c("faa" = "dest"))
+view(two_gg)
+
+view(flights)
+view(airports)
+?flights
+#there are more rows, once we start using anti_join;
+#for example: in the first block of code, anti_join is uniting the 2 datasets, having extra flights taken from the airports dataset and added to the flights dataset.
+#             in the second example, anti_join helps with the airports (destinations) that are not present in the flights dataset.
 
 
   
