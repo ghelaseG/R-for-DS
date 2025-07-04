@@ -687,7 +687,7 @@ relationship %>%
   count(tailnum) %>% 
   filter(n > 1) %>% 
   nrow()
-
+view(relationship)
 #to understand the names of the airlines we can:
 
 names_carrier <- relationship %>% 
@@ -697,3 +697,54 @@ names_carrier <- relationship %>%
   arrange(tailnum, carrier)
 
 names_carrier %>% view()
+
+
+###Join Problems
+
+#most of the data is messy, but we can follow these steps:
+
+#1.
+## identify the primary key in each table. To do this, you have to understand the data, not just by looking for some combinations of variables.
+### a good example is that the altitude and longitude identify each airport, but they are not good identifiers:
+airports %>% count(alt, lon) %>% filter(n > 1) 
+
+#2.
+## check that none of the variables in the primary key are missing. If a value is missing then it can't identify an observation
+
+#3.
+## check that the foreign keys match primary keys in another table, this can be done using anti_join(). (it's common for keys not to match because of data entry errors, fixing these is often a lot of work)
+### if you do have missing keys, you'll need to be careful about your use of inner versus outer joins - carefully considering to drop rows that don't have a match.
+
+#INFO!! - you need to be aware because if you simply check the nr of rows, it is not sufficient that your join has gone smoothly.
+## for example: if you have an inner join with duplicate keys in both tables, you might get unlucky as the number of dropped rows might exactly equal the number of duplicated rows.
+
+## SET Operations
+
+#these operations work with a complete row, comparing the values of every variable.
+
+intersect(x, y)
+#return only  observations in both x and y
+
+union(x, y)
+#return unique observations in x and y
+
+setdiff(x, y)
+#return observations in x, but not in y
+
+#for exp:
+df1 <- tribble(
+  ~x, ~y,
+   1,  1,
+   2,  1
+)
+
+df2 <- tribble(
+  ~x, ~y,
+  1,  1,
+  1,  2
+)
+
+intersect(df1, df2)
+union(df1, df2)
+setdiff(df1, df2)
+setdiff(df2, df1)
