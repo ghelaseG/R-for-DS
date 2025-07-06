@@ -150,3 +150,49 @@ func_vec_to_str(x)
 
 vec_len_1 <- letters[1]
 func_vec_to_str(vec_len_1)
+
+#Matching Patterns with Regular Expressions
+
+#regexps - describe patterns in strings
+
+#Basic matches
+
+x <- c("apple", "banana", "pear")
+str_view(x, "an")
+
+str_view(x, ".a.")
+
+#to create the regular expression, we need \\
+dot <- "\\."
+#but
+writeLines(dot)
+
+str_view(c("abc", "a.c", "bef"), "a\\.c")
+
+x <- "a\\b"
+writeLines(x)
+
+str_view(x, "\\\\")
+
+#Exercises:
+
+#1. Explain why each of these strings don't match a \: "\", "\\", "\\\".
+
+#Answer:
+
+#you need to escape it, creating the regular expression \\, and to create that regular expression, you need use a string, which also needs to escape \. that means you need to write "\\\\" to match one. (see exp above)
+
+#2. How would you match the sequence "'\?
+
+#Answer:
+
+str_view("\"'\\", "\"'\\\\", match = TRUE)
+
+#3. What patterns will the regular expression \..\..\.. match? How would you represent it as a string?
+
+#Answer:
+
+#every "\." matches a literal dot and . matches any character
+
+str_view(".a.b.c", "\\..\\..\\..")
+
