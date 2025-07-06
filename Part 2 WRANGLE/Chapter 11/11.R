@@ -113,13 +113,23 @@ str_sub(x, 4, 5)
 
 ?str_wrap
 #Wrap words into paragraphs, minimizing the "raggedness" of the lines (i.e. the variation in length line) using the Knuth-Plass algorithm.
-
+#most likely in RMarkdown it can be used.
 thanks_path <- file.path(R.home("doc"), "THANKS")
 thanks <- str_c(readLines(thanks_path), collapse = "\n")
 thanks <- word(thanks, 1, 3, fixed("\n\n"))
 cat(str_wrap(thanks), "\n")
 cat(str_wrap(thanks, width = 40), "\n")
 cat(str_wrap(thanks, width = 60, indent = 2), "\n")
+
+#5. What does str_trim() do? What's the opposite of str_trim()?
+
+#Answer:
+
+?str_trim
+
+#str_trim() removes whitespace from start and end of string; 
+
+#str_pad is the opposite because is adding whitespace.
 
 
 
