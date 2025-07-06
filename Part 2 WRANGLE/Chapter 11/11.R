@@ -196,3 +196,53 @@ str_view("\"'\\", "\"'\\\\", match = TRUE)
 
 str_view(".a.b.c", "\\..\\..\\..")
 
+#ANCHORS
+
+# ^ to match the start of the string
+# $ to match the end of the string
+
+x <- c("apple", "banana", "pear")
+str_view(x, "^a")
+
+str_view(x, "a$")
+
+x <- c("apple pie", "apple", "apple cake")
+str_view(x, "apple")
+str_view(x, "^apple$")
+
+#Exercises
+
+#1. How would you match the literal string "$^$"?
+
+#Answer:
+
+str_view(c("$^$", "ab$^$gg"), "^\\$\\^\\$", match = TRUE)
+
+#2. Given the corpus of common words in stringr::words, create regular expressions that find all words that:
+    #a. Start with "y"
+    #b. End with "x"
+    #c. Are exactly three letters long (Don't cheat by using str_length()!)
+    #d. Have seven letters or more.
+#Since this list is long, you might want to use the match argument to str_view() to show only the matching or non-matching words.
+
+#Answer:
+
+stringr::words
+help("function")
+#a.
+startWithY <- function(x) str_view(x, "^y")
+startWithY("yahoo")
+
+#b.
+endingWithX <- function(y) str_view(y, "x$")
+endingWithX("ggx")
+
+#c.
+threeLettersLong <- function(z) str_view(z, "^.{3}$")
+threeLettersLong("ggr")
+
+#d.
+sevenLettersOrMore <- function(abc) str_view(abc, "^.{7,}$")
+sevenLettersOrMore("abcdefgsjdhsada")
+
+
