@@ -94,3 +94,15 @@ str_c() #same as paste and paste0
 #Answer:
 
 #sep and collapse are doing the same thing, but collapse can be use in a character vector c(...)
+
+#3. Use str_length() and str_sub() to extract the middle character from a string. What will you do if the string has an even number of characters?
+
+#Answer:
+
+x <- c("Georgians")
+str_length(x)
+str_sub(x, 5, 5)
+
+x <- c("Georgian")
+#if the size is even, return the 2 elements
+str_sub(x, 4, 5)
