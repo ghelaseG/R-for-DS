@@ -89,3 +89,8 @@ str_to_upper(c("i", "a"), locale = "tr")
 #paste0(..., collapse) is equivalent to paste(..., sep = "", collapse), slightly more efficiently.
 str_c() #same as paste and paste0
 
+#2. In your own words, describe the difference between the sep and collapse arguments to str_c().
+
+#Answer:
+
+#sep and collapse are doing the same thing, but collapse can be use in a character vector c(...)
