@@ -106,3 +106,20 @@ str_sub(x, 5, 5)
 x <- c("Georgian")
 #if the size is even, return the 2 elements
 str_sub(x, 4, 5)
+
+#4. What does str_wrap() do? When might you want to use it?
+
+#Answer:
+
+?str_wrap
+#Wrap words into paragraphs, minimizing the "raggedness" of the lines (i.e. the variation in length line) using the Knuth-Plass algorithm.
+
+thanks_path <- file.path(R.home("doc"), "THANKS")
+thanks <- str_c(readLines(thanks_path), collapse = "\n")
+thanks <- word(thanks, 1, 3, fixed("\n\n"))
+cat(str_wrap(thanks), "\n")
+cat(str_wrap(thanks, width = 40), "\n")
+cat(str_wrap(thanks, width = 60, indent = 2), "\n")
+
+
+
