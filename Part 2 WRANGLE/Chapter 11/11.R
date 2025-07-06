@@ -131,5 +131,22 @@ cat(str_wrap(thanks, width = 60, indent = 2), "\n")
 
 #str_pad is the opposite because is adding whitespace.
 
+#6. Write a function that turns (e.g) a vector c("a", "b", "c") into the string a, b, and c. Think carefully about what it should do if given a vector of length 0, 1, or 2.
 
+#Answer:
 
+#fail
+x <- str_c(c("a", "b", "c"), collapse = ", ")
+x
+x[0]
+x[1:2]
+x[0:2]
+
+func_vec_to_str <- function(x, collapse = ", ") {
+  str_c(x, collapse = collapse)
+}
+
+func_vec_to_str(x)
+
+vec_len_1 <- letters[1]
+func_vec_to_str(vec_len_1)
