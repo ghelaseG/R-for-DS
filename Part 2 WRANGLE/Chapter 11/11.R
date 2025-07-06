@@ -13,5 +13,67 @@ library(stringr)
 double_quote <- "\"" #or '"'
 single_quote <- '\'' #or "'"
 
-#to see raw contents of the strings, use writeLines()
+#to see raw contents of the strings, use writeLines():
 
+x <- c("\"", "\\")
+x
+writeLines(x)
+
+"\n" - new line
+"\t" - new tab
+?"'"
+?'"'
+
+"\u00b5" - writing non-English characters
+
+c("one", "two", "three") - store in a character vector
+
+#String Length
+
+str_length(c("a", "R for data science", NA))
+
+#Combining Strings
+
+#combining 2 or more strings
+str_c("x", "y")
+
+#use sep to separate
+str_c("x", "y", sep = ", ")
+
+x <- c("abc", NA)
+str_c("|-", x, "-|")
+str_c("|-", str_replace_na(x), "-|")
+str_c("prefix-", c("a", "b", "c"), "-suffix")
+
+#objects of length 0 are dropped
+
+name <- "George"
+time_of_day <- "evening"
+birthday <- TRUE
+
+str_c(
+  "Good ", time_of_day, " ", name,
+  if (birthday) " and HAPPY BIRTHDAY",
+  "."
+)
+
+#to collapse a vector of strings into a single string, use collapse:
+str_c(c("x", "y", "z"), collapse = ", ")
+
+#Subsetting strings
+
+#we can extract part of a string
+
+x <- c("Apple", "Banana", "Pear")
+str_sub(x, 1, 3)
+str_sub(x, -3, -1)
+
+str_sub("a",1, 1)
+
+str_sub(x, 1, 1) <- str_to_lower(str_sub(x,1,1))
+x
+
+#Locales
+#we can change the text to lower, upper etc, we can specify the locale (ISO 639) - https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
+
+str_to_upper(c("i", "a"), locale = "tr")
