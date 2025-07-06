@@ -77,3 +77,15 @@ x
 #we can change the text to lower, upper etc, we can specify the locale (ISO 639) - https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
 
 str_to_upper(c("i", "a"), locale = "tr")
+
+#Exercises:
+
+#1. In code that doesn't use stringr, you'll often see paste() and paste0(). What's the difference between the two functions? What stringr function are they equivalent to? How do the functions differ in their handling of NA?
+
+#Answer:
+
+?paste
+#Concatenate vectors after converting to character. Concatenation happens in two basically different ways, determined by collapse being a string or not.
+#paste0(..., collapse) is equivalent to paste(..., sep = "", collapse), slightly more efficiently.
+str_c() #same as paste and paste0
+
