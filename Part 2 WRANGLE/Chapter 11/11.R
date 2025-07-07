@@ -314,3 +314,51 @@ str_view(tel_nr_uk, "^44.{12}$")
 
 str_view(tel_nr_uk, "\\d{3}\\s\\d{4}\\s\\d{4}") 
 
+
+#Repetition
+
+#now we learn how many times a pattern matches
+
+# ?:0 or 1
+# +: 1 or more
+# *: 0 or more
+
+x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
+str_view(x, "CC?")
+
+str_view(x, "CC+")
+
+str_view(x, 'C[LX]+')
+
+#we can use colou?r to match American and British
+#most uses will need parentheses - bana(na)+
+
+#{n}: exactly n
+#{n,}: n or more
+#{,m}: at most m
+#{n,m}: between n and m
+
+str_view(x, "C{2}")
+str_view(x, "C{2,}")
+str_view(x, "C{2,3}")
+
+#matching the shortest string:
+str_view(x, 'C{2,3}?')
+
+str_view(x, 'C[LX]+?')
+
+#1. Describe the equivalents of ?, +, and * in {m,n} form.
+
+#2. Describe in words what these regular expressions match (read carefully to see if I'm using a regular expression or a string that defines a regular expression):
+#a. ^.*$
+#b. "\\{.+\\}"
+#c. \d{4}-\d{2}-\d{2}
+#d. "\\\\{4}"
+
+#3. Create regular expressions to find all words that:
+#a. Start with three consonants.
+#b. Have three or more vowels in a row.
+#c. Have two or more vowel-consonant pairs in a row.
+
+#4. Solve the beginner regexp crosswords at https://regexcrossword.com/challenges/beginner.
+#done!!!!!!
