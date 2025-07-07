@@ -302,6 +302,15 @@ str_view(stringr::words, "q[^u]") # yes, if we run this syntax we can't find any
 ## ends in "ise" != "ize"
 ## ends in "yse"
 
-ou | ise$ | ae | oe | yse$
+# ou | ise$ | ae | oe | yse$
+
+#5. Create a regular expression that will match telephon numbers as commonly written in your country.
   
+#Answer:
+  
+tel_nr_uk <- c("44 7783 667788", "020 7946 0018") #source google
+
+str_view(tel_nr_uk, "^44.{12}$")
+
+str_view(tel_nr_uk, "\\d{3}\\s\\d{4}\\s\\d{4}") 
 
