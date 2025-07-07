@@ -245,4 +245,37 @@ threeLettersLong("ggr")
 sevenLettersOrMore <- function(abc) str_view(abc, "^.{7,}$")
 sevenLettersOrMore("abcdefgsjdhsada")
 
+#Character classes and alternatives
 
+#. matches any character apart from a newline
+#\d matches any digit
+#\s matches any whitespace (space, tab, newline)
+#[abc] matches a,b,or c
+#[^abc] matches anything except a,b, or c
+
+#alternation: abc | xyz - matches abc or xyz
+
+str_view(c("grey", "gray"), "gr(e|a)y")
+
+#Exercises:
+
+#1. Create regular expressions to find all words that:
+#a, Start with a vowel.
+#b. Only contain consonants. (Hint: think about matching "not"-vowels)
+#c. End with ed, but not with eed.
+#d. End with ing or ize.
+
+#Answer:
+
+#a.
+words <- c("george", "mikala", "anca", "fred", "creed", "smiling", "frize")
+str_view(words, "^[aeiou]")
+
+#b.
+str_view(words, "^[^aeiou]")
+
+#c.
+str_view(words, "[^e]ed$")
+
+#d.
+str_view(words, "i(ng|ze)$")
