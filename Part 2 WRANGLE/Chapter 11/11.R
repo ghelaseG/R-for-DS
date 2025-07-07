@@ -279,3 +279,29 @@ str_view(words, "[^e]ed$")
 
 #d.
 str_view(words, "i(ng|ze)$")
+
+#2. Empirically verify the rule "i before e except after c."
+
+#Answer:
+
+str_view(stringr::words, "ie|[^c]ie")
+
+#3. Is "q" always followed by a "u"?
+
+#Answer:
+
+str_view(stringr::words, "q[^u]") # yes, if we run this syntax we can't find anything.
+
+#4. Write a regular expression that matches a word if it's probably written in British English, not American English.
+
+#Answer:
+
+#in British English:
+## "ou" instead of "o"
+## "ae" and "oe" instead of "a" and "o"
+## ends in "ise" != "ize"
+## ends in "yse"
+
+ou | ise$ | ae | oe | yse$
+  
+
