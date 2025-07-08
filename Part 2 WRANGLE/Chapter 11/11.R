@@ -381,5 +381,16 @@ str_view(x, 'C[LX]+?')
 #b. Have three or more vowels in a row.
 #c. Have two or more vowel-consonant pairs in a row.
 
+#Answer:
+
+#a.
+str_view(stringr::words, "^[^aeiou]{3}")
+
+#b. 
+str_view(stringr::words, "[aeiou]{3,}+")
+
+#c.
+str_view(stringr::words, "([aeiou][^aeiou]){2,}")
+
 #4. Solve the beginner regexp crosswords at https://regexcrossword.com/challenges/beginner.
 #done!!!!!!
