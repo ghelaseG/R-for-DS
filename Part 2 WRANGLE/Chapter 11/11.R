@@ -362,6 +362,20 @@ str_view(x, 'C[LX]+?')
 #c. \d{4}-\d{2}-\d{2}
 #d. "\\\\{4}"
 
+#Answer:
+
+#a. will match any string:
+# ^ match the start of the string
+#. match any character except new line
+#* match 0 or more characters
+#$ match the end of the string
+
+#b. will match any string with curly braces, having at least one character - "{g}"
+
+#c. matches a set of numbers in this format: yyyy-mm-dd
+
+#d. matches four back slashes - "\\\\\\\\"
+
 #3. Create regular expressions to find all words that:
 #a. Start with three consonants.
 #b. Have three or more vowels in a row.
