@@ -349,6 +349,13 @@ str_view(x, 'C[LX]+?')
 
 #1. Describe the equivalents of ?, +, and * in {m,n} form.
 
+#Answer:
+
+#as per our notes, let's see how many times a pattern matches:
+#?: 0 or 1 - that is equivalent to {0,1}
+#+: 1 or more - {1, }
+#*: 0 or more - {0, }
+
 #2. Describe in words what these regular expressions match (read carefully to see if I'm using a regular expression or a string that defines a regular expression):
 #a. ^.*$
 #b. "\\{.+\\}"
