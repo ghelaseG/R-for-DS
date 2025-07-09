@@ -394,3 +394,37 @@ str_view(stringr::words, "([aeiou][^aeiou]){2,}")
 
 #4. Solve the beginner regexp crosswords at https://regexcrossword.com/challenges/beginner.
 #done!!!!!!
+
+
+#Grouping and Backreferences
+
+#grouping with (..)
+#in this example we can find all fruits that have a repeated pair of letters:
+str_view(fruit, "(..)\\1", match = TRUE)
+
+#Exercises:
+
+#1. Describe in words, what these expressions will match:
+
+#a. (.)\1\1 
+#b. "(.)(.)\\2\\1"
+#c. (..)\1
+#d. "(.).\\1.\\1"
+#e. "(.)(.)(.).*\\3\\2\\1"
+
+#Answer:
+
+#a. this regular expression matches the same character 3 times.
+str_view(c("george", "geeorororge", "geeeorge"), "(.)\\1\\1", match = TRUE)
+
+#b. matches a pair of character followed by the same reversed pair of characters
+str_view(fruit, "(.)(.)\\2\\1", match = TRUE)
+
+#c. matches a repeated pair of characters
+str_view(fruit, "(..)\\1", match = TRUE)
+
+#d. first main character, followed by a different one, then again the main one, and then any other character and finally the main character again
+str_view(fruit, "(.).\\1.\\1", match = TRUE)
+
+#e. first 3 characters of any type, followed by (*) any nr of characters until reaches the first 3 characters in reverse order.
+str_view(c("george", "georgegheoeg"), "(.)(.)(.).*\\3\\2\\1", match = TRUE)
