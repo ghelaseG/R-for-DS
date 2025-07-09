@@ -428,3 +428,17 @@ str_view(fruit, "(.).\\1.\\1", match = TRUE)
 
 #e. first 3 characters of any type, followed by (*) any nr of characters until reaches the first 3 characters in reverse order.
 str_view(c("george", "georgegheoeg"), "(.)(.)(.).*\\3\\2\\1", match = TRUE)
+
+#2. Construct regular expressions to match words that:
+#a. Start and end with the same character.
+#b. Contain a repeated pair of letters (e.g, "church" contains "ch" repeated twice)
+#c. Contain one letter repeated in at least three places (e.g., "eleven" contains three "e"s)
+
+#a.
+str_view(stringr::words, "^(.).*\\1$")
+
+#b.
+str_view(stringr::words, "([A-Za-z][A-Za-z]).*\\1")
+
+#c.
+str_view(stringr::words, "([a-z]).*\\1.*\\1")
