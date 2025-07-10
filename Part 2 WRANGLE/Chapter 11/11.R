@@ -442,3 +442,116 @@ str_view(stringr::words, "([A-Za-z][A-Za-z]).*\\1")
 
 #c.
 str_view(stringr::words, "([a-z]).*\\1.*\\1")
+
+#Tools
+
+#Jamie Zawinski: "Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have two problems."
+
+https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression/201378#201378
+
+#Detect matches
+
+#to determine if a character vector matches a pattern, use str_detect()
+
+x <- c("apple", "banana", "pear")
+str_detect(x, "e")
+
+#we can use str_detect if we want to get the sum or mean across a larger vector:
+
+#How many common words start with t?
+sum(str_detect(stringr::words, "^t"))
+
+#What proportion of common words end with a vowel?
+mean(str_detect(stringr::words, "[aeiou]$"))
+
+#Find all words containing at least one vowel, and negate
+no_vowels_1 <- !str_detect(stringr::words, "[aeiou]")
+#Find all words consisting only of consonants
+no_vowels_2 <- str_detect(stringr::words, "^[^aeiou]+$")
+identical(no_vowels_1, no_vowels_2)
+?identical
+
+words[str_detect(words, "g$")]
+str_subset(words, "g$")
+
+df <- tibble(
+  word = words,
+  i = seq_along(word)
+)
+
+df %>% filter(str_detect(words, "g$"))
+
+?seq_along
+?filter
+
+x <- c("apple", "banana", "pear")
+str_count(x, "a")
+
+#On average, how many vowels per word?
+mean(str_count(stringr::words, "[aeiou]"))
+
+#we can use str_count with mutate
+df %>% mutate(
+  vowels = str_count(words, "[aeiou]"),
+  consonants = str_count(words, "[^aeiou]")
+)
+?mutate
+
+#Note: matches never overlap
+str_count("abababa", "aba")
+str_view_all("abababa", "aba")
+
+#Exercises:
+
+#1. For each of the following challenges, try solving it by using both a single regular expression, and a combination of multiple str_detect() calls:
+#a. Find all words that start or end with x
+#b. Find all words that start with a vowel and end with a consonant.
+#c. Are there any words that contain at least one of each different vowel?
+#d. What word has the highest number of vowels? What word has the highest proportion of vowels? (Hint: what is the denominator?)
+
+#Answer:
+
+#a.
+
+str_view(stringr::words, "^y|y$")
+
+#or
+
+start_y <- str_detect(words, "^y")
+end_y <- str_detect(words, "y$")
+combined <- words[start_y|end_y]
+combined
+
+#b.
+
+str_view(stringr::words, "^[aeiou].*[^aeiou]$")
+
+#or
+
+start_v <- str_detect(stringr::words, "^[aeiou]")
+end_c <-str_detect(stringr::words, "[^aeiou]$")
+combined_z <- stringr::words[start_v & end_c]  
+combined_z
+
+#c.
+#trials:
+str_view(stringr::words, "^[aeiou]+$")
+str_view("aeiousss", "^+[aeiou] && [aeiou] && [aeiou]+$")
+str_view(stringr::words, "[aeiou]{3,}")
+str_view("asdsedsadidsadasodsadau", "[aeiou]{4,}")
+
+str_view(stringr::words, "[aeiou]*")
+
+str_view(stringr::words, "a|e|i|o|u")
+
+
+vowels <- str_detect(stringr::words, "a") & str_detect(stringr::words, "e") & str_detect(stringr::words, "i") & str_detect(stringr::words, "o") & str_detect(stringr::words, "u")
+
+stringr::words[vowels]
+
+
+#d.
+vowels <- str_count(stringr::words, "[aeiou]")
+stringr::words[which(vowels == max(vowels))]
+
+stringr::words[which.max(vowels / str_length(stringr::words))]
