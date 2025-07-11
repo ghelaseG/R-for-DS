@@ -544,11 +544,12 @@ str_view(stringr::words, "[aeiou]*")
 
 str_view(stringr::words, "a|e|i|o|u")
 
-
 vowels <- str_detect(stringr::words, "a") & str_detect(stringr::words, "e") & str_detect(stringr::words, "i") & str_detect(stringr::words, "o") & str_detect(stringr::words, "u")
 
 stringr::words[vowels]
-
+sum(vowels, wt = vowels)
+print(table(vowels))
+summary(vowels)
 
 #d.
 vowels <- str_count(stringr::words, "[aeiou]")
