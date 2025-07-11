@@ -556,3 +556,45 @@ vowels <- str_count(stringr::words, "[aeiou]")
 stringr::words[which(vowels == max(vowels))]
 
 stringr::words[which.max(vowels / str_length(stringr::words))]
+
+#Extract Matches
+
+#to extract the text of a match, use str_extract()
+
+length(sentences)
+head(sentences)
+#find all sentences that contain a color
+colors <- c("red", "orange", "yellow", "green", "blue", "purple")
+
+color_match <- str_c(colors, collapse = "|")
+color_match
+
+has_color <- str_subset(sentences, color_match)
+matches <- str_extract(has_color, color_match)
+head(matches)
+head(has_color)
+
+more <- sentences[str_count(sentences, color_match) > 1]
+str_view_all(more, color_match)
+
+str_extract(more, color_match)
+str_extract_all(more, color_match)
+
+str_extract_all(more, color_match, simplify = TRUE)
+
+x <- c("a", "a b", "a b c")
+str_extract_all(x, "[a-z]", simplify = TRUE)
+
+#Exercises:
+
+#1. In the previous example, you might have noticed that the regular expression matched "flickered", which is not a color. Modifiy the regex to fix the problem.
+
+#Answer:
+
+colors <- c("red", "orange", "yellow", "green", "blue", "purple")
+color_match <- str_c("\\s", colors, "\\s", collapse = "|")
+color_match
+
+more <- sentences[str_count(sentences, color_match) > 1]
+str_view_all(more, color_match)
+str_extract(more, color_match)
