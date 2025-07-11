@@ -598,3 +598,20 @@ color_match
 more <- sentences[str_count(sentences, color_match) > 1]
 str_view_all(more, color_match)
 str_extract(more, color_match)
+
+#2. From the Harvard sentences data, extract:
+#a. The first word from each sentence.
+#b. All words ending in ing.
+#c. All plurals
+
+#Answer:
+
+#a.
+str_extract(sentences, "^[A-Za-z]*")
+
+#b.
+str_extract(sentences, "[A-Za-z]+ing")
+# str_extract(sentences, "ing$")
+
+#c.
+str_extract(sentences, "\\s[A-Za-z]{3,}s\\s")
