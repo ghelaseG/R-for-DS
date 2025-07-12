@@ -615,3 +615,36 @@ str_extract(sentences, "[A-Za-z]+ing")
 
 #c.
 str_extract(sentences, "\\s[A-Za-z]{3,}s\\s")
+
+
+#Grouped Matches
+
+noun <- "(a|the) ([^ ]+)"
+
+has_noun <- sentences %>% 
+  str_subset(noun) %>% 
+  head(10)
+
+has_noun %>% 
+  str_extract(noun)
+
+has_noun %>% 
+  str_match(noun)
+
+tibble(sentence = sentences) %>% 
+  tidyr::extract(
+    sentence, c("article", "noun"), "(a|the) ([^ ]+)",
+    remove = FALSE
+  )
+
+#Exercises:
+
+#1. Find all words that come after a "number" like "one", "two", "three", etc. Pull out both the number and the word.
+
+#Answer:
+
+tibble(sentence = sentences) %>% 
+  tidyr::extract(
+    sentence, c("number", "word"), "(one|two|three|four|five|six|seven|eight|nine|ten) ([^ ]+)",
+    remove = FALSE
+  )
