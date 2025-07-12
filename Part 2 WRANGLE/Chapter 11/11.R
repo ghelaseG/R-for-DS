@@ -648,3 +648,12 @@ tibble(sentence = sentences) %>%
     sentence, c("number", "word"), "(one|two|three|four|five|six|seven|eight|nine|ten) ([^ ]+)",
     remove = FALSE
   )
+
+#2.Find all contractions. Separate out the pieces before and after the apostrophe.
+
+#Answer:
+
+contraction <- "([A-Za-z]+)'([A-Za-z]+)"
+sentences[str_detect(sentences, contraction)] %>% 
+  str_extract(contraction) %>% 
+  str_split("'")
