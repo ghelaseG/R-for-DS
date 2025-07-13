@@ -680,3 +680,18 @@ sentences %>%
 
 #Answer:
 
+str_replace_all("past/present/future", "/", "\\\\")
+
+#2. Implement a simple version of str_to_lower() using replace_all().
+
+#Answer:
+
+my_str_lower <- function(x) {
+  lower_let <- letters
+  names(lower_let) <- LETTERS
+  
+  str_replace_all(x, lower_let)
+}
+
+identical(my_str_lower(sentences), str_to_lower(sentences))
+
