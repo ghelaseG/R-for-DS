@@ -695,3 +695,8 @@ my_str_lower <- function(x) {
 
 identical(my_str_lower(sentences), str_to_lower(sentences))
 
+#3. Switch the first and last letters in words. Which of those strings are still words?
+
+#Answer:
+
+str_replace_all(words, "^([a-z])(.*)([a-z])$", c("\\3\\2\\1"))
