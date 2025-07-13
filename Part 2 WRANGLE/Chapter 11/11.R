@@ -657,3 +657,26 @@ contraction <- "([A-Za-z]+)'([A-Za-z]+)"
 sentences[str_detect(sentences, contraction)] %>% 
   str_extract(contraction) %>% 
   str_split("'")
+
+#Replacing Matches
+
+#str_replace allows you to replace matches with new strings
+
+x <- c("apple", "pear", "banana")
+str_replace(x, "[aeiou]", "-")
+str_replace_all(x, "[aeiou]", "-")
+
+x <- c("1 house", "2 cars", "3 people")
+str_replace_all(x, c("1" = "one", "2" = "two", "3" = "three"))
+
+#flip the orderd of the second and third words
+
+sentences %>% 
+  str_replace("([^ ]+) ([^ ]+) ([^ ]+)", "\\1 \\3 \\2")
+
+# Exercises:
+
+#1. Replace all forward slashes in a string with backslashes.
+
+#Answer:
+
