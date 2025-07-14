@@ -700,3 +700,38 @@ identical(my_str_lower(sentences), str_to_lower(sentences))
 #Answer:
 
 str_replace_all(words, "^([a-z])(.*)([a-z])$", c("\\3\\2\\1"))
+
+#Splitting:
+
+#split sentences into words using str_split()
+
+sentences %>% 
+  head(5) %>% 
+  str_split(" ")
+
+"ac c|ba c|cd d|da s" %>% 
+  str_split("\\|") %>% 
+  .[[1]]
+
+sentences %>% 
+  head(5) %>% 
+  str_split(" ", simplify = TRUE)
+
+fields <- c("Name: George", "Country: UK", "Age: 32")
+fields %>%  str_split(": ", n = 2, simplify = TRUE)
+
+x <- "This is a sentence.  This is another sentence."
+str_view_all(x, boundary("word"))
+
+str_split(x, " ")[[1]]
+str_split(x, boundary("word"))[[1]]
+
+#Exercises:
+
+#1. Split up a string like "apples, pears, and bananas" into individual components.
+
+#Answer:
+
+x <- c("apple, pears, and bananas")
+str_split(x, ", ")[[1]]
+str_split(x, boundary("word"))[[1]]
