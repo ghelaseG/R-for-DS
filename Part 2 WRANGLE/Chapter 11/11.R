@@ -735,3 +735,17 @@ str_split(x, boundary("word"))[[1]]
 x <- c("apple, pears, and bananas")
 str_split(x, ", ")[[1]]
 str_split(x, boundary("word"))[[1]]
+
+#2. Why is it better to split up by boundary("word) than " "?
+
+#Answer:
+
+#?boundary - #makes things easier to split - by character, line, sentence and word
+  
+#3. What does splitting with an empty string ("") do? Experiment, and then read the documentation.
+  
+#Answer:
+
+x <- c("apple, pears, and bananas")
+str_split(x, "")[[1]]
+
