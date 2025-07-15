@@ -821,7 +821,7 @@ stringi::stri_locale_info()
 
 #Exercises:
 
-#a. How would you find all strings containing \ with regex() versus with fixed()?
+#1. How would you find all strings containing \ with regex() versus with fixed()?
 
 #Answer:
 
@@ -829,3 +829,17 @@ exampless <- c("george \\", "and \\ georgeee", "gg")
 
 str_subset(exampless, regex("\\\\"))
 str_subset(exampless, fixed("\\"))
+
+#2. What are the five most common words in sentences?
+
+#Answer:
+
+?unlist
+
+unlist(str_split(sentences, boundary("word"))) %>% 
+  str_to_lower() %>% 
+  tibble() %>% 
+  set_names("words") %>% 
+  count(words) %>% 
+  arrange(desc(n)) %>% 
+  
