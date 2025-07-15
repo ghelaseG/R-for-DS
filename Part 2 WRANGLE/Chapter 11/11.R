@@ -774,3 +774,58 @@ x <- "Line 1\nLine 2\nLine 3"
 str_extract_all(x, "^Line")[[1]]
 
 str_extract_all(x, regex("^Line", multiline = TRUE))[[1]]
+
+#comments = TRUE allows you to use comments and white space to make complex regular expressions more understandable
+
+phone <- regex("
+               \\(?       #optional opening parens
+               (\\d{3})   # area code
+               [)- ]?     # optional closing parens, dash, or space
+               (\\d{3})   # another three numbers
+               [ -]?      # optional space or dash
+               (\\d{3})   # three more numbers
+               ", comments = TRUE)
+
+str_match("514-791-8141", phone)
+
+#dotall = TRUE allows . to match everything including \n
+
+#instead of regex, we can use:
+
+#fixed matches exactly the specified sequence of bytes.
+
+#install.packages("microbenchmark")
+microbenchmark::microbenchmark(
+  fixed = str_detect(sentences, fixed("the")),
+  regex = str_detect(sentences, "the"),
+  times = 20
+)
+
+#beware using fixed with non English data
+
+a1 <- "\u00e1"
+a2 <- "a\u0301"
+c(a1, a2)
+a1 == a2
+
+#coll can be used
+
+str_detect(a1, fixed(a2))
+str_detect(a1, coll(a2))
+
+#coll is useful for doing case-insensitive matching (collation)
+
+stringi::stri_locale_info()
+
+#coll is relatively slow compared to regex and fixed
+
+#Exercises:
+
+#a. How would you find all strings containing \ with regex() versus with fixed()?
+
+#Answer:
+
+exampless <- c("george \\", "and \\ georgeee", "gg")
+
+str_subset(exampless, regex("\\\\"))
+str_subset(exampless, fixed("\\"))
