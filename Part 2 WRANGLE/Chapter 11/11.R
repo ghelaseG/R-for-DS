@@ -749,3 +749,28 @@ str_split(x, boundary("word"))[[1]]
 x <- c("apple, pears, and bananas")
 str_split(x, "")[[1]]
 
+#Find matches
+
+#str_locate and str_locate_all give you the starting and ending positions of each match. 
+#str_sub to extract and modify them
+
+#other types of pattern
+
+#the regular call:
+str_view(fruit, "nana")
+#is shorthand for:
+str_view(fruit, regex("nana"))
+
+#ignore_case = TRUE allows characters to match either their uppercase or lowercase forms
+
+bananas <- c("banana", "Banana", "BANANA")
+str_view(bananas, "banana")
+
+str_view(bananas, regex("banana", ignore_case = TRUE))
+
+#multiline = TRUE allows ^ and $ to match the start and end of each line
+
+x <- "Line 1\nLine 2\nLine 3"
+str_extract_all(x, "^Line")[[1]]
+
+str_extract_all(x, regex("^Line", multiline = TRUE))[[1]]
