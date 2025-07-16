@@ -842,4 +842,45 @@ unlist(str_split(sentences, boundary("word"))) %>%
   set_names("words") %>% 
   count(words) %>% 
   arrange(desc(n)) %>% 
-  
+  head(5)
+
+#unlist(options())
+
+#Other uses of Regular Expressions
+
+#apropos() searches all objects available from the global environment
+apropos("replace")
+#dir() lists all the files in a directory
+head(dir(pattern = "\\.Rmd$"))
+
+#stringi
+
+#stringr is built on top of stringi
+#stringi has 234 functions to stringr's 42
+
+#Exercises:
+
+#1. Find the stringi functions that:
+#a. Count the number of words.
+#b. Find duplicated strings.
+#c. Generate random text.
+
+#Answer:
+#a.
+?stringi
+library(stringi)
+x <- c("gggg", "gggg", "huhg")
+stri_length(x)
+
+#b.
+stri_duplicated(x)
+
+#c.
+stri_rand_strings(5, 10)
+
+#2. How do you control the language that stri_sort() uses for sorting?
+
+#Answer:
+
+stri_sort(c('hladny', 'chladny'), locale='pl_PL')
+#using locale
