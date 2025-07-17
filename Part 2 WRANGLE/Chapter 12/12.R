@@ -89,8 +89,32 @@ gss_cat %>%
   count(relig) %>% 
   arrange(-n)
 
+#protestant
+
 gss_cat %>% 
   count(partyid) %>% 
   arrange(-n)
 
-#
+#Independent
+
+#3. Which relig does denom (denomination) apply to? How can you find out with a table? How can you find out with a visualization?
+
+#Answer:
+
+gss_cat %>% 
+  count(relig, denom) %>% 
+  filter(denom == "No denomination")
+
+levels(gss_cat$denom)
+
+view(gss_cat)
+
+gss_cat %>% 
+  filter(!denom %in% c("No answer", "Other", "Don't know", "Not applicable", "No denomination")) %>% 
+  count(relig)
+
+gss_cat %>% 
+  count(relig, denom) %>% 
+  ggplot(aes(x = relig, y = denom, size = n)) +
+  geom_point() +
+  theme(axis.text.x = element_text(angle = 90))
