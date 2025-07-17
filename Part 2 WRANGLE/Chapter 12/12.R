@@ -80,3 +80,17 @@ gss_cat %>%
   ggplot(aes(rincome)) +
   geom_bar() +
   coord_flip()
+
+#2. What is the most common relig in this survey? What's the most common partyid?
+
+#Answer:
+
+gss_cat %>% 
+  count(relig) %>% 
+  arrange(-n)
+
+gss_cat %>% 
+  count(partyid) %>% 
+  arrange(-n)
+
+#
