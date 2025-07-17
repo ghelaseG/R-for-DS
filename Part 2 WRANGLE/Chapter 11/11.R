@@ -884,3 +884,5 @@ stri_rand_strings(5, 10)
 
 stri_sort(c('hladny', 'chladny'), locale='pl_PL')
 #using locale
+
+
