@@ -200,6 +200,24 @@ gss_cat %>%
 
 #1. There are some suspiciously high numbers in tvhours. Is the mean a good summary?
 
+#Answer:
+
+view(gss_cat$tvhours)
+view(mean(gss_cat$tvhours, na.rm = TRUE))
+#considering that someone left their tv on for 24 hours, it is not a good summary.
+summary(gss_cat$tvhours)
+
 #2. For each factor in gss_cat identify whether the order of the levels is arbitrary or principled.
 
+#Answer:
+
+?sapply
+fct_gss <- gss_cat[sapply(gss_cat, is.factor)]
+lapply(fct_gss, levels)
+#rincome is the only one with principled order
+
 #3. Why did moving "Not applicable" to the front of the levels move it to the bottom of the plot?
+
+#Answer:
+
+#it is just an illusion as the plot is flipped.
