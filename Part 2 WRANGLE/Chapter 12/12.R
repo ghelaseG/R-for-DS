@@ -81,6 +81,8 @@ gss_cat %>%
   geom_bar() +
   coord_flip()
 
+?fct_relevel
+
 #2. What is the most common relig in this survey? What's the most common partyid?
 
 #Answer:
@@ -118,3 +120,86 @@ gss_cat %>%
   ggplot(aes(x = relig, y = denom, size = n)) +
   geom_point() +
   theme(axis.text.x = element_text(angle = 90))
+
+#Modifying factor order
+
+#it's often useful to change the order of the factor levels in a visualisation.
+#let's examine the average nr of hours spent watching TV per day across religions:
+
+relig <- gss_cat %>% 
+  group_by(relig) %>% 
+  summarise(
+    age = mean(age, na.rm = TRUE),
+    tvhours = mean(tvhours, na.rm = TRUE),
+    n = n()
+  )
+
+ggplot(relig, aes(tvhours, relig)) + geom_point()
+
+#we can use fct_reorder() to reorder the levels of relig
+
+ggplot(relig, aes(tvhours, fct_reorder(relig, tvhours))) +
+  geom_point()
+
+#we could rewrite this:
+
+relig %>% 
+  mutate(relig = fct_reorder(relig, tvhours)) %>% 
+  ggplot(aes(tvhours, relig)) +
+  geom_point()
+
+#we can create a similar plot looking at how average age varies across reported income level:
+
+rincome <- gss_cat %>% 
+  group_by(rincome) %>% 
+  summarise(
+    age = mean(age, na.rm = TRUE),
+    tvhours = mean(tvhours, na.rm = TRUE),
+    n = n()
+  )
+
+ggplot(
+  rincome,
+  aes(age, fct_reorder(rincome, age)) 
+) + geom_point()
+
+# we can use fct_relevel() - it takes a factor f and then any number of levels that you want to move to the front of the line:
+
+ggplot(
+  rincome,
+  aes(age, fct_relevel(rincome, "Not applicable")) 
+) +
+  geom_point()
+
+#another type of reordering is useful when you are coloring the lines on a plot - fct_reorder2(), reorders by the y value with the largest x values
+
+by_age <- gss_cat %>% 
+  filter(!is.na(age)) %>% 
+  group_by(age, marital) %>% 
+  count() %>% 
+  mutate(prop = n / sum(n))
+
+by_age
+ggplot(by_age, aes(age, prop, color = marital)) +
+  geom_line(na.rm = TRUE)
+
+ggplot(
+  by_age,
+  aes(age, prop, color = fct_reorder2(marital, age, prop))
+) +
+  geom_line() +
+  labs(color = "marital")
+
+gss_cat %>% 
+  mutate(marital = marital %>%  fct_infreq() %>%  fct_rev()) %>% 
+  ggplot(aes(marital)) +
+  geom_bar()
+
+
+#Exercises:
+
+#1. There are some suspiciously high numbers in tvhours. Is the mean a good summary?
+
+#2. For each factor in gss_cat identify whether the order of the levels is arbitrary or principled.
+
+#3. Why did moving "Not applicable" to the front of the levels move it to the bottom of the plot?
