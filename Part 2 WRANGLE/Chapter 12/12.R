@@ -221,3 +221,74 @@ lapply(fct_gss, levels)
 #Answer:
 
 #it is just an illusion as the plot is flipped.
+
+#Modifying Factor levels
+
+#more powerful than changing the orders of the levels is changing their values
+#fct_recode allows you to recode or change the value of each level
+
+gss_cat$partyid
+
+gss_cat %>% count(partyid)
+
+#or
+
+gss_cat %>% 
+  mutate(partyid = fct_recode(partyid,
+                              "Republican, strong" = "Strong republican",
+                              "Republican, weak"   = "Not str republican",
+                              "Independent, near rep" = "Ind,near rep",
+                              "Independent, near dem" = "Ind,near dem",
+                              "Democrat, weak" = "Not str democrat",
+                              "Democrat, strong" = "Strong democrat",
+                              "Other" = "No answer",
+                              "Other" = "Don't know",
+                              "Other" = "Other party"
+                              )) %>% 
+  count(partyid)
+
+gss_cat %>% 
+  mutate(partyid = fct_collapse(partyid,
+                                other = c("No answer", "Don't know", "Other party"),
+                                rep = c("Strong republican", "Not str republican"),
+                                ind = c("Ind,near rep", "Independent", "Ind,near dem"),
+                                dem = c("Not str democrat", "Strong democrat"))) %>%  count(partyid)
+
+
+gss_cat %>% 
+  mutate(relig = fct_lump(relig)) %>% 
+  count(relig)
+
+gss_cat %>% 
+  mutate(relig = fct_lump(relig, n = 10)) %>% 
+  count(relig, sort = TRUE) %>% 
+  print(n = Inf)
+
+#Exercises:
+
+#1. How have the proportions of people identifying as Democrat, Republican, and Independent changed over time?
+
+#Answer:
+
+all_levels <- levels(gss_cat$partyid)
+
+gss_cat %>% 
+  mutate(partyid = fct_collapse(partyid,
+                                Democrat = c("Not str democrat", "Strong democract"),
+                                Republican = c("Strong republican", "Not str republican"),
+                                Independent = c("Ind,near rep", "Independent", "Ind,near dem"))) %>% 
+  count(year, partyid) %>% 
+  group_by(year) %>% 
+  mutate(perc = n / sum(n)) %>% 
+  ggplot(aes(year, perc, group = partyid, colour = partyid)) +
+  geom_line() +
+  theme_bw()
+
+?fct_collapse
+#2. How could you collapse rincome into a small set of categories?
+
+#Answer:
+
+gss_cat %>% 
+  mutate(rincome = fct_lump(rincome, n = 6)) %>% 
+  count(rincome)
