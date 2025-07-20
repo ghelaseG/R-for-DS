@@ -119,3 +119,124 @@ d5 <- "12/30/14" #Dec 30, 2014
 
 #Answer:
 
+mdy(d1)
+ymd(d2)
+dmy(d3)
+mdy(d4)
+mdy(d5)
+
+
+#Date-Time Components
+
+#Getting Components
+
+datetime <- ymd_hms("2016-07-08 12:34:56")
+
+year(datetime)
+
+month(datetime)
+
+mday(datetime) #day of the month
+
+yday(datetime) # day of the year
+
+wday(datetime) #day of the week
+
+#for month and wday you can set label = TRUE to return abbreviated name of the month or day of the week
+#set abbr = FALSE to return the full name
+
+month(datetime, label = TRUE)
+
+wday(datetime, label = TRUE, abbr = FALSE)
+
+#we can use wday to see that more flights depart during the week
+
+flights_dt %>% 
+  mutate(wday = wday(dep_time, label = TRUE)) %>% 
+  ggplot(aes(x = wday)) +
+  geom_bar()
+
+
+#we can find an interesting pattern if we look at the average departure delay by minute within the hour
+##flights leaving in minutes 20-30 and 50-60 have much lower delays than the rest of the hour
+
+flights_dt %>% 
+  mutate(minute = minute(dep_time)) %>% 
+  group_by(minute) %>% 
+  summarise(
+    avg_delay = mean(arr_delay, na.rm = TRUE),
+    n = n()
+  ) %>% 
+  ggplot(aes(minute, avg_delay)) +
+  geom_line()
+
+#if we look at the scheduled departure time we don't see such a strong pattern:
+
+sched_dep <- flights_dt %>% 
+  mutate(minute = minute(sched_dep_time)) %>% 
+  group_by(minute) %>% 
+  summarise(
+    avg_delay = mean(arr_delay, na.rm = TRUE),
+    n = n())
+
+ggplot(sched_dep, aes(minute, avg_delay)) +
+  geom_line()
+
+#much data collected by humans have a strong bias toward flights leaving at "nice" departure times
+#INFO!! - be careful at this sort of pattern whenever you work with data that involves human judgment
+
+ggplot(sched_dep, aes(minute, n)) +
+  geom_line()
+
+#Rounding
+
+#if we want to plot individual components is best to round the date to a nearby unit of time.
+
+flights_dt %>% 
+  count(week = floor_date(dep_time, "week")) %>% 
+  ggplot(aes(week, n)) +
+  geom_line()
+
+#Setting Components
+
+(datetime <- ymd_hms("2016-07-08 12:34:56"))
+
+year(datetime) <- 2025
+datetime
+
+month(datetime) <- 01
+datetime
+
+hour(datetime) <- hour(datetime) + 1
+datetime
+
+#update allows you to use multiple values at once
+
+update(datetime, year = 2020, month = 2, mday = 2, hour = 2)
+
+#if values are too big, they will roll over:
+
+ymd("2015-02-01") %>% 
+  update(mday = 30)
+
+ymd("2015-02-01") %>% 
+  update(hour = 400)
+
+#we can use update() to show the distribution of flights across the course of the day
+
+flights_dt %>% 
+  mutate(dep_hour = update(dep_time, yday = 1)) %>% 
+  ggplot(aes(dep_hour)) +
+  geom_freqpoly(binwidth = 300)
+
+#Exercises:
+
+#1. How does the distribution of flight times within a day change over the course of the year?
+
+#Answer:
+
+flights_dt %>% 
+  mutate(dep_hour = update(dep_time, yday = 365)) %>% 
+  mutate(month = factor(month(dep_time))) %>% 
+  ggplot(aes(dep_hour, colour = month)) +
+  geom_freqpoly(binwidth = 3600)
