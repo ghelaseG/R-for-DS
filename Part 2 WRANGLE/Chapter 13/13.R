@@ -276,4 +276,36 @@ flights_dt %>%
   mutate(sched_dep_in_hour = hour(sched_dep_time)) %>% 
   group_by(sched_dep_in_hour) %>% 
   summarise(dep_delay = mean(dep_delay)) %>% 
-  
+  ggplot(aes(y = dep_delay, x = sched_dep_in_hour)) +
+  geom_point() +
+  geom_smooth() +
+  coord_flip()
+
+#5. On what day of the week should you leave if you want to minimise the chance of a delay?
+
+#Answer:
+
+flights_dt %>% 
+  mutate(day_of_week = wday(sched_dep_time)) %>% 
+  group_by(day_of_week) %>% 
+  summarise(
+    dep_delay = mean(dep_delay, na.rm = TRUE),
+    arr_delay = mean(arr_delay, na.rm = TRUE)
+  ) %>% 
+  print(n = Inf)
+
+flights_dt %>% 
+  mutate(day_of_week = wday(dep_time, label = TRUE, abbr = FALSE)) %>% 
+  group_by(day_of_week) %>% 
+  summarise(avg_dep_delay = mean(dep_delay)) %>% 
+  ggplot(aes(day_of_week, avg_dep_delay)) +
+  geom_bar(stat = "identity")
+
+#Saturday is the best day
+
+flights_dt %>% 
+  mutate(day_of_week = wday(dep_time, label = TRUE, abbr = FALSE)) %>% 
+  group_by(day_of_week) %>% 
+  summarise(avg_arr_delay = mean(arr_delay, na.rm = TRUE)) %>% 
+  ggplot(aes(day_of_week, avg_arr_delay)) +
+  geom_bar(stat = "identity")
