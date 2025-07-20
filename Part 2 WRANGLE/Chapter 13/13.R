@@ -103,3 +103,19 @@ ymd(c("2010-10-10", "bananas"))
 
 #You'll get a warning message:"1 failed to parse" NA
 
+#2. What does the tzone argument to today() do? Why is it important?
+
+#Answer:
+
+#?today - #a character vector specifying which time zone you would like the current time in. tzone defaults to your computer's system timezone. You can retrieve the current time in the Universal Coordinated Time (UTC) with now("UTC").
+
+#3. Use the appropriate lubridate function to parse each of the following dates:
+
+d1 <- "January 1, 2010"
+d2 <- "2015-Mar-07"
+d3 <- "06-Jun-2017"
+d4 <- c("August 19 (2015)", "July 1 (2015)")
+d5 <- "12/30/14" #Dec 30, 2014
+
+#Answer:
+
