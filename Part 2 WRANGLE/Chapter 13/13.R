@@ -267,3 +267,13 @@ flights_dt %>% mutate(
   arrange(diff)
 
 #we can see that only 10 entries were correct, out of 328053
+
+#4. How does the average delay time change over the course of a day? Should you use dep_time or sched_dep_time? Why?
+
+#Answer:
+
+flights_dt %>% 
+  mutate(sched_dep_in_hour = hour(sched_dep_time)) %>% 
+  group_by(sched_dep_in_hour) %>% 
+  summarise(dep_delay = mean(dep_delay)) %>% 
+  
