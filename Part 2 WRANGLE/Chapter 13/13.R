@@ -252,3 +252,18 @@ flights_dt %>%
   filter(dep_time_adj != dep_time) %>% 
   select(dep_time_adj, dep_time, sched_dep_time, dep_delay) %>% 
   arrange(-dep_delay)
+#as we can see, the departure is happening the following day
+
+#3. Compare air_time with the duration between the departure and arrival. Explain your findings. (Hint: consider the location of the airport)
+
+#Answer:
+
+flights_dt %>% mutate(
+  flight_time_in_minutes = as.numeric(arr_time - dep_time),
+  air_time_in_minutes = air_time,
+  diff = flight_time_in_minutes - air_time_in_minutes
+) %>% 
+  select(origin, dest, flight_time_in_minutes, air_time_in_minutes, diff) %>% 
+  arrange(diff)
+
+#we can see that only 10 entries were correct, out of 328053
