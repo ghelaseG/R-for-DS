@@ -240,3 +240,15 @@ flights_dt %>%
   mutate(month = factor(month(dep_time))) %>% 
   ggplot(aes(dep_hour, colour = month)) +
   geom_freqpoly(binwidth = 3600)
+
+#2. Compare dep_time, sched_dep_time, and dep_delay. Are they consistent? Explain your findings.
+
+#Answer:
+
+flights_dt %>% view()
+
+flights_dt %>% 
+  mutate(dep_time_adj = sched_dep_time + dep_delay * 60) %>% 
+  filter(dep_time_adj != dep_time) %>% 
+  select(dep_time_adj, dep_time, sched_dep_time, dep_delay) %>% 
+  arrange(-dep_delay)
