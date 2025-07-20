@@ -309,3 +309,38 @@ flights_dt %>%
   summarise(avg_arr_delay = mean(arr_delay, na.rm = TRUE)) %>% 
   ggplot(aes(day_of_week, avg_arr_delay)) +
   geom_bar(stat = "identity")
+
+#6. What makes the distribution of diamonds$carat and flights$sched_dep_time similar?
+
+#Answer:
+
+view(diamonds$carat)
+view(flights$sched_dep_time)
+
+ggplot(diamonds, aes(carat)) +
+  geom_histogram()
+
+ggplot(diamonds, aes(carat %% 1 * 100)) +
+  geom_histogram(binwidth = 1)
+
+#there are "nice" numbers registered by humans
+
+ggplot(flights_dt, aes(minute(sched_dep_time))) +
+  geom_histogram(binwidth = 1)
+
+#7. Confirm my hypothesis that the early departures of flights in minutes 20-30 and 50-60 are caused by scheduled flights that leave early. Hint: create a binary variable that tells you whether or not a flight was delayed.
+
+#Answer:
+
+#our binary variable will be 1 for leaving early and 0 if it doesn't.
+
+flights_dt %>% 
+  mutate(minute_departure = minute(dep_time),
+         early_departures = dep_delay < 0) %>% 
+  group_by(minute_departure) %>% 
+  summarise(
+    early_departures = mean(early_departures, na.rm = TRUE),
+    n = n()
+  ) %>% 
+  ggplot(aes(minute_departure, early_departures)) +
+  geom_line()
