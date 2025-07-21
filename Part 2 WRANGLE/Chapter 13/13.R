@@ -344,3 +344,149 @@ flights_dt %>%
   ) %>% 
   ggplot(aes(minute_departure, early_departures)) +
   geom_line()
+
+#Time Spans
+
+#we learn about arithmetic with dates works
+
+#Durations:
+
+#when you subtract two dates, you get a difftime object:
+
+#How old is George?
+h_age <- today() - ymd(19930106)
+h_age
+
+as.duration(h_age)
+
+dseconds(15)
+dminutes(10)
+dhours(c(12,24))
+ddays(0:5)
+dweeks(3)
+dyears(1)
+
+2 * dyears(1)
+
+dyears(1) + dweeks(12) + dhours(15)
+
+tomorrow <- today() + ddays(1)
+last_year <- today() - dyears(1)
+
+one_pm <- ymd_hms(
+  "2016-03-12 13:00:00",
+  tz = "America/New_York"
+)
+
+one_pm
+
+one_pm +ddays(1)
+
+#because of DSt we got that result, March 12 only has 23 hours
+
+#Periods
+
+one_pm
+one_pm + days(1)
+
+seconds(15)
+minutes(10)
+hours(c(12,24))
+days(7)
+months(1:6)
+weeks(3)
+years(1)
+
+#we can add and multiply periods:
+
+10 * (months(6) + days(1))
+
+days(50) + hours(25) +minutes(2)
+
+#add them to dates
+
+#A leap year
+ymd("2016-01-01") + dyears(1)
+
+ymd("2016-01-01") + years(1)
+
+#Daylight savings time
+one_pm + ddays(1)
+
+one_pm + days(1)
+
+#let's use this in our flights dataset; some planes appear to have arrived at their destination before they departed
+
+flights_dt %>% 
+  filter(arr_time < dep_time)
+
+#these are overnight flights, this can be fixed by adding days(1)
+
+flights_dt <- flights_dt %>% 
+  mutate(
+    overnight = arr_time < dep_time,
+    arr_time = arr_time + days(overnight * 1),
+    sched_arr_time = sched_arr_time + days(overnight * 1)
+  )
+
+flights_dt %>% 
+  filter(overnight, arr_time < dep_time)
+
+#Intervals
+
+years(1) / days(1)
+
+next_year <- today() + years(1)
+(today() %--% next_year) / ddays(1)
+
+(today() %--% next_year) %/% days(1)
+
+#Exercises:
+
+#1. Why is there months() but no dmonths()?
+
+#Answer:
+
+#Durations are expressed in seconds, and each month has different seconds
+
+#2. Explain days(overnight * 1) to someone who has just started learning R. How does it work?
+
+#Answer:
+
+days(overnight * 1)
+?days
+
+#if it is an overnight flight, then it will be days(1) otherwise days(0), "*1" - no days are added to the date
+
+#3. Create a vector of dates giving the first day of every month in 2015. Create a vector of dates giving the first day of every month in the current year.
+
+#Answer:
+
+#2015
+ymd("2015-01-01") + months(0:11)
+
+#current
+#today() + months(0:11)
+floor_date(today(), unit = "year") + months(0:11)
+
+#4. Write a function that, given your birthday (as a date), return how old you are in years.
+
+#Answer:
+
+my_age <- function(my_birthday) {
+  (my_birthday %--% today()) %/% years(1)
+}
+
+my_age(ymd("1993-01-06"))
+
+#5. Why can't (today() %--% (today() + years(1)) /months(1) work?
+
+#Answer:
+
+#the first thing that we noticed, is the missing parentheses.
+
+(today() %--% (today() + years(1)) /months(1))
+
+#one solution will be
+
+(today() %--% (today() + years(1)) %/% months(1))
