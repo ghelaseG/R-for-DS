@@ -490,3 +490,34 @@ my_age(ymd("1993-01-06"))
 #one solution will be
 
 (today() %--% (today() + years(1)) %/% months(1))
+
+#Time Zones 
+
+Sys.timezone()
+
+length(OlsonNames())
+
+head(OlsonNames())
+
+(x1 <- ymd_hms("2015-06-01 12:00:00", tz = "America/New_York"))
+(x2 <- ymd_hms("2015-06-01 18:00:00", tz = "Europe/Copenhagen"))
+(x3 <- ymd_hms("2015-06-02 04:00:00", tz = "Pacific/Auckland"))
+
+x1 - x2
+x1 - x3
+
+x4 <- c(x1,x2,x3)
+x4
+
+#lubridate always uses UTC - unless specified
+
+x4a <- with_tz(x4, tzone = "Australia/Lord_Howe")
+x4a
+
+x4a - x4
+
+#use this when you have an incorrect labeled time zone
+x4b <- force_tz(x4, tzone = "Australia/Lord_Howe")
+x4b
+
+x4b - x4
