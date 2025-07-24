@@ -108,3 +108,12 @@ rescale01(c(1, 2, 3, NA, 5))
 
 #Answer:
 
+rescale01 <- function(x) {
+  rng <- range(x, na.rm = TRUE, finite = TRUE)
+  x[x == -Inf] <- 0
+  x[x == Inf] <- 1 
+  (x - rng[1]) / (rng[2] - rng[1])
+}
+??finite
+
+rescale01(c(1:10, -Inf))
