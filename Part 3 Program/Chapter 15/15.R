@@ -134,3 +134,19 @@ coeff_var <- function(x) {
 
 coeff_var(c(22,24,256))
 
+#4. Follow http://nicercode.github.io/intro/writing-functions.html to write your own functions to compute the variance and skew of a numeric vector.
+
+#Answer:
+
+#5. Write both_na(), a function that takes two vectors of the same length and returns the number of positions that have an NA in both vectors.
+
+#Answer:
+x <- c(1,2,3,NA,5)
+y <- c(1,2,2,2,NA)
+
+which(is.na(x))
+?which
+
+both_na <- function(x, y) {
+  which(is.na(x) & is.na(y))  
+}
