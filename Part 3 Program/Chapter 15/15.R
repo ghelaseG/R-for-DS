@@ -117,3 +117,20 @@ rescale01 <- function(x) {
 ??finite
 
 rescale01(c(1:10, -Inf))
+
+#3. Practice turning the following code snippets into functions. Think about what each function does. What would you call it? How many arguments does it need? Can you rewrite it to be more expressive or less duplicative?
+
+mean(is.na(x))
+
+x / sum(x, na.rm = TRUE)
+
+sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
+
+#Answer:
+
+coeff_var <- function(x) {
+   sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
+}
+
+coeff_var(c(22,24,256))
+
