@@ -138,6 +138,38 @@ coeff_var(c(22,24,256))
 
 #Answer:
 
+standard.error <- function(x) {
+  v <- var(x)
+  n <- length(x)
+  sqrt(v/n)
+}
+
+n <- length(x)
+(1/(n-1))
+
+m <- mean(x)
+x - m
+
+(x - m) ^ 2
+
+sum((x - m) ^ 2)
+
+(1 / (n - 1)) * sum((x - m) ^ 2)
+
+variance <- function(x) {
+  n <- length(x)
+  m <- mean(x)
+  (1 / (n - 1)) * sum((x - m) ^ 2)
+}
+
+skewness <- function(x) {
+  n <- length(x)
+  v <- var(x)
+  m <- mean(x)
+  third.moment <- (1 / (n - 2)) * sum((x - m) ^ 2)
+  third.moment / (var(x) ^ (3/2))
+}
+
 #5. Write both_na(), a function that takes two vectors of the same length and returns the number of positions that have an NA in both vectors.
 
 #Answer:
@@ -150,3 +182,4 @@ which(is.na(x))
 both_na <- function(x, y) {
   which(is.na(x) & is.na(y))  
 }
+
