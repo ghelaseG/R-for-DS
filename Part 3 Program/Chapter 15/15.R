@@ -289,3 +289,18 @@ replicate_value <- function(x, y) {
   rep(y, length.out = length(x))
 }
 
+#2. Take a function that you've written recently and spend five minutes brainstorming a better name for it and its arguments.
+
+#3. Compare and contrast rnorm() and MASS::mvrnorm(). How could you make them more consistent?
+
+#Answer:
+
+?rnorm # generates random deviates
+rnorm(n, mean = 0, sd = 1)
+
+?MASS::mvrnorm # "produces one or more samples from the specified multivariate normal distribution."
+mvrnorm(n = 1, mu, Sigma, tol = 1e-6, empirical = FALSE, EISPACK = FALSE)
+
+#to make them more consistent involves careful data collection, handling outliers, and potentially using robust estimation techniques. (soruce google) 
+
+
