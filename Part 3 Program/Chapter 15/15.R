@@ -480,6 +480,39 @@ if (x %% 3) "fizz" else if (x %% 5) "buzz" else if (x %% 3 && x %% 5) "fizzbuzz"
 checking_fizzbuzz <- function(x) { 
     if (x %% 3 == 0) {
     return("fizz")
-  }
+    } else if (x %% 5) {
+    return("buzz") 
+    } else if (x %% 3 && x %% 5) {
+    return("fizzbuzz")
+  } else {
+    return(x)
+    }
 }
-checking_fizzbuzz()
+checking_fizzbuzz(x <- 123422)
+
+#4. How could you use cut() to simplify this set of nested if-else statements?
+
+if (temp <= 0) {
+  "freezing"
+} else if (temp <= 10) {
+  "cold"
+} else if (temp <= 20) {
+  "cool"
+} else if (temp <= 30) {
+  "warm"
+} else {
+  "hot"
+}
+
+#How would you change the call to cut() if I'd used < instead of <=? What is the other chieft advantage of cut() for this problem? (Hint: what happens if you have many values in temp?)
+
+#Answer:
+
+?cut # cut divides the range of x into intervals and codes the values in x according to which interval they fall.
+temp <- c(10,22)
+cut(temp, breaks = seq(-10, 40, 10),
+    labels(c("freezing", "cold", "cool", "warm", "hot")))
+
+cut(temp, breaks = seq(-10, 40, 10),
+    right = TRUE,
+    labels(c("freezing", "cold", "cool", "warm", "hot")))
