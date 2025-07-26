@@ -308,3 +308,154 @@ mvrnorm(n = 1, mu, Sigma, tol = 1e-6, empirical = FALSE, EISPACK = FALSE)
 #Answer:
 
 #as the book mentions, using a common prefix to indicate that they are connected - memebers of the family
+
+# Conditional execution
+
+if (condition) {
+  # code executed when condition is TRUE
+} else {
+  # code executed when condition is FALSE
+}
+
+#?'if'
+
+help('if')
+
+# return a logical vector - checking each element is named:
+
+has_name <- function(x) {
+  nms <- names(x)
+  if (is.null(nms)) {
+    rep(FALSE, length(x))
+  } else {
+    !is.na(nms) & nms != ""
+  }
+}
+
+# Conditions
+
+#the condition must evaluate to either TRUE or FALSE
+
+if (c(TRUE, FALSE)) {}
+
+if (NA) {}
+
+#we can use || - or and && - and to combine multiple logical expressions
+#never use | or & in an if statement - use them for multiple values, but if you do have a logical vector, use any() or all() to collapse it to a single value
+#when testing for equality, == is vectorized - meaning that you can get more than one output: either check the length is 1, collapse with all() or any(), or use identical()
+
+identical(0L, 0)
+
+x <- sqrt(2) 
+x <- sqrt(2) ^ 2
+x
+# and
+x == 2
+# but
+x - 2
+#in this case use dplyr::near()
+
+# Multiple Conditions
+
+if (this) {
+  # do that
+} else if (that) {
+  #do something else
+} else {
+  #
+}
+
+#if you end up with a long chain, just rewrite everything, you can use switch() function. 
+
+#> function(x, y, op) {
+#>    switch(op,
+#>    plus = x + y,
+#>    minus = x - y,
+#>    times = x * y,
+#>    divide = x / y,
+#>    stop("Unknown op!")
+#>    )
+#> }
+
+#you can also use cut()
+
+# Code Style
+
+# Good
+if (y < 0 && debug) {
+  message("Y is negative")
+}
+
+if (y == 0) {
+  log(x)
+} else {
+  y ^ x
+}
+
+#BAD
+
+if (y < = && debug)
+  message("Y is negative")
+
+if (y == 0) {
+  log(x)
+}
+else {
+  y ^ x
+}
+
+#drop the {} when there's a very short if statement
+
+y <- 10
+x <- if (y < 20) "Too low" else "Too high"
+x
+
+if (y < 20) {
+  x <- "Too low"
+} else {
+  x <- "Too high"
+}
+
+# Exercises:
+
+#1. What's the difference between if and ifelse()? Carefully read the help and construct 3 examples that illustrate the key differences.
+
+#Answer:
+
+help('if')
+help('ifelse')
+
+# if returns the value of the expression evaluated, or NULL invisibly if none was (which may happen if there is no else).
+# ifelse returns a value with the same shape as test which is filled with elements selected from either yes or no depending on whether the element of test is TRUE or FALSE.
+
+#Usage:
+
+#if(cond) expr
+#ifelse(test, yes, no)
+
+#examples from the help function:
+
+res <- if(sum(x) > 7.5) mean(x) # may be NULL
+
+x <- c(6:-4)
+sqrt(x)  #- gives warning
+sqrt(ifelse(x >= 0, x, NA))  # no warning
+
+## Note: the following also gives the warning !
+ifelse(x >= 0, sqrt(x), NA)
+
+yes <- 1:3
+no  <- pi^(1:4)
+utils::str( ifelse(NA,    yes, no) ) # logical, length 1
+utils::str( ifelse(TRUE,  yes, no) ) # integer, length 1
+utils::str( ifelse(FALSE, yes, no) )
+
+# source r bloggers:
+#>ifelse() has two major advantages over if … else:
+#>It’s super fast.
+#>It’s more convenient to use.
+
+
+
+
+
