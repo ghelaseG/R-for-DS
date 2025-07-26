@@ -214,8 +214,78 @@ good_fairy %>% if (
 }
 
 
+#Functions are for Humans and Computers
 
+#some guidance in writing functions that anyone can understand
 
+## name of the function is important - keep it short with a good description of what the function is doing
+## use verbs for functions and nouns for arguments (with some exceptions of course)
+# for example:
+#too short : f()
+#not a verb, or descriptive : my_awesome_function()
+#long, but clear: impute_missing() or collapse_years()
 
-  
+#Never do this: col_mins <- function(x, y) {} or rowMaxes <- function(y, x) {}
+
+#Good:
+input_select()
+input_checkbox()
+input_text()
+
+#Not so good:
+select_input()
+checkbox_input()
+text_input()
+
+#Don't do this:
+T <- FALSE
+c <- 10
+mean <- function(x) sum(x)
+
+#use comments to explain the "why" of your code - avoid comments that explain the "what" or "how"
+#another important use of comments is to break up your file into easily readable chunks using - or =, for exp:
+
+# Load data ------------------------
+
+# Plot data ------------------------
+
+#using CMD SHIFT R
+# load data ---------------------------------------------------------------
+
+#Exercises:
+
+#1. Read the source code for each of the following three functions, puzzle out what they do, and then brainstorm better names:
+
+f1 <- function(string, prefix) {
+  substr(string, 1, nchar(prefix)) == prefix
+}
+f2 <- function(x) {
+  if (length(x) <= 1) return(NULL)
+  x[-length(x)]
+}
+f3 <- function(x, y) {
+  rep(y, length.out = length(x))
+}
+
+#Answer:
+
+?substr
+?nchar
+substr("abcdef", 2, 4)
+
+extract_prefix <- function(string, prefix) {
+  substr(string, 1, nchar(prefix)) == prefix
+}
+
+check_length <- function(x) {
+  if (length(x) <= 1) return(NULL)
+  x[-length(x)]
+}
+
+?rep
+rep(1:4, 2)
+
+replicate_value <- function(x, y) {
+  rep(y, length.out = length(x))
+}
 
