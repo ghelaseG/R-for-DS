@@ -183,3 +183,39 @@ both_na <- function(x, y) {
   which(is.na(x) & is.na(y))  
 }
 
+#6. What do the following functions do? Why are they useful even though they are so short?
+
+is_directory <- function(x) file.info(x)$isdir
+is_readable <- function(x) file.access(x, 4) == 0
+
+#Answer:
+
+#the functions are doing what the variable name was chosen, checking the file in the directory and if it's readable
+
+#7. Read the complete lyrics (http://bit.ly/littlebunnyfoofoo) to "Little Bunny Foo Foo". There's a lot of duplication in this song. Extend the initial piping example to re-create the complete song, and use functions to reduce the duplication.
+
+#Answer:
+
+#the initial piping example:
+
+foo_foo %>% 
+  hop(through = forest) %>% 
+  scoop(up = field_mouse) %>% 
+  bop(on = head)
+
+#then
+
+good_fairy %>% if (
+  foo_foo$hop(!through = forest) | foo_foo$bop(!on = head)
+) {
+  print("Good Bunny")
+} else if (length(foo_foo) > 3) {
+  print("Foo Foo is a goon")
+}
+
+
+
+
+
+  
+
