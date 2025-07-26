@@ -514,5 +514,30 @@ cut(temp, breaks = seq(-10, 40, 10),
     labels(c("freezing", "cold", "cool", "warm", "hot")))
 
 cut(temp, breaks = seq(-10, 40, 10),
-    right = TRUE,
+    right = TRUE, #practice this side
     labels(c("freezing", "cold", "cool", "warm", "hot")))
+
+#5. What happens if you use swtich() with numeric values?
+
+#Answer:
+
+#?switch
+
+x = 2
+switch (x, 2 = "no", 1 = "yes")
+switch (x, `1` = "no", `2` = "yes")
+
+#6. What does this switch() call do? What happens if x is "e"?
+
+#Answer:
+x <- "e"
+x <- "a"
+switch(x,
+       a = ,
+       b = "ab",
+       c = ,
+       d = "cd"
+      )
+
+#Experiment, then carefully read the documentation.
+
