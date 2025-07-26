@@ -303,4 +303,8 @@ mvrnorm(n = 1, mu, Sigma, tol = 1e-6, empirical = FALSE, EISPACK = FALSE)
 
 #to make them more consistent involves careful data collection, handling outliers, and potentially using robust estimation techniques. (soruce google) 
 
+#4. Make a case for why norm_r(), norm_d(), etc., would be better than rnorm(), dnorm(). Make a case for the opposite.
 
+#Answer:
+
+#as the book mentions, using a common prefix to indicate that they are connected - memebers of the family
