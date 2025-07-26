@@ -469,4 +469,17 @@ input_greeting <- function(now = lubridate::now()) {
   }
 }
 
+#3. Implement a fizzbuzz function. It takes a single number as input. If the number is divisible by three, it returns "fizz". If it's divisible by five it returns "buzz". If it's divisible by three and five, it returns "fizzbuzz". Otherwise, it returns the number. Make sure you first write working code before you create the function.
 
+#Answer:
+
+x = readline(prompt = "Please enter a number: ")
+x <- 3
+if (x %% 3) "fizz" else if (x %% 5) "buzz" else if (x %% 3 && x %% 5) "fizzbuzz" else (print(x))
+
+checking_fizzbuzz <- function(x) { 
+    if (x %% 3 == 0) {
+    return("fizz")
+  }
+}
+checking_fizzbuzz()
