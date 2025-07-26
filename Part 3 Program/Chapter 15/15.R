@@ -455,7 +455,18 @@ utils::str( ifelse(FALSE, yes, no) )
 #>It’s super fast.
 #>It’s more convenient to use.
 
+#2. Write a greeting function that says "good morning". "good afternoon" or "good evening", depending on the time of day. (Hint: use a time argument that defaults to lubridate::now(). That will make it easier to test your function.)
 
-
+#Answer:
+??between # between(x, lower, upper, incbounds=TRUE, NAbounds=TRUE, check=FALSE)
+input_greeting <- function(now = lubridate::now()) {
+  if (between(hour(now), 6, 12)){
+    print("good morning")
+  } else if (between(hour(now), 13, 17)) {
+    print("good afternoon")
+  } else {
+    print("good evening")
+  }
+}
 
 
