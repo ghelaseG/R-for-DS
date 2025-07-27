@@ -541,3 +541,39 @@ switch(x,
 
 #Experiment, then carefully read the documentation.
 
+
+#Function Arguments
+
+#the arguments set supplies the data to compute on, and supplies the details of the computation.
+
+#> in log() - data is x, detail is the base
+#> in mean() - data is x, details are how much to trim from end and handle missing values
+#> in t.test() - data are x and y, details are alternative, mu, paired, var.equal, conf.level
+#> in str_c() - data is any nr of strings, details controlled by sep and collapse
+
+#data arguments should come first and detail arguments in the end with default values
+
+#Compute confidence interval around mean using normal approximation
+
+mean_ci <- function(x, conf = 0.95) {
+  se <- sd(x) / sqrt(length(x))
+  alpha <- 1 - conf
+  mean(x) + se * qnorm(c(alpha / 2, 1 - alpha / 2))
+}
+
+x <- runif(100)
+mean_ci(x)
+mean_ci(x, conf = 0.99)
+
+#Good
+mean(1:10, na.rm = TRUE)
+
+#BAD
+mean(x = 1:10, , FALSE)
+mean(, TRUE, x = c(1:10, NA))
+
+#Good
+average <- mean(feet / 12 + inches, na.rm = TRUE)
+
+#BAD
+average<-mean(feet/12+inches,na.rm=TRUE)
