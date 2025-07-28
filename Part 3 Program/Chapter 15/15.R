@@ -577,3 +577,165 @@ average <- mean(feet / 12 + inches, na.rm = TRUE)
 
 #BAD
 average<-mean(feet/12+inches,na.rm=TRUE)
+
+
+# Choosing Names
+
+#the names of the arguments are also important, some of the very common are:
+
+#> x, y, z: vectors
+#> w: vector of weight
+#> df: a data frame
+#> i, j: numeric indices (rows and columns)
+#> n: length, or number of rows
+#> p: number of columns
+
+# Checking Values
+
+#it is often useful to make constraints explicit
+
+wt_mean <- function(x, w) {
+  sum(x * w) / sum(x)
+}
+
+wt_var <- function(x, w) {
+  mu <- wt_mean(x, w)
+  sum(w * (x - mu) ^ 2) / sum(w)
+}
+
+wt_sd <- function(x, w) {
+  sqrt(wt_var(x, w))
+}
+
+wt_mean(1:6, 1:3)
+#we can throw an error if some conditions aren't met
+
+wt_mean <- function(x, w) {
+  if (length(x) != length(w)) {
+    stop("`x` and `w` must be the same length", call. = FALSE)
+  }
+  sum(w * x) / sum(x)
+}
+
+#be careful not to take this too far
+
+wt_mean <- function(x, w, na.rm = FALSE) {
+  if (!is.logical(na.rm)) {
+    stop("`na.rm` must be logical")
+  }
+  if (length(na.rm) != 1) {
+    stop("`na.rm` must be length 1")
+  }
+  if (length(x) != length(w)) {
+    stop("`x` and `w` must be the same length", call. = FALSE)
+  }
+  
+  if (na.rm) {
+    miss <- is.na(x) | is.na(w)
+    x <- x[!miss]
+    w <- w[!miss]
+  }
+  sum(w * x) / sum(x)
+}
+
+#stopifnot() checks that each argument is TRUE
+
+wt_mean <- function(x, w, na.rm = FALSE) {
+  stopifnot(is.logical(na.rm), length(na.rm) == 1)
+  stopifnot(length(x) == length(w))
+  
+  if (na.rm) {
+    miss <- is.na(x) | is.na(w)
+    x <- x[!miss]
+    w <- w[!miss]
+  }
+  sum(w * x) / sum(x)
+}
+
+wt_mean(1:6, 6:1, na.rm = "foo")
+
+# Dot-Dot-Dot (...)
+
+sum(1,2,3,4,5,6,7,8,9,10)
+stringr::str_c("a", "b", "c", "d", "e", "f")
+
+#these functions rely on a special argument ... or dot dot dot
+
+#you can send those ... on to another function
+
+love R
+
+commas <- function(...) stringr::str_c(..., collapse = ", ")
+commas(letters[1:10])
+
+rule <- function(..., pad = "-") {
+  title <- paste0(...)
+  width <- getOption("width") - nchar(title) - 5
+  cat(title, " ", stringr::str_dup(pad, width), "\n", sep = "")
+}
+
+rule("Important output")
+
+#using ... dot dot dot, will not raise an error if using misspelled arguments
+
+x <- c(1, 2)
+sum(x, na.mr = TRUE)
+
+#if you want to see the values of dot dot dot, use list(...)
+
+#Lazy Evaluation
+
+#http://adv-r.had.co.nz/Functions.html#lazy-evaluation
+
+#Exercises:
+
+#1. What does commas(letters, collapse = "-") do? Why?
+
+#Answer:
+
+commas <- function(...) stringr::str_c(..., collapse = ", ")
+commas(letters[1:10], collapse = "-")
+
+#we first get this error Error in stringr::str_c(..., collapse = ", ") : 
+#formal argument "collapse" matched by multiple actual arguments
+
+#but if we change collapse:
+
+commas <- function(...) stringr::str_c(..., collapse = "-")
+commas(letters[1:10])
+
+#2. It'd be nice if you could supply multiple characters to the pad argument, r.g., rule ("Title", pad = "-+). Why doesn't this currently work? How could you fix it?
+
+#Answer:
+
+rule <- function(..., pad = "-+") {
+  title <- paste0(...)
+  width <- getOption("width") - nchar(title) - 5
+  cat(title, " ", stringr::str_dup(pad, width), "\n", sep = "")
+}
+
+rule("Title")
+#it does work
+
+#3. What does the trim argument to mean() do? When might you use it?
+
+#Answer:
+
+#?mean
+#> trim	- the fraction (0 to 0.5) of observations to be trimmed from each end of x before the mean is computed. Values of trim outside that range are taken as the nearest endpoint.
+
+x <- c(0:10, 50)
+xm <- mean(x)
+x
+xm
+c(xm, mean(x, trim = 0.10))
+
+#It's particularly useful when dealing with data that may contain unusual or extreme values that could skew the traditional mean (source google)
+
+#4. The default value for the method argument to cor() is c("pearson", "Kendall", "spearman"). What does that mean? What value is used by default?
+
+#Answer:
+
+#?cor - cor compute the variance of x and the correlation of x and y if these are vectors. If x and y are matrices then the covariances (or correlations) between the columns of x and the columns of y are computed.
+#the first value is used by default
+
