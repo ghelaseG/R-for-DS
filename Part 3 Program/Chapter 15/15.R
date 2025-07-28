@@ -739,3 +739,101 @@ c(xm, mean(x, trim = 0.10))
 #?cor - cor compute the variance of x and the correlation of x and y if these are vectors. If x and y are matrices then the covariances (or correlations) between the columns of x and the columns of y are computed.
 #the first value is used by default
 
+# Return Values
+
+#> does returning early make your function easy?
+#> can this be made pipeable?
+
+# Explicit return Statements
+
+#the value returned is the last statement, unless using return() earlier.
+
+complicated_function <- function(x, y, z) {
+  if (length(x) == 0 || length(y) == 0) {
+    return(0)
+  }
+  #complicated code here
+}
+
+
+f <- function() {
+  if (x) {
+    #> Do
+    #> Something
+    #> that
+    #> takes
+    #> many
+    #> lines
+    #> to
+    #> express
+  } else {
+    # return something short
+  }
+}
+
+#we can rewrite it like this
+f <- function() {
+  if (!x) {
+    return(something_short)
+  }
+  #> Do
+  #> Something
+  #> that
+  #> takes
+  #> many
+  #> lines
+  #> to
+  #> express
+}
+
+#Writing pipeable functions
+
+#two types: transformation and side-effect
+
+#> transformation functions - have a primary object passed in the first argument, returning a modified version (exp: dplyr or tidyr main objects are data frames)
+#> side-effect functions - called to perform an action, drawing or saving - not transforming, for exp:
+
+show_missings <- function(df) {
+  n <- sum(is.na(df))
+  cat("Missing values: ", n, "\n", sep = "")
+  
+  invisible(df) #input not printed
+}
+
+show_missings(mtcars) #still there, not printed
+
+x <- show_missings(mtcars)
+
+class(x)
+
+dim(x)
+library(dplyr)
+mtcars %>% show_missings() %>% mutate(mpg = ifelse(mpg < 20, NA, mpg)) %>% show_missings()
+
+#Environment
+
+#last component of a function
+#the environment controls the search of the value
+
+f <- function(x) {
+  x + y
+}
+
+#since y is not defined, R will look into the environment
+
+y <- 100
+f(10)
+
+y <- 1000
+f(10)
+
+`+` <- function(x, y) {
+  if (runif(1) < 0.1) {
+    sum(x, y)
+  } else {
+    sum(x, y) * 1.1
+  }
+}
+table(replicate(1000, 1 + 2))
+
+rm(`+`)
