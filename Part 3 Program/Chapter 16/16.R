@@ -145,3 +145,33 @@ parse_integer(x)
 
 x <- c("1.1", "1.2")
 parse_double(x)
+
+
+# Using Atomic Vectors
+
+#Coercion
+
+#there are two ways to convert one type of vector to another:
+
+#explicit coercion: happens when you call as.logical(), as.integer(), as.double() or as.character(); check if you can make the fix upstream, so that the vector never had the wrong type
+#implicit coercion: happens when you use a vector in a specific context that expects a certain type of vector.
+
+#one of the most important type of implicit coercion is using a logical vector in a numeric context - True becomes 1 and False 0.
+
+x <- sample(20, 100, replace = TRUE)
+y <- x > 10
+sum(y)
+mean(y)
+
+if (length(x)) {
+  # do something
+}
+
+#the most complex type always wins:
+
+typeof(c(TRUE, 1L))
+typeof(c(1L, 1.5))
+typeof(c(1.5, "a"))
+
+# Test functions
+
