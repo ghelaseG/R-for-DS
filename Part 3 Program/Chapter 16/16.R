@@ -256,9 +256,38 @@ x[c("xyz", "def")]
 x[1, ]  #select the first row and all the columns
 x[, -1] #select all rows and all columns except the first
 
-## [[ only extracts a single element, and always drop names
+## [[ only extracts a single element, and always drops names
+
+#Exercises:
+
+#1. What does mean(is.na(x)) tell you about a vector x? What about sum(!is.finite(x))?
+
+#2. Carefully read the documentation of is.vector(). What does it actually test for? Why does is.atomic() not agree with the definition of atomic vectors above?
+
+#3. Compare and contrast setNames() with purrr::set_names().
+
+#4. Create functions that take a vector as input and return:
+
+#a. The last value. Should you use [ or [[?
+#b. The elements at even numbered positions.
+#c. Every element except the last value.
+#d. Only even numbers ( and no missing values).
+
+#5. Why is x[-which(x > 0)] not the same as x[x <= 0]?
+
+#6. What happens when you subset with a positive integer that's bigger than the length o f the vector? What happens when you subset with a name that doesn't exist?
 
 
+#Answers:
+
+#1.
+x <- c(NA, 0, 1, Inf, -Inf)
+
+mean(is.na(x)) #one NA divided by the total number
+
+sum(!is.finite(x)) #sum of anything that is not finite, exp: 0 or 1
+
+#2.
 
 
 
