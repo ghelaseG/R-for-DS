@@ -295,4 +295,47 @@ sum(!is.finite(x)) #sum of anything that is not finite, exp: 0 or 1
 #>as.vector, a generic, attempts to coerce its argument into a vector of mode mode (the default is to coerce to whichever vector mode is most convenient): if the result is atomic (is.atomic), all attributes are removed. 
 #>is.vector(x) returns TRUE if x is a vector of the specified mode having no attributes other than names.
 
+vector(mode = "logical", length = 0)
+as.vector(x, mode = "any")
+is.vector(x, mode = "any")
 
+#3. 
+
+?setNames # This is a convenience function that sets the names on an object and returns the object. It is most useful at the end of a function definition where one is creating the object to be returned and would prefer not to store it under a name just so the names can be assigned.
+??set_names # This is equivalent to stats::setNames(), with more features and stricter argument checking.
+
+setNames( 1:3, c("foo", "bar", "baz") )
+set_names(1:4, c("a", "b", "c", "d"))
+
+#4. 
+#a.
+check_last_value <- function(x) {
+  return(x[[length(x)]])
+}
+
+check_last_value(1:10)
+
+#b. 
+?seq_along
+even_number_positions <- function(x) {
+  x[seq_along(x) %% 2 == 0]
+}
+
+even_number_positions(1:10)
+even_number_positions(letters)
+
+#c.
+
+except_last_value <- function(x) {
+  x[-length(x)]
+}
+
+except_last_value(1:10)
+
+#d.
+
+even_numbers <- function(x) {
+  return(x[!is.na(x) & x %% 2 == 0])
+}
+
+even_numbers(c(1:10, 2, NA, 4))
