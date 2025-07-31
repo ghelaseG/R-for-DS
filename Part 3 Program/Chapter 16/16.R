@@ -353,4 +353,15 @@ x[x <= 0]
 #>[1]   NA -Inf   NA
 
 #6.
+x <- c(1:10)
 
+x[-which(x > 0)]
+
+x[x <= 0]
+
+x[11]
+x["a"]
+x[[11]]
+x[["a"]]
+
+#we're getting NA
