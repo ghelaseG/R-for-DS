@@ -207,3 +207,58 @@ tibble(x = 1:4, y = rep(1:2, 2))
 
 tibble(x = 1:4, y = rep(1:2, each = 2))
 
+# Naming vectors
+
+#two ways of naming vectors
+
+c(x = 1, y = 2, z = 4)
+
+set_names(1:3, c("a", "b", "c"))
+
+# Subsetting
+
+#filter only works with tibble
+# [ use this for vectors : x[a]
+
+#you can subset a vector with:
+
+## a numeric vector containing only integers, exp:
+
+x <- c("one", "two", "three", "four", "five")
+x[c(3,2,5)]
+x[c(1,1,5,5,5,2)]
+
+#negative values drop the elements
+x[c(-1,-3,-5)]
+
+#error to mix positive and negative
+
+x[c(1, -1)]
+
+x[0]
+
+## a logical vector, exp:
+
+x <- c(10, 3, NA, 5, 8, 1, NA)
+#All non-missing values of x
+x[!is.na(x)]
+
+#all even or missing values
+x[x %% 2 == 0]
+
+## character vector, exp:
+
+x <- c(abc = 1, def = 2, xyz = 5)
+x[c("xyz", "def")]
+
+## simplest is nothing, x[] - not useful when subsetting vectors, but useful when subsetting matrices, because you can select all the rows or all the columns, by leaving the index blank, exp:
+
+x[1, ]  #select the first row and all the columns
+x[, -1] #select all rows and all columns except the first
+
+## [[ only extracts a single element, and always drop names
+
+
+
+
+
