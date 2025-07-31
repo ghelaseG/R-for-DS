@@ -175,3 +175,35 @@ typeof(c(1.5, "a"))
 
 # Test functions
 
+#you can use:
+
+typeof()
+is.vector()
+is.atomic()
+is_*(purr)
+
+is_scalar_atomic() #checks length is 1
+
+# Scalars and Recycling Rules
+
+#R will coerce the types of vectors to be compatible and also the length of vectors (vector recycling)
+
+#a single number is a vector of length 1
+
+sample(10) + 100
+
+runif(10) > 0.5
+
+#in R basic mathematical pperations work with vectors
+
+1:10 + 1:2 #recycling - R expand the shortest vector to the same length as the longest
+
+1:10 + 1:3
+
+#if you do want to recycle, you'll need to do it yourself with rep()
+
+tibble(x = 1:4, y = 1:2)
+tibble(x = 1:4, y = rep(1:2, 2))
+
+tibble(x = 1:4, y = rep(1:2, each = 2))
+
