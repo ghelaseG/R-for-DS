@@ -398,4 +398,58 @@ x3 <- list(1, list(2, list(3)))
 
 #Subsetting
 
+#three ways to subset a list:
 
+a <- list(a = 1:3, b = "a string", c = pi, d = list(-1, -5))
+
+# [ extracts a sublist - the result will always be a list
+
+str(a[1:2])
+str(a[4])
+
+# [[ extracts a single component from a list
+
+str(y[[1]])
+str(y[[4]])
+
+# $ is a shorthand for extracting named elements of a list - similar to [[]]
+
+a$a
+a[["a"]]
+
+# [[]] drills down into a list, while [] returns a new smaller list
+
+# Exercises:
+
+#1. Draw the following lists as nested sets:
+#a. list(a, b, list(c, d), list(e, f))
+#b. list(list(list(list(list(list(a))))))
+
+#2. What happens if you subset a tibble as if you're subsetting a list? What are the key differences between a list and a tibble?
+
+# Answers:
+
+#1.a)
+
+library(DiagrammeR)
+
+?DiagrammeR
+
+DiagrammeR::mermaid("
+  graph TB;
+  subgraph a, b
+  id1(c, d); id2(e, f)
+  end
+  ")
+
+#b)
+
+grViz("
+
+digraph boxes_and_circles {
+      node [shape='box' style='rounded' peripheries = 8 width = 0.9];
+      A;
+}")
+
+?grViz
+      
