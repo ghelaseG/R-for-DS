@@ -339,3 +339,18 @@ even_numbers <- function(x) {
 }
 
 even_numbers(c(1:10, 2, NA, 4))
+
+#5.
+x <- c(1:10, 2, NA, 4, Inf, -Inf, NaN)
+x[-which(x > 0)]
+
+x[x <= 0]
+?which
+
+#>> x[-which(x > 0)]
+#>[1]   NA -Inf  NaN
+#>> x[x <= 0] # R treats NaN (Not a number) as NA, because you cannot compare nothing with something
+#>[1]   NA -Inf   NA
+
+#6.
+
