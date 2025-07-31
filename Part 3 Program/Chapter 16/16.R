@@ -365,3 +365,37 @@ x[[11]]
 x[["a"]]
 
 #we're getting NA
+
+# Recursive Vectors (Lists)
+
+x <- list(1, 2 , 3)
+x
+#str - structure
+str(x)
+
+x_named <- list(a = 1, b = 2, c = 3)
+str(x_named)
+
+#unlike atomic vectors, lists can contain a mix of objects
+
+y <- list("a", 1L, 1.5, TRUE)
+str(y)
+
+z <- list(list(1, 2), list(3, 4))
+str(z)
+
+#Visualising lists
+
+x1 <- list(c(1,2), c(3,4))
+x2 <- list(list(1,2), list(3,4))
+x3 <- list(1, list(2, list(3)))
+
+#three principles:
+
+#lists have rounded corners - atomic vectors squared
+#children are drawn inside their parent
+#the orientation of the children (rows or columns) isn't important
+
+#Subsetting
+
+
