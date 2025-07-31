@@ -289,5 +289,10 @@ sum(!is.finite(x)) #sum of anything that is not finite, exp: 0 or 1
 
 #2.
 
+?is.vector 
+
+#>If mode = "any", is.vector may return TRUE for the atomic modes, list and expression. For any mode, it will return FALSE if x has any attributes except names. (This is incompatible with S.) On the other hand, as.vector removes all attributes including names for results of atomic mode.
+#>as.vector, a generic, attempts to coerce its argument into a vector of mode mode (the default is to coerce to whichever vector mode is most convenient): if the result is atomic (is.atomic), all attributes are removed. 
+#>is.vector(x) returns TRUE if x is a vector of the specified mode having no attributes other than names.
 
 
