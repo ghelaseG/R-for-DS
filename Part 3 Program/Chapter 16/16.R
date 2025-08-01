@@ -446,10 +446,17 @@ DiagrammeR::mermaid("
 
 grViz("
 
-digraph boxes_and_circles {
-      node [shape='box' style='rounded' peripheries = 8 width = 0.9];
+digraph {
+      node [shape='box' style='rounded' peripheries = 8 width = 0.9]
       A;
 }")
 
 ?grViz
-      
+
+#2. 
+?tibble #tibble() constructs a data frame. It is used like base::data.frame()
+?list # Almost all lists in R internally are Generic Vectors, whereas traditional dotted pair lists (as in LISP) remain available but rarely seen by users (except as formals of functions).
+
+#subsetting works the same way in both sides, the only difference is that you need the same length (col and rows) in a tibble.
+
+
