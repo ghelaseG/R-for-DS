@@ -460,3 +460,114 @@ digraph {
 #subsetting works the same way in both sides, the only difference is that you need the same length (col and rows) in a tibble.
 
 
+# Attributes
+
+#any vector can contain additional metadata through its attributes.
+#use attr() to get and set attribute values
+#use attributes() to see them all at once
+
+x <- 1:10
+attr(x, "greeting")
+attr(x, "greeting") <- "Hi!"
+attr(x, "farewell") <- "Bye!"
+attributes(x)
+
+#>three important attributes:
+#>names
+#>dimensions
+#>class
+
+#exp of generic function
+
+as.Date
+methods("as.Date")
+
+#if x is a character - as.Date.character()
+
+getS3method("as.Date", "default")
+
+getS3method("as.Date", "numeric")
+
+
+# Augmented Vectors
+
+#four important augmented vectors:
+##>factors
+##>date-times and times
+##>tibble
+
+#Factors
+
+#designed to represent categorical data
+
+x <- factor(c("ab", "cd", "ab"), levels = c("ab", "cd", "ef"))
+typeof(x)
+attributes(x)
+
+# Dates and Date-Times
+
+#started on January 1 1970
+
+x <- as.Date("1971-01-01")
+unclass(x)
+
+typeof(x)
+attributes(x)
+
+x <- lubridate::ymd_hm("1970-01-01 01:00")
+unclass(x)
+typeof(x)
+attributes(x)
+
+attr(x, "tzone") <- "US/Pacific"
+x
+attr(x, "tzone") <- "US/Eastern"
+x
+
+y <- as.POSIXlt(x)
+typeof(y)
+attributes(y)
+
+#Tibbles
+
+tb <- tibble::tibble(x = 1:5, y = 5:1)
+typeof(tb)
+attributes(tb)
+
+#data frames have a very similar structure
+
+df <- data.frame(x = 1:5, y = 5:1)
+typeof(df)
+attributes(df)
+
+# Exercises:
+
+#1. What does hms::hms(3600) return? How does it print? What primitive type is the augmented vector built on top of? What attributes does it use?
+
+#2. Try and make a tibble that has columns with different lengths. What happens?
+
+#3. Based of the previous definition, is it OK to have a list as a column of a tibble?
+
+#Answers:
+
+#1.
+hms::hms(3600) #seconds
+#01:00:00
+?hms::hms
+#Supports construction from time values, coercion to and from various data types, and formatting. Can be used as a regular column in a data frame.
+#hms() is a high-level constructor that accepts second, minute, hour and day components as numeric vectors.
+
+#2.
+?tibble
+a <- 1:5
+b <- 1:2
+tibble(a, a * 2)
+tibble(b, a*2) 
+#Error in `tibble()`:
+#! Tibble columns must have compatible sizes.
+
+#3. 
+c <- list("a", "b", "c")
+tibble(b, list(a, c))
+
+#it works
