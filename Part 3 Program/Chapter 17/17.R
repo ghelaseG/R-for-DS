@@ -15,7 +15,7 @@ df <- tibble(
   c = rnorm(10),
   d = rnorm(10)
 )
-
+df
 median(df$a)
 median(df$b)
 median(df$c)
@@ -45,3 +45,85 @@ seq_along(y)
 
 #> body: output[[i]] <- median(df[[i]])
 
+# Exercises:
+
+#1. Write for loops to:
+#a. Compute the mean of every column in mtcars.
+#b. Determine the type of each column in nycflights13::flights.
+#c. Compute the number of unique values in each column of iris.
+#d. Generate 10 random normals for each of μ = -10, 0, 10, and 100.
+#Think about the output, sequence, and body before you start writing the loop.
+
+#2. Eliminate the for loop in each of the following examples by taking advantage of an existing function that works with vectors:
+
+out <- ""
+for (x in letters) {
+  out <- stringr::str_c(out, x)
+}
+
+x <- sample(100)
+sd <- 0
+for (i in seq_along(x)) {
+  sd <- sd + (x[i] - mean(x)) ^ 2
+}
+sd <- sqrt(sd / (length(x) - 1))
+
+x <- runif(100)
+out <- vector("numeric", length(x))
+out[1] <- x[1]
+for (i in 2:length(x)) {
+  out[i] <- out[i - 1] + x[i]
+}
+
+#3. Combine your function writing and for loop skills:
+#a. Write a for loop that prints() the lyrics to the children's song "Alice the Camel".
+#b. Convert the nursery rhyme "Ten in the Bed" to a function. Generalize it to any number of people in any sleeping structure.
+#c. Convert the song "99 Bottles of Beer on the Wall" to a function. Generalize to any number of any vessel containing any liquid on any surface.
+
+#4. It's common to see for loops that don't preallocate the output and instead increase the length of a vector at each step:
+
+output <- vector("integer", 0)
+for (i in seq_along(x)) {
+  output <- c(output, lengths(x[[i]]))
+}
+output
+#How does this affect performance? Desing and execute an experiment.
+
+# Answers:
+
+#1.a)
+
+df <- mtcars
+output <- vector("double", ncol(df))
+names(output) <- names(df)
+for (i in seq_along(names(df))) {
+  output[[i]] <- mean(df[[i]])
+}
+output
+
+#b)
+df1 <- nycflights13::flights
+output <- vector("list", ncol(df1))
+names(output) <- names(df1)
+for (i in seq_along(names(df1))) {
+  output[[i]] <- typeof(df1[[i]])
+}
+output
+
+#c)
+df2 <- iris
+output <- vector("double", ncol(df2))
+names(output) <- names(df2)
+for (i in names(df2)) {
+  output[[i]] <- n_distinct(df2[[i]])
+}
+output
+
+#d)
+n <- 10
+mu <- c(-10,0,10,100)
+output <- vector("list", length(mu))
+for (i in seq_along(output)) {
+  output[[i]] <- rnorm(n, mean = mu[i])
+}
+output
