@@ -162,4 +162,54 @@ out
 
 cumsum(x)
 
+#3.
+#a)
+#Alice the Camel lyrics
+"""
+Alice the camel has five humps,
+Alice the camel has five humps,
+Alice the camel has five humps,
+Go, Alice, go!
 
+
+Alice the camel has four humps,
+Alice the camel has four humps,
+Alice the camel has four humps,
+Go, Alice, go!
+
+
+Alice the camel has three humps,
+Alice the camel has three humps,
+Alice the camel has three humps,
+Go, Alice, go!
+
+Alice the camel has two humps,
+Alice the camel has two humps,
+Alice the camel has two humps,
+Go, Alice, go!
+
+Alice the camel has one hump,
+Alice the camel has one hump,
+Alice the camel has one hump,
+Go, Alice, go!
+
+Alice the camel has no humps,
+Alice the camel has no humps,
+Alice the camel has no humps,
+‘Cause Alice is a horse, of course!
+"""
+
+output <- c("five", "four", "three", "two", "one", "no")
+?cat
+?rep
+for (i in output) {
+  cat(str_c("Alice the camel has ", rep(i, 3), " humps.", collapse = "\n" ), "\n")
+  if (i == "no") {
+    cat("'Cause Alice is a horse, of course!\n")
+  } else {
+    cat("Go, Alice, go!\n")
+  }
+  cat("\n")
+}
+
+#b)
