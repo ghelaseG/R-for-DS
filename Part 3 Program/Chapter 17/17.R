@@ -127,3 +127,39 @@ for (i in seq_along(output)) {
   output[[i]] <- rnorm(n, mean = mu[i])
 }
 output
+
+#2. 
+
+#a) 
+out <- ""
+for (x in letters) {
+  out <- stringr::str_c(out, x)
+}
+out
+
+stringr::str_c(letters, collapse = "")
+?str_c
+
+#b)
+x <- sample(100)
+sd <- 0
+for (i in seq_along(x)) {
+  sd <- sd + (x[i] - mean(x)) ^ 2
+}
+sd <- sqrt(sd / (length(x) - 1))
+
+sd(x) #or
+sqrt(sum((x - mean(x)) ^ 2) / (length(x) - 1))
+
+#c)
+x <- runif(100)
+out <- vector("numeric", length(x))
+out[1] <- x[1]
+for (i in 2:length(x)) {
+  out[i] <- out[i - 1] + x[i]
+}
+out
+
+cumsum(x)
+
+
