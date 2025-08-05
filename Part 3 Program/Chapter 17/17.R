@@ -322,11 +322,14 @@ No more bottles of beer on the wall, no more bottles of beer.
 Go to the store and buy some more, 99 bottles of beer on the wall.
 """
 
-output <- c(1:99)
+output <- rev(0:99)
+vessel <- c("bowl", "bottle", "vase")
+liquid <- c("water", "beer", "juice", "coffee", "soda", "wine", "cocktail")
+surface <- c("floor", "ceiling", "wall", "roof")
 
 for (i in output) {
   str_c(i, "bottles of beer on the wall,", i, "bottles of beer.\n")
   cat("Take one down and pass it around,", i, "bottles of beer on the wall.\n")
   
 }
-
+output
