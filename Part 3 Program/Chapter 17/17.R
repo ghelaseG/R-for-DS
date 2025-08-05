@@ -213,3 +213,83 @@ for (i in output) {
 }
 
 #b)
+# Ten In The Bed Lyrics
+"""
+There were ten in the bed
+And the little one said,
+'Roll over! Roll over!'
+So they all rolled over
+And one fell out
+
+There were nine in the bed
+And the little one said,
+'Roll over! Roll over!'
+So they all rolled over
+And one fell out
+
+There were eight in the bed
+And the little one said,
+'Roll over! Roll over!'
+So they all rolled over
+And one fell out
+
+There were seven in the bed
+And the little one said,
+'Roll over! Roll over!'
+So they all rolled over
+And one fell out
+
+There were six in the bed
+And the little one said,
+'Roll over! Roll over!'
+So they all rolled over
+And one fell out
+
+There were five in the bed
+And the little one said,
+'Roll over! Roll over!'
+So they all rolled over
+And one fell out
+
+There were four in the bed
+And the little one said,
+'Roll over! Roll over!'
+So they all rolled over
+And one fell out
+
+There were three in the bed
+And the little one said,
+'Roll over! Roll over!'
+So they all rolled over
+And one fell out
+
+There were two in the bed
+And the little one said,
+'Roll over! Roll over!'
+So they all rolled over
+And one fell out
+
+There was one in the bed
+And the little one said,
+'Good night!'
+"""
+
+output <- c("ten", "nine", "eight", "seven", "six", "five", "four", "three", "two", "one")
+
+for (i in output) {
+
+  if (i == "one") {
+    cat(str_c("There was ", i, " in the bed\n"))
+    cat("And the little one said,\n")
+    cat("'Good night!'")
+  } else {
+    cat(str_c("There were ", i, " in the bed\n"))
+    cat("And the little one said,\n")
+    cat("'Roll over! Roll over!'\n")
+    cat("So they all rolled over\n")
+    cat("And one fell out\n")
+  }
+  cat("\n")
+}
+
+#c)
