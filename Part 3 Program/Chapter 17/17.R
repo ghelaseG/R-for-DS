@@ -327,7 +327,7 @@ library(stringr)
 combined_vectors <- Map(c, sample(0:99, 1), sample(c("bowls", "bottles", "vases"), 1), sample(c("water", "beer", "juice", "coffee", "soda", "wine", "cocktail"), 1), sample(c("floor", "ceiling", "wall", "roof"), 1))
 
 lyrics_song <- function(x, combined_vectors) {
-  for (i in c(rev(seq_len(x)), 0)) {
+  for (i in seq(x, 0)) {
     if (i == 0) {
     cat(glue::glue("No more {combined_vectors[[1]][2]} of {combined_vectors[[1]][3]} on the {combined_vectors[[1]][4]}, no more {combined_vectors[[1]][3]} of {combined_vectors[[1]][3]}.\n Go to the store and buy some more, {x} {combined_vectors[[1]][2]} of {combined_vectors[[1]][3]} on the {combined_vectors[[1]][4]}."), fill = FALSE)
     } else {
