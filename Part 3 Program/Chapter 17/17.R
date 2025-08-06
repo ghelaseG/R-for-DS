@@ -322,23 +322,10 @@ No more bottles of beer on the wall, no more bottles of beer.
 Go to the store and buy some more, 99 bottles of beer on the wall.
 """
 
-# output <- sample(0:99, 1)
-# vessel <- sample(c("bowl", "bottle", "vase"), 1)
-# liquid <- sample(c("water", "beer", "juice", "coffee", "soda", "wine", "cocktail"), 1)
-# surface <- sample(c("floor", "ceiling", "wall", "roof"), 1)
+library(stringr)
 
 combined_vectors <- Map(c, sample(0:99, 1), sample(c("bowls", "bottles", "vases"), 1), sample(c("water", "beer", "juice", "coffee", "soda", "wine", "cocktail"), 1), sample(c("floor", "ceiling", "wall", "roof"), 1))
-typeof(combined_vectors)
-combined_vector <- function(x) {
-  for (i in list(x)) {
-    lyst <- list(x)
-    print(i)
-    xyz <- sapply(lyst, "[[", 1)
-    cat(xyz)
-  }
-}
-combined_vector(combined_vectors[[1]][2])
-library(stringr)
+
 lyrics_song <- function(x, combined_vectors) {
   for (i in c(rev(seq_len(x)), 0)) {
     if (i == 0) {
@@ -348,28 +335,19 @@ lyrics_song <- function(x, combined_vectors) {
     }
   }
 }  
-lyrics_song(3, combined_vectors)
-?glue
-?cat
-idx_list <- list(output, vessel, liquid, surface)
-idx_list
-purrr::pmap_chr(output, vessel, liquid, surface) |> cat()
 
-#?purrr
-#combined_vectors <- c(rbind(output, vessel, liquid, surface))
-#combined_vectors
-#sampled_vector <- sample(combined_vectors, 3, replace = FALSE)
+lyrics_song(combined_vectors[[1]][1], combined_vectors)
+
+#extras:
+# output <- sample(0:99, 1)
+# vessel <- sample(c("bowl", "bottle", "vase"), 1)
+# liquid <- sample(c("water", "beer", "juice", "coffee", "soda", "wine", "cocktail"), 1)
+# surface <- sample(c("floor", "ceiling", "wall", "roof"), 1)
+#?glue
+#?cat
+#typeof(combined_vectors)
+#combined_vector(combined_vectors[[1]][2])
 
 
-#output1 <- vector("list", length = 4)
-#for(i in seq_along()) 
 
-random_indices <- sample(1:4, 3, replace = FALSE)
-random_combined_vectors <- combined_vectors[random_indices]
-print(random_combined_vectors)
-for (i in output) {
-  str_c(i, "bottles of beer on the wall,", i, "bottles of beer.\n")
-  cat("Take one down and pass it around,", i, "bottles of beer on the wall.\n")
-  
-}
-output
+
