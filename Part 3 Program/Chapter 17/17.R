@@ -322,19 +322,34 @@ No more bottles of beer on the wall, no more bottles of beer.
 Go to the store and buy some more, 99 bottles of beer on the wall.
 """
 
-output <- sample(0:99, 1) 
-vessel <- sample(c("bowl", "bottle", "vase"), 1)
-liquid <- sample(c("water", "beer", "juice", "coffee", "soda", "wine", "cocktail"), 1)
-surface <- sample(c("floor", "ceiling", "wall", "roof"), 1)
-combined_vectors <- Map(c, sample(0:99, 1), sample(c("bowl", "bottle", "vase"), 1), sample(c("water", "beer", "juice", "coffee", "soda", "wine", "cocktail"), 1), sample(c("floor", "ceiling", "wall", "roof"), 1))
+# output <- sample(0:99, 1)
+# vessel <- sample(c("bowl", "bottle", "vase"), 1)
+# liquid <- sample(c("water", "beer", "juice", "coffee", "soda", "wine", "cocktail"), 1)
+# surface <- sample(c("floor", "ceiling", "wall", "roof"), 1)
+
+combined_vectors <- Map(c, sample(0:99, 1), sample(c("bowls", "bottles", "vases"), 1), sample(c("water", "beer", "juice", "coffee", "soda", "wine", "cocktail"), 1), sample(c("floor", "ceiling", "wall", "roof"), 1))
+typeof(combined_vectors)
 combined_vector <- function(x) {
   for (i in list(x)) {
-    lyst <- list(i)
+    lyst <- list(x)
+    print(i)
     xyz <- sapply(lyst, "[[", 1)
     cat(xyz)
   }
 }
 combined_vector(combined_vectors[[1]][2])
+library(stringr)
+lyrics_song <- function(x, combined_vectors) {
+  for (i in c(rev(seq_len(x)), 0)) {
+    if (i == 0) {
+    cat(glue::glue("No more {combined_vectors[[1]][2]} of {combined_vectors[[1]][3]} on the {combined_vectors[[1]][4]}, no more {combined_vectors[[1]][3]} of {combined_vectors[[1]][3]}.\n Go to the store and buy some more, {x} {combined_vectors[[1]][2]} of {combined_vectors[[1]][3]} on the {combined_vectors[[1]][4]}."), fill = FALSE)
+    } else {
+    cat(glue::glue("{i} {if (i == 1) str_sub(combined_vectors[[1]][2], end = -2) else combined_vectors[[1]][2]} of {combined_vectors[[1]][3]} on the {combined_vectors[[1]][4]}, {i} {if (i == 1) str_sub(combined_vectors[[1]][2], end = -2) else combined_vectors[[1]][2]} of {combined_vectors[[1]][3]}.\n Take one down and pass it around, {if (i == 1) 'no more' else i - 1} bottles of {combined_vectors[[1]][3]} on the {combined_vectors[[1]][4]}.\n \n \n"))
+    }
+  }
+}  
+lyrics_song(3, combined_vectors)
+?glue
 ?cat
 idx_list <- list(output, vessel, liquid, surface)
 idx_list
