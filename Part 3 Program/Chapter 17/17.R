@@ -321,22 +321,33 @@ Take one down and pass it around, no more bottles of beer on the wall.
 No more bottles of beer on the wall, no more bottles of beer.
 Go to the store and buy some more, 99 bottles of beer on the wall.
 """
-numbers <- 1:10
-
-# Select one random number
-random_number <- sample(numbers, 1)
-print(random_number)
 
 output <- sample(0:99, 1) 
-
 vessel <- sample(c("bowl", "bottle", "vase"), 1)
-
 liquid <- sample(c("water", "beer", "juice", "coffee", "soda", "wine", "cocktail"), 1)
-
 surface <- sample(c("floor", "ceiling", "wall", "roof"), 1)
+combined_vectors <- Map(c, sample(0:99, 1), sample(c("bowl", "bottle", "vase"), 1), sample(c("water", "beer", "juice", "coffee", "soda", "wine", "cocktail"), 1), sample(c("floor", "ceiling", "wall", "roof"), 1))
+combined_vector <- function(x) {
+  for (i in list(x)) {
+    lyst <- list(i)
+    xyz <- sapply(lyst, "[[", 1)
+    cat(xyz)
+  }
+}
+combined_vector(combined_vectors[[1]][2])
+?cat
+idx_list <- list(output, vessel, liquid, surface)
+idx_list
+purrr::pmap_chr(output, vessel, liquid, surface) |> cat()
 
-combined_vectors <- c(vessel, liquid, surface)
-sampled_vector <- sample(combined_vectors, 3, replace = FALSE)
+#?purrr
+#combined_vectors <- c(rbind(output, vessel, liquid, surface))
+#combined_vectors
+#sampled_vector <- sample(combined_vectors, 3, replace = FALSE)
+
+
+#output1 <- vector("list", length = 4)
+#for(i in seq_along()) 
 
 random_indices <- sample(1:4, 3, replace = FALSE)
 random_combined_vectors <- combined_vectors[random_indices]
