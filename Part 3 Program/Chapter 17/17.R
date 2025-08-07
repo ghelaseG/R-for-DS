@@ -348,6 +348,27 @@ lyrics_song(combined_vectors[[1]][1], combined_vectors)
 #typeof(combined_vectors)
 #combined_vector(combined_vectors[[1]][2])
 
+#4.
 
+output <- vector("integer", 0)
+for (i in seq_along(x)) {
+  output <- c(output, lengths(x[[i]]))
+}
+output
 
+x <- rerun(1000, sample(sample(10, 1)))
+microbenchmark::microbenchmark(
+  non_allocate = {
+    output <- vector("integer", 0)
+    for (i in seq_along(x)) {
+      output <- c(output, length(x[[i]]))
+    }
+  },
+  allocate = {
+    output <- vector("integer", 0)
+    for (i in seq_along(x)) {
+      output[i] <- length(x[[i]])
+    }
+  }
+)
 
