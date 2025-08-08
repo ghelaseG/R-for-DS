@@ -372,3 +372,130 @@ microbenchmark::microbenchmark(
   }
 )
 
+
+# For Loop Variations
+
+#there are 4 variations on the basic theme of the for loop:
+
+##> modifying an existing object
+##> looping over names or values
+##> handling outputs and sequences of unknown length
+
+
+# Modifying an Existing Object
+
+#sometimes we can use a for loop to modify an existing object
+
+df <- tibble(
+  a = rnorm(10),
+  b = rnorm(10),
+  c = rnorm(10),
+  d = rnorm(10),
+)
+
+rescale01 <- function(x) {
+  rng <- range(x, na.rm = TRUE)
+  (x - rng[1]) / (rng[2] - rng[1])
+}
+
+df$a <- rescale01(df$a)
+df$b <- rescale01(df$b)
+df$c <- rescale01(df$c)
+df$d <- rescale01(df$d)
+
+#we can solve this with a for loop
+## output, sequence, body:
+
+for (i in seq_along(df)) {
+  df[[i]] <- rescale01(df[[i]])
+}
+
+
+# Looping patterns
+
+#there are 3 basic ways to loop over a vector:
+##the basic way is looping over the numeric indices with for (i in seq_along(xs)), and extracting the value with x[[i]], but there are 2 other ways:
+
+# loop over the elements: for (x in xs) - useful when plotting or saving a file
+# loop over the names: for (nm in names(xs)) - useful using the name in a plot title or a filename
+
+results <- vector("list", length(x))
+names(results) <- names(x)
+
+for (i in seq_along(x)) {
+  name <- names(x)[[i]]
+  value <- x[[i]]
+}
+
+# ?names
+# names(islands)
+
+
+# Unknown Output Length
+
+means <- c(0, 1, 2)
+
+output <- double()
+for (i in seq_along(means)) {
+  n <- sample(100, 1)
+  output <- c(output, rnorm(n, means[[i]]))
+}
+str(output)
+
+#not efficient because in each iteration the data is copied from the previous one - quadratic (On^2) behaviour (meaning that a loop with 3x elements, would take nine (3^2) times as long to run)
+
+#one solution is to save the results in a list, and then combine into a single vector
+
+out <- vector("list", length(means))
+for (i in seq_along(means)) {
+  n <- sample(100, 1)
+  out[[i]] <- rnorm(n, means[[i]])
+}
+str(out)
+str(unlist(out)) #we've flatten a list of vectors into a single vector, we can use purrr::flatten_dbl()
+
+#this pattern occurs in other places too:
+
+##> if we generate a long string, instead of pasteing each iteration, we can save the output in a single character vector (paste(output, collapse =""))
+##> if we generate a big data frame, instead of rbinding in each iteration, save the output in a list then use dplyr::bind_rows(output)
+
+
+# Unknown sequence length
+
+#we can use a while loop, made out of a condition and a body
+
+while(condition) {
+  # body
+}
+
+#you can rewrite any for loop as a while loop, but not the other way around
+
+for (i in seq_along(x)) {
+  # body
+}
+
+# Equivalent to
+i <- 1
+while ( i <= length(x)) {
+  # body
+  i <- i + 1
+}
+
+#how many tries to get 3 heads in a row:
+
+flip <- function() sample(c("T", "H"), 1)
+
+flips <- 0
+nheads <- 0
+
+while (nheads < 3) {
+  if (flip() == "H") {
+    nheads <- nheads + 1
+  } else {
+    nheads <- 0
+  }
+  flips <- flips + 1
+}
+flips
+
+#use while loops when the number of iteration is unknown.
