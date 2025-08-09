@@ -542,6 +542,4 @@ output <- vector("list", length(files))
 for (x in files) {
   output[[x]] <- read_csv(files[[x]]) 
 }
-
 bind_rows(output)
-
