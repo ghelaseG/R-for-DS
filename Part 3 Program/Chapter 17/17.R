@@ -568,3 +568,12 @@ for (nm in names(x)) {
 # If x has no names, nothing happens.
 # If only some of the elements are named, we get the error: Error in x[[nm]] : subscript out of bounds
 # If the names are not unique, it is still running normally.
+
+#3.
+
+#we can use different methods to select the numeric column in a data frame:
+x[ , purrr::map_lgl(x, is.numeric)]
+#or
+x %>% dplyr::select(where(is.numeric))
+
+#we can print in that nice format using str(...)
