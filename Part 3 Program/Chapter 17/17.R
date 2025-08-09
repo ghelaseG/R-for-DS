@@ -499,3 +499,49 @@ while (nheads < 3) {
 flips
 
 #use while loops when the number of iteration is unknown.
+
+# Exercises:
+
+#1. Imagine you have a directory full of CSV files that you want to read in. You have their paths in a vector, files <- dir("data/", pattern = "\\.csv$", full.names = TRUE), and now want to read each one with read_csv(). Write the for loop that will load them into a single data frame.
+
+#2. What happens if you use for (nm in names(x)) and x has no names? What if only some of the elements are names? What if the names are not unique?
+
+#3. Write a function that prints the mean of each numeric column in a data frame, along with its name. For example, show_mean(iris) would print:
+
+show_mean(iris)
+#> Sepal.Length: 5.84
+#> Sepal.Width: 3.06
+#> Petal.Length: 3.76
+#> Petal.Width: 1.20
+
+#(Extra challenge: what function did I use to make sure that the numbers lined up nicely, even though the variable names had different lengths?)
+
+#4. What does this code do? How does it work?
+
+trans <- list(
+  disp = function(x) x * 0.0163871
+  am = function(x) {
+    factor(x, labels = c("auto", "manual"))
+  }
+)
+for (var in names(trans)) {
+  mtcars[[var]] <- trans[[var]](mtcars[[var]])
+}
+
+#Answers:
+
+#1. 
+files <- dir("data/", pattern = "\\.csv$", full.names = TRUE)
+?read_csv
+
+read_csv(file, id = "file")
+#or
+
+output <- vector("list", length(files))
+
+for (x in files) {
+  output[[x]] <- read_csv(files[[x]]) 
+}
+
+bind_rows(output)
+
