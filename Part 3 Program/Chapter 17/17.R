@@ -543,3 +543,28 @@ for (x in files) {
   output[[x]] <- read_csv(files[[x]]) 
 }
 bind_rows(output)
+
+#2.
+x <- c(1, 2, 3)
+print(names(x))
+for (nm in names(x)) {
+  print(x[[nm]])
+}
+
+x <- c(a = 1, b = "gg", "gg")
+names(x)
+print(names(x))
+for (nm in names(x)) {
+  print(x[[nm]])
+}
+
+x <- c(a = 1, a = "gg", b = "gg")
+names(x)
+print(names(x))
+for (nm in names(x)) {
+  print(x[[nm]])
+}
+
+# If x has no names, nothing happens.
+# If only some of the elements are named, we get the error: Error in x[[nm]] : subscript out of bounds
+# If the names are not unique, it is still running normally.
