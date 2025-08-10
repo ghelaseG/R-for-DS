@@ -581,12 +581,28 @@ print(colMeans(numeric_col))
 output <- vector("double", length(means))
 iris_means <- function(x, output) {
   numeric_col <- df[ , purrr::map_lgl(df, is.numeric)]
-  print(colMeans(numeric_col))
+  meansss <- colMeans(numeric_col)
+  print(meansss)
+  cat(meansss, sep = "\n")
 }
-
+?print
 iris_means(df, output)
-
+?paste
 #or
 df %>% dplyr::select(where(is.numeric))
 ?mean
 #we can print in that nice format using str(...)
+
+?paste
+paste0(1:12, sep = "\\n")
+paste(1:12)        # same
+as.character(1:12)
+
+(nth <- paste0(1:12, c("st", "nd", "rd", rep("th", 9))))
+paste(month.abb, nth, sep = ": ", collapse = "\n")
+(title <- paste(strwrap(
+  "Stopping distance of cars (ft) vs. speed (mph) from Ezekiel (1930)",
+  width = 30), collapse = "\\n"))
+print(title)
+?cat
+
