@@ -572,6 +572,25 @@ for (nm in names(x)) {
 #3.
 
 #we can use different methods to select the numeric column in a data frame:
+
+show_mean <- function(df, digits = 2) {
+  maxstr <- max(str_length(names(df)))
+  print(maxstr)
+  for (nm in names(df)) {
+    if (is.numeric(df[[nm]])) {
+      cat(
+        str_c(str_pad(str_c(nm, ":"), maxstr + 1L, side = "right"),
+              format(mean(df[[nm]]), digits = digits, nsmall = digits),
+              sep = " "
+        ),
+        "\n"
+      )
+    }
+  }
+}
+show_mean(iris) 
+
+
 df <- iris
 view(iris)
 sapply(df, class)
@@ -586,9 +605,9 @@ df <- iris
 for(i in names(df[ , purrr::map_lgl(df, is.numeric)])) {
   cat(str_c(str_pad(str_c(i, ": "), round(mean(df[[i]]), 2))))
 }
-stringsss <- "Sepal.Length: 5.84"
+stringsss <- "Sepal.Length:"
 
-str_pad(stringsss, width = 23, side = "both", pad = " ", use_width = TRUE)
+str_pad(stringsss, width = max(str_length(stringsss)) + 1, side = "both", pad = " ", use_width = TRUE)
 ?str_pad
 ?round
 output <- vector("logical", length(x))
