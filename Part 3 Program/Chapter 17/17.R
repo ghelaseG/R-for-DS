@@ -572,14 +572,16 @@ for (nm in names(x)) {
 #3.
 
 #we can use different methods to select the numeric column in a data frame:
-
+#source github
 show_mean <- function(df, digits = 2) {
   maxstr <- max(str_length(names(df)))
   print(maxstr)
   for (nm in names(df)) {
     if (is.numeric(df[[nm]])) {
       cat(
-        str_c(str_pad(str_c(nm, ":"), maxstr + 1L, side = "right"),
+        str_c(
+          str_pad(
+          str_c(nm, ":"), maxstr + 1L, side = "right"),
               format(mean(df[[nm]]), digits = digits, nsmall = digits),
               sep = " "
         ),
@@ -590,28 +592,19 @@ show_mean <- function(df, digits = 2) {
 }
 show_mean(iris) 
 
-
-df <- iris
-view(iris)
-sapply(df, class)
-numeric_col <- df[ , purrr::map_lgl(df, is.numeric)]
-print(numeric_col)
-cat(paste0(names(df)[2], ": ", round(mean(df[[1]]), 2)), fill = TRUE)
-print(cat(colMeans(numeric_col)), sep = "\n")
-str(numeric_col)
-
+#trial 1
 df <- iris
 
 for(i in names(df[ , purrr::map_lgl(df, is.numeric)])) {
-  cat(str_c(str_pad(str_c(i, ": "), round(mean(df[[i]]), 2))))
-}
-stringsss <- "Sepal.Length:"
+  cat(str_c(i, ": ", round(mean(df[[i]]), 2)), sep = "\n")
+}  
+#to achieve the same result we can use str_pad or sprintf
 
-str_pad(stringsss, width = max(str_length(stringsss)) + 1, side = "both", pad = " ", use_width = TRUE)
-?str_pad
-?round
-output <- vector("logical", length(x))
+#practice str_pad
+#stringsss <- "Sepal.Length:"
+#str_pad(stringsss, width = max(str_length(stringsss)) + 1, side = "both", pad = " ", use_width = TRUE)
 
+#trial 2
 show_means <- function(x, output) {
   numeric_col <- x[ , purrr::map_lgl(x, is.numeric)]
   for (i in seq_along(x)) {
@@ -620,75 +613,20 @@ show_means <- function(x, output) {
 }
 show_means(df)
 
-?cat
-?str_pad
-str_pad("hadley", 3, "both")
+#trial 3
 
-
-rbind(
-  str_pad("hadley", 13, "left"),
-  str_pad("hadley", 3, "right"),
-  str_pad("hadley", 3, "both")
-)
-
-show_mean <- function(df, digits = 2) {
-  maxstr <- max(str_length(names(df)))
-  for (nm in names(df)) {
-    if (is.numeric(df[[nm]])) {
-      cat(
-        str_c(str_pad(str_c(nm, ":"), maxstr + 1L, side = "right"),
-              format(mean(df[[nm]]), digits = digits, nsmall = digits),
-              sep = " "
-        ),
-        "\n"
-      )
-    }
-  }
-}
-show_mean(iris)
-
+df <- iris
 show_means(numeric_col <- df[ , purrr::map_lgl(df, is.numeric)])
 output <- vector("logical", length(x))
 iris_means <- function(x, output) {
   numeric_col <- df[ , purrr::map_lgl(df, is.numeric)]
   meansss <- colMeans(numeric_col)
   print(meansss, sep = "\n")
-  #cat(meansss, fill = TRUE)
-  for (i in seq_along(x)) {
   cat(paste0(str_pad(names(x)[1], ": ", round(mean(x[[1]]), 2)), fill = TRUE))
   cat(meansss[[2]], sep = "\n", fill = TRUE, labels = c("Sepal.Width:"))
   cat(meansss[[3]], sep = "\n", fill = TRUE, labels = c("Petal.Length:"))
-  cat(meansss[[4]], sep = "\n", fill = TRUE, labels = c("Petal.Width:")) }
+  cat(meansss[[4]], sep = "\n", fill = TRUE, labels = c("Petal.Width:")) 
 }
-?print
-?cat
-str(iris_means)
+
 iris_means(df, output)
-?paste
-?sprintf
-sprintf("%s is %f feet tall\n", "Sven", 7.1)      # OK
-cat(paste(letters, 100* 1:26), fill = TRUE, labels = paste0("{", 1:10, "}:"))
 
-
-#or
-df %>% dplyr::select(where(is.numeric))
-?mean
-#we can print in that nice format using str(...)
-
-?paste
-paste0(1:12, sep = "\\n")
-paste(1:12)        # same
-as.character(1:12)
-
-(nth <- paste0(1:12, c("st", "nd", "rd", rep("th", 9))))
-paste(month.abb, nth, sep = ": ", collapse = "\n")
-(title <- paste(strwrap(
-  "Stopping distance of cars (ft) vs. speed (mph) from Ezekiel (1930)",
-  width = 30), collapse = "\\n"))
-print(title)
-?cat
-
-?subset
-subset(airquality, Temp > 80, select = c(Ozone, Temp))
-subset(airquality, select = Ozone:Wind)
-?colMeans
