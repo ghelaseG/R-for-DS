@@ -592,12 +592,28 @@ show_mean <- function(df, digits = 2) {
 }
 show_mean(iris) 
 
-#trial 1
+#trial 1 - DONE!!!!!
 df <- iris
 
+xyz <- max(nchar(names(df[ , purrr::map_lgl(df, is.numeric)])))
+
 for(i in names(df[ , purrr::map_lgl(df, is.numeric)])) {
-  cat(str_c(i, ": ", round(mean(df[[i]]), 2)), sep = "\n")
+  cat(str_c(str_pad(str_c(i, ":"), width = xyz + 2, side = "right", use_width = TRUE), round(mean(df[[i]]), 2), sep = " "), "\n")
 }  
+
+#now we can add all of this in a function
+
+show_mean123 <- function(x) {
+  xyz <- max(nchar(names(df[ , purrr::map_lgl(df, is.numeric)])))
+  
+  for(i in names(df[ , purrr::map_lgl(df, is.numeric)])) {
+    cat(str_c(str_pad(str_c(i, ":"), width = xyz + 2, side = "right", use_width = TRUE), round(mean(df[[i]]), 2), sep = " "), "\n")
+  }
+}
+show_mean123(iris)
+
+?str_pad
+
 #to achieve the same result we can use str_pad or sprintf
 
 #practice str_pad
@@ -613,6 +629,13 @@ show_means <- function(x, output) {
 }
 show_means(df)
 
+PadRight <- function(s, x) {
+  require(stringr)
+  sprintf("%*s", -str_length(s)-x, s)
+}
+
+PadRight(show_means(df), 3)
+
 #trial 3
 
 df <- iris
@@ -622,7 +645,7 @@ iris_means <- function(x, output) {
   numeric_col <- df[ , purrr::map_lgl(df, is.numeric)]
   meansss <- colMeans(numeric_col)
   print(meansss, sep = "\n")
-  cat(paste0(str_pad(names(x)[1], ": ", round(mean(x[[1]]), 2)), fill = TRUE))
+  cat(paste0(names(x)[1], ": ", round(mean(x[[1]]), 2)), fill = TRUE)
   cat(meansss[[2]], sep = "\n", fill = TRUE, labels = c("Sepal.Width:"))
   cat(meansss[[3]], sep = "\n", fill = TRUE, labels = c("Petal.Length:"))
   cat(meansss[[4]], sep = "\n", fill = TRUE, labels = c("Petal.Width:")) 
