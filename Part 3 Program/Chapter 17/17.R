@@ -583,11 +583,14 @@ str(numeric_col)
 
 df <- iris
 
-for(i in names(df)) {
-  numeric_col <- df[ , purrr::map_lgl(df, is.numeric)]
-  cat(i, sep = "\n")
+for(i in names(df[ , purrr::map_lgl(df, is.numeric)])) {
+  cat(str_c(str_pad(str_c(i, ": "), round(mean(df[[i]]), 2))))
 }
-?stringr
+stringsss <- "Sepal.Length: 5.84"
+
+str_pad(stringsss, width = 23, side = "both", pad = " ", use_width = TRUE)
+?str_pad
+?round
 output <- vector("logical", length(x))
 
 show_means <- function(x, output) {
@@ -610,7 +613,6 @@ rbind(
 )
 
 show_mean <- function(df, digits = 2) {
-  # Get max length of all variable names in the dataset
   maxstr <- max(str_length(names(df)))
   for (nm in names(df)) {
     if (is.numeric(df[[nm]])) {
