@@ -653,3 +653,25 @@ iris_means <- function(x, output) {
 
 iris_means(df, output)
 
+#4.
+
+trans <- list(
+  disp = function(x) x * 0.0163871,
+  am = function(x) {
+    factor(x, labels = c("auto", "manual"))
+  }
+)
+for (var in names(trans)) {
+  mtcars[[var]] <- trans[[var]](mtcars[[var]])
+}
+
+#Cubic inches per hour to Litres per hour, for manual and auto cars: 0.0163871
+
+trans[["disp"]](mtcars[["disp"]])
+help("mtcars")
+#[, 3]	disp	Displacement (cu.in.)
+#[, 9]	am	Transmission (0 = automatic, 1 = manual)
+
+#n cars, engine displacement refers to the total volume of air and fuel that the engine's cylinders can hold, measured in cubic centimeters (cc) or liters. It essentially indicates the size of the engine and is a key factor in determining its power and fuel consumption ( source google )
+
+
