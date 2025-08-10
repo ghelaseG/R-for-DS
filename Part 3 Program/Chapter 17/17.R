@@ -576,18 +576,79 @@ df <- iris
 view(iris)
 sapply(df, class)
 numeric_col <- df[ , purrr::map_lgl(df, is.numeric)]
-print(colMeans(numeric_col))
+print(numeric_col)
+cat(paste0(names(df)[2], ": ", round(mean(df[[1]]), 2)), fill = TRUE)
+print(cat(colMeans(numeric_col)), sep = "\n")
+str(numeric_col)
 
-output <- vector("double", length(means))
+df <- iris
+
+for(i in names(df)) {
+  numeric_col <- df[ , purrr::map_lgl(df, is.numeric)]
+  cat(i, sep = "\n")
+}
+?stringr
+output <- vector("logical", length(x))
+
+show_means <- function(x, output) {
+  numeric_col <- x[ , purrr::map_lgl(x, is.numeric)]
+  for (i in seq_along(x)) {
+    cat(paste0(names(numeric_col)[i], ": ", round(mean(numeric_col[[i]]), 2)), "\n")
+  }
+}
+show_means(df)
+
+?cat
+?str_pad
+str_pad("hadley", 3, "both")
+
+
+rbind(
+  str_pad("hadley", 13, "left"),
+  str_pad("hadley", 3, "right"),
+  str_pad("hadley", 3, "both")
+)
+
+show_mean <- function(df, digits = 2) {
+  # Get max length of all variable names in the dataset
+  maxstr <- max(str_length(names(df)))
+  for (nm in names(df)) {
+    if (is.numeric(df[[nm]])) {
+      cat(
+        str_c(str_pad(str_c(nm, ":"), maxstr + 1L, side = "right"),
+              format(mean(df[[nm]]), digits = digits, nsmall = digits),
+              sep = " "
+        ),
+        "\n"
+      )
+    }
+  }
+}
+show_mean(iris)
+
+show_means(numeric_col <- df[ , purrr::map_lgl(df, is.numeric)])
+output <- vector("logical", length(x))
 iris_means <- function(x, output) {
   numeric_col <- df[ , purrr::map_lgl(df, is.numeric)]
   meansss <- colMeans(numeric_col)
-  print(meansss)
-  cat(meansss, sep = "\n")
+  print(meansss, sep = "\n")
+  #cat(meansss, fill = TRUE)
+  for (i in seq_along(x)) {
+  cat(paste0(str_pad(names(x)[1], ": ", round(mean(x[[1]]), 2)), fill = TRUE))
+  cat(meansss[[2]], sep = "\n", fill = TRUE, labels = c("Sepal.Width:"))
+  cat(meansss[[3]], sep = "\n", fill = TRUE, labels = c("Petal.Length:"))
+  cat(meansss[[4]], sep = "\n", fill = TRUE, labels = c("Petal.Width:")) }
 }
 ?print
+?cat
+str(iris_means)
 iris_means(df, output)
 ?paste
+?sprintf
+sprintf("%s is %f feet tall\n", "Sven", 7.1)      # OK
+cat(paste(letters, 100* 1:26), fill = TRUE, labels = paste0("{", 1:10, "}:"))
+
+
 #or
 df %>% dplyr::select(where(is.numeric))
 ?mean
@@ -606,3 +667,7 @@ paste(month.abb, nth, sep = ": ", collapse = "\n")
 print(title)
 ?cat
 
+?subset
+subset(airquality, Temp > 80, select = c(Ozone, Temp))
+subset(airquality, select = Ozone:Wind)
+?colMeans
