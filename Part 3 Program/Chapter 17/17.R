@@ -572,8 +572,21 @@ for (nm in names(x)) {
 #3.
 
 #we can use different methods to select the numeric column in a data frame:
-x[ , purrr::map_lgl(x, is.numeric)]
-#or
-x %>% dplyr::select(where(is.numeric))
+df <- iris
+view(iris)
+sapply(df, class)
+numeric_col <- df[ , purrr::map_lgl(df, is.numeric)]
+print(colMeans(numeric_col))
 
+output <- vector("double", length(means))
+iris_means <- function(x, output) {
+  numeric_col <- df[ , purrr::map_lgl(df, is.numeric)]
+  print(colMeans(numeric_col))
+}
+
+iris_means(df, output)
+
+#or
+df %>% dplyr::select(where(is.numeric))
+?mean
 #we can print in that nice format using str(...)
