@@ -675,3 +675,78 @@ help("mtcars")
 #n cars, engine displacement refers to the total volume of air and fuel that the engine's cylinders can hold, measured in cubic centimeters (cc) or liters. It essentially indicates the size of the engine and is a key factor in determining its power and fuel consumption ( source google )
 
 
+# For Loops Versus Functionals
+
+## for loops are not as important in R as they are in other languages, because R is a functional programming language
+#for example:
+
+df <- tibble(
+  a = rnorm(10),
+  b = rnorm(10),
+  c = rnorm(10),
+  d = rnorm(10),
+)
+
+output <- vector("double", length(df))
+for (i in seq_along(df)) {
+  output[[i]] <- mean(df[[i]])
+}
+output
+
+#you want to do the mean
+col_mean <- function(df) {
+  output <- vector("double", length(df))
+  for (i in seq_along(df)) {
+    output[i] <- mean(df[[i]])
+  }
+  output
+}
+
+#then you want to do the median and standard deviation
+
+col_median <- function(df) {
+  output <- vector("double", length(df))
+  for (i in seq_along(df)) {
+    output[i] <- median(df[[i]])
+  }
+  output
+}
+
+col_sd <- function(df) {
+  output <- vector("double", length(df))
+  for (i in seq_along(df)) {
+    output[i] <- mean(df[[i]])
+  }
+  output
+}
+
+#instead of:
+f1 <- function(x) abs(x - mean(x)) ^ 1
+f2 <- function(x) abs(x - mean(x)) ^ 2
+f3 <- function(x) abs(x - mean(x)) ^ 3
+#we can do:
+f <- function(x, i) abs(x - mean(x)) ^ i #reducing the code and bugs
+
+#we can do the same with previous col mean median and sd
+col_summary <- function(df, fun) {
+  out <- vector("double", length(df))
+  for (i in seq_along(df)) {
+    out[i] <- fun(df[[i]])
+  }
+  out
+}
+
+col_summary(df, median)
+col_summary(df, mean)
+
+#the idea of passing a function to another function is powerful
+
+#Exercises:
+
+#1. Read the documentation for apply(). In the second case, what two for loops does it generalize?
+
+#2. Adapt col_summary() so that it only applies to numeric columns. You might want to start with an is_numeric() function that returns a logical vector that has a TRUE corresponding to each numeric column.
+
+#Answers:
+#1.
+help("apply")
