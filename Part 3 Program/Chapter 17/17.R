@@ -750,3 +750,28 @@ col_summary(df, mean)
 #Answers:
 #1.
 help("apply")
+# apply(X, MARGIN, FUN, ..., simplify = TRUE)
+# MARGIN : a vector giving the subscripts which the function will be applied over. E.g., for a matrix 1 indicates rows, 2 indicates columns, c(1, 2) indicates rows and columns. Where X has named dimnames, it can be a character vector selecting dimension names.
+
+#whenever we get 1 (rows) or 2 (col), we can do this with the following:
+
+row_mean <- vector("double", length(x))
+for (i in seq_along(nrow(df))) {
+  row_mean[[i]] <- mean(df[i, ])
+}
+
+col_mean <- vector("double", length(x))
+for (i in seq_along(ncol(df))) {
+  col_mean[[i]] <- mean(df[i, ])
+}
+
+#2.
+
+col_summary <- function(df, fun) {
+  out <- vector("numeric", length(df))
+  for (i in seq_along(ncol(df))) {
+    out[i] <- fun(df[[i]])
+  }
+  out
+}
+
