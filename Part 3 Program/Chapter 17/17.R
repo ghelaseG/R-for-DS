@@ -768,10 +768,31 @@ for (i in seq_along(ncol(df))) {
 #2.
 
 col_summary <- function(df, fun) {
-  out <- vector("numeric", length(df))
-  for (i in seq_along(ncol(df))) {
+  out <- vector("double", length(df))
+  for (i in seq_along(df)) {
     out[i] <- fun(df[[i]])
   }
   out
 }
 
+col_summary(df, mean)
+#let's try our own function:
+
+numeric_column_summary <- function(df, fun) {
+  out <- vector("logical", length(df))
+  for (i in seq_along(df)) {
+    out[i] <- is.numeric(df[[i]])
+  }
+  indexes <- which(out)
+  n <- sum(out)
+  print(n)
+  outp <- vector("double", n)
+  print(outp)
+  for (i in seq_along(indexes)) {
+    outp[[i]] <- fun(df[[indexes[[i]]]])
+    print(outp[[i]])
+  }
+  names(outp) <- names(df)[indexes]
+  outp
+}
+numeric_column_summary(iris, mean)
