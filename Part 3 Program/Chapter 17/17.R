@@ -784,15 +784,55 @@ numeric_column_summary <- function(df, fun) {
     out[i] <- is.numeric(df[[i]])
   }
   indexes <- which(out)
+  print("Indexes:") 
+  print(indexes)
   n <- sum(out)
-  print(n)
   outp <- vector("double", n)
-  print(outp)
   for (i in seq_along(indexes)) {
     outp[[i]] <- fun(df[[indexes[[i]]]])
+    print("Outpi:") 
     print(outp[[i]])
+    print("Here:") 
+    print(df[[indexes[[i]]]])
   }
   names(outp) <- names(df)[indexes]
   outp
 }
 numeric_column_summary(iris, mean)
+
+
+# The Map Functions
+
+#the pattern of looping over a vector, doing something to each element and saving the results is very common.
+
+map() #makes a list
+map_lgl() #makes a logical vector
+map_int() #makes an integer vector
+map_dbl() #makes a double vector
+map_chr() #makes a character vector
+
+#the important thing is that you solve the problem that you're working on, not write the most concise and elegant code.
+#the important part of using functions like map() is not speed, but clarity.
+#for example:
+df <- tibble(
+  a = rnorm(10),
+  b = rnorm(10),
+  c = rnorm(10),
+  d = rnorm(10),
+)
+
+map_dbl(df, mean)
+
+map_dbl(df, median)
+
+map_dbl(df, sd)
+
+#few differences between map_*() and col_summary():
+
+##> all purrr functions are implemented in C
+##> .f - the function to apply, can be a formula, a character vector or an integer vector
+##> map_*() uses ... to pass along additional arguments to .f
+
+map_dbl(df, mean, trim = 0.5)
+z <- list(x = 1:3, y = 4:5)
+map_int(z, length)
