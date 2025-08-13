@@ -836,3 +836,33 @@ map_dbl(df, sd)
 map_dbl(df, mean, trim = 0.5)
 z <- list(x = 1:3, y = 4:5)
 map_int(z, length)
+
+# Shortcuts
+
+#for exp, if we want to fit a linear regression to each group of our dataset
+
+#we split into 3 pieces (each value of cyl) and fit the lm
+models <- mtcars %>% 
+  split(.$cyl) %>% 
+  map(function(df) lm(mpg ~ wt, data = df))
+
+#with purrr you can use a one sided formula:
+models <- mtcars %>% 
+  split(.$cyl) %>% 
+  map(~lm(mpg ~ wt, data = .))
+
+#we use . as a pronoun - it refers to the current list element
+
+#when we are looking at many models, we can first extract the r squared.
+models %>% 
+  map(summary) %>% 
+  map_dbl(~.$r.squared)
+
+#we can use a shorter version:
+models %>% 
+  map(summary) %>% 
+  map_dbl("r.squared")
+
+#we can select elements by position
+x <- list(list(1, 2, 3), list(4, 5, 6), list(7, 8, 9))
+x %>% map_dbl(2)
