@@ -866,3 +866,28 @@ models %>%
 #we can select elements by position
 x <- list(list(1, 2, 3), list(4, 5, 6), list(7, 8, 9))
 x %>% map_dbl(2)
+
+
+#Base R
+
+#> lapply() is similar to map() - except the .f function
+#> sapply() is a wrapper around lapply() - this one is problematic as you never know what kind of output you'll get by using it
+x1 <- list(
+  c(0.27, 0.37, 0.57, 0.91, 0.20),
+  c(0.90, 0.94, 0.66, 0.63, 0.06),
+  c(0.21, 0.18, 0.69, 0.38, 0.77)
+)
+x2 <- list(
+  c(0.50, 0.72, 0.99, 0.38, 0.78),
+  c(0.93, 0.21, 0.65, 0.13, 0.27),
+  c(0.39, 0.01, 0.38, 0.87, 0.34)
+)
+
+threshold <- function(x, cutoff = 0.8) x[x > cutoff]
+x1 %>% sapply(threshold) %>% str()
+x2 %>% sapply(threshold) %>% str()
+
+#> vapply() - safe alternative to sapply() because you can define the type and can produce matrices
+vapply(list, function, FUN.VALUE = type, ...)
+vapply(df, is.numeric, logical(1)) equivalent to map_lgl(df, is.numeric)
+
