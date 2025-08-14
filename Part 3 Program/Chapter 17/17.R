@@ -891,3 +891,19 @@ x2 %>% sapply(threshold) %>% str()
 vapply(list, function, FUN.VALUE = type, ...)
 vapply(df, is.numeric, logical(1)) equivalent to map_lgl(df, is.numeric)
 
+# Exercises:
+
+#1. Write code that uses one of the map functions to:
+#a. Compute the mean of every column in mtcars.
+#b. Determine the type of each column in nycflights13::flights.
+#c. Compute the number of unique values in each column of iris.
+#d. Generate 10 random normals for each of μ = -10, 0, 10, and 100.
+
+#2.How can you create a single vector that for each column in a data frame indicates whether or not it's a factor?
+
+#3. What happens when you use the map functions on vectors that aren't lists? What does map(1:5, runif) do? Why?
+
+#4.What does map(-2:2, rnorm, n=5) do? Why? What does map_dbl(-2:2, rnorm, n=5) do? Why?
+
+#5. Rewrite map(x, function(df) lm(mpg ~ wt, data = df)) to eliminate the anonymous function.
+
