@@ -907,3 +907,19 @@ vapply(df, is.numeric, logical(1)) equivalent to map_lgl(df, is.numeric)
 
 #5. Rewrite map(x, function(df) lm(mpg ~ wt, data = df)) to eliminate the anonymous function.
 
+
+# Answers:
+
+#1.
+#a)
+?map
+map_dbl(mtcars, mean)
+
+#b)
+map_chr(nycflights13::flights, typeof)
+
+#c)
+map_dbl(iris, n_distinct)
+
+#d)
+map(c(-10, 0, 10, 100), rnorm, n = 10)
