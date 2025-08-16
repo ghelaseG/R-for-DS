@@ -960,5 +960,7 @@ map_dbl(-2:2, rnorm, n = 5)
 #we get an error because:
 #map_dbl() return an atomic vector of the indicated type (or die trying). For these functions, .f must return a length-1 vector of the appropriate type.
 
+#5.
+map(x, function(df) lm(mpg ~ wt, data = df))
 
-
+map(x, ~df, lm(mpg ~ wt, data = mtcars))
