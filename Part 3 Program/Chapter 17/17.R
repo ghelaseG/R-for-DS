@@ -931,9 +931,21 @@ mtcars$am <- as.factor(mtcars$mpg)
 mtcars[ , "cyl"] <- as.factor(mtcars[, 'cyl'])
 str(mtcars)
 
+map_lgl(mtcars, is.factor)
+
 # ?str
 # str(options())
 # ?options
 # options("width")
 
 #3.
+?runif
+#> These functions provide information about the uniform distribution on the interval from min to max.
+#> runif generates random deviates.
+
+?map
+#> The map functions transform their input by applying a function to each element of a list or atomic vector and returning an object of the same length as the input.
+
+#?~
+  
+map(1:3, ~rnorm(.))
