@@ -948,4 +948,4 @@ map_lgl(mtcars, is.factor)
 
 #?~
   
-map(1:3, ~rnorm(.))
+map(1:3, ~rnorm(x))
