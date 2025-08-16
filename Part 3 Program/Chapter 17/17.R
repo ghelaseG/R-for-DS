@@ -964,3 +964,7 @@ map_dbl(-2:2, rnorm, n = 5)
 map(x, function(df) lm(mpg ~ wt, data = df))
 
 map(x, ~df, lm(mpg ~ wt, data = mtcars))
+
+
+# Dealing with Failure
+
