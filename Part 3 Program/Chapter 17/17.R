@@ -968,3 +968,224 @@ map(x, ~df, lm(mpg ~ wt, data = mtcars))
 
 # Dealing with Failure
 
+#> When you use the map functions to repeat many operations, the chances are that one of those operations will fail.
+#> "how do you ensure that one bad apple doesn't ruin the whole barrel?"
+#> we can use a function called: safely() - takes a function and returns a modified version (the modified function will never throw an error), instead you'll get a list with:
+#> original result (if error then NULL) and
+#> an error object (if operation is successful then NULL)
+#> 
+#> try() function is similar
+#> 
+#> we can see this using log():
+
+safe_log <- safely(log)
+str(safe_log(10)) #function succeeds, we get: $ result: num 2.3 $ error : NULL
+
+str(safe_log("a")) #function fails, we get: $ result: NULL $ error :List of 2
+
+#we can use safely() with map:
+x <- list(1, 10, "a")
+y <- x %>% map(safely(log))
+str(y)
+
+# we can use purrr:transpose() to work with 2 lists:
+
+y <- y %>% transpose()
+str(y)
+
+is_ok <-y$error %>% map_lgl(is_null)
+x[!is_ok]
+
+y$result[is_ok] %>% flatten_dbl()
+
+# an alternative to safely() is possibly()
+
+x <- list(1, 10, "a")
+x %>%  map_dbl(possibly(log, NA_real_))
+
+# or quietly() - captures printed output, messages and warnings:
+x <- list(1, -1)
+x %>% map(quietly(log)) %>% str()
+
+
+# Mapping over Multiple Arguments
+
+#> we can use map2() and pmap() functions to iterate over multiple arguments
+
+mu <- list(5, 10, -3)
+mu %>% 
+  map(rnorm, n = 5) %>% 
+  str()
+
+#if you also want to vary the standard deviation, you have to:
+sigma <- list(1, 5, 10)
+seq_along(mu) %>% 
+  map(~rnorm(5, mu[[.]], sigma[[.]])) %>% 
+  str()
+
+#instead, we can simply use map2 function, simpler and quicker:
+
+map2(mu, sigma, rnorm, n = 5) %>% str()
+
+#map2 is a wrapper around a for loop:
+
+map2 <- function(x, y, f, ...) {
+  out <- vector("list", length(x))
+  for (i in seq_along(x)) {
+    out[[i]] <- f(x[[i]], y[[i]], ...)
+  }
+  out
+}
+
+#instead of using map3, map4 etc, we can simply use pmap, which takes a lis tof arguments:
+
+n <- list(1, 3, 5)
+args1 <- list(n, mu, sigma)
+args1 %>% 
+  pmap(rnorm) %>% 
+  str()
+
+#with pmap is better to name the arguments:
+args2 <- list(mean = mu, sd = sigma, n = n)
+args2 %>% 
+  pmap(rnorm) %>% 
+  str()
+
+# since the arguments are all the same length, we can store them in a data frame:
+
+params <- tribble(
+  ~mean, ~sd, ~n,
+    5,   1,   1,
+  10,    5,   3,
+  -3,   10,   5
+)
+
+params %>% 
+  pmap(rnorm)
+
+# when the code gets complicated, a data frame is a good approach
+
+# Invoking different functions
+
+#there's one more step up in complexity - varying the arguments and the function itself
+
+f <- c("runif", "rnorm", "rpois")
+param <- list(
+  list(min = -1, max = 1),
+  list(sd = 5),
+  list(lambda = 10)
+)
+
+#we can do that using invoke_map():
+
+invoke_map(f, param, n = 5) %>%  str()
+
+#we can use tribble() to make creating these matching pairs easier:
+
+sim <- tribble(
+  ~f,        ~params,
+  "runif",   list(min = -1, max = 1),
+  "rnorm",   list(sd = 5),
+  "rpois",   list(lambda = 10)
+)
+
+sim %>% 
+  mutate(sim = invoke_map(f, params, n = 10))
+
+# Walk
+
+#walk is an alternative to map, it is used when you want to call a function for its side effects
+
+x <- list(1, "a", 3)
+
+x %>% 
+  walk(print)
+
+#walk2 and pwalk is more useful
+
+#if you had a list of plots and a vector of filenames, you could use pwalk to save each file to the corresponding location on disk:
+
+library(ggplot2)
+plots <- mtcars %>% 
+  split(.$cyl) %>% 
+  map(~ggplot(., aes(mpg, wt)) + geom_point())
+paths <- stringr::str_c(names(plots), ".pdf")
+pwalk(list(paths, plots), ggsave, path = tempdir())
+paths
+plots
+getwd()
+
+
+#Other patterns of for loops
+
+#purrr provides other functions as well, these are not so much used, but is good to know about it.
+
+#Predicate Functions
+
+#a number of functions work with predicate functions that returns either TRUE or FALSE
+
+#keep and discard() keep elements of the input where the predicate is TRUE or FALSE
+
+iris %>% 
+  keep(is.factor) %>% 
+  str()
+
+iris %>% 
+  discard(is.factor) %>% 
+  str()
+
+#some and every determine of the preicate is true of any of the elements
+
+x <- list(1:5, letters, list(10))
+
+x %>% 
+  some(is_character)
+
+x %>% 
+  every(is_vector)
+
+#detect finds the first element where the predicate is true, detect_index returns its position
+
+x <- sample(10)
+x
+
+x %>% 
+  detect(~ . > 5)
+
+x %>% 
+  detect_index(~ . > 5)
+
+#head_while and tail_while take elements from the start or end
+
+x %>% 
+  head_while(~ . > 5)
+
+x %>% 
+  tail_while(~ . > 5)
+
+# Reduce and Accumulate
+
+#sometimes you want to reduce a complex list to a simple list, for exp:
+
+dfs <- list(
+  age = tibble(name = "John", age = 30),
+  sex = tibble(name = c("John", "Mary"), sex = c("M", "F")),
+  trt = tibble(name = "Mary", treatment = "A")
+)
+
+dfs %>%  reduce(full_join)
+
+#we can also find the intersection:
+
+vs <- list(
+  c(1, 3, 5, 6, 10),
+  c(1,2,3,7,8,10),
+  c(1,2,3,4,8,9,10)
+)
+
+vs %>%  reduce(intersect)
+
+x <- sample(10)
+x
+
+x %>%  accumulate(`+`)
