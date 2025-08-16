@@ -923,3 +923,17 @@ map_dbl(iris, n_distinct)
 
 #d)
 map(c(-10, 0, 10, 100), rnorm, n = 10)
+
+#2.
+#source stackoverflow
+mtcars$am <- as.factor(mtcars$mpg)
+
+mtcars[ , "cyl"] <- as.factor(mtcars[, 'cyl'])
+str(mtcars)
+
+# ?str
+# str(options())
+# ?options
+# options("width")
+
+#3.
