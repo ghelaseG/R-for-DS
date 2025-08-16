@@ -948,4 +948,17 @@ map_lgl(mtcars, is.factor)
 
 #?~
   
-map(1:3, ~rnorm(x))
+testing123 <- map(1:3, ~rnorm(x)) 
+typeof(testing123)
+
+#4. 
+map(-2:2, rnorm, n = 5) #returns a list of 5 numeric vectors
+#?rnorm #random generation for the normal distribution
+map_dbl(-2:2, rnorm, n = 5)
+
+?map_dbl
+#we get an error because:
+#map_dbl() return an atomic vector of the indicated type (or die trying). For these functions, .f must return a length-1 vector of the appropriate type.
+
+
+
