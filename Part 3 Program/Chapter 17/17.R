@@ -1189,3 +1189,76 @@ x <- sample(10)
 x
 
 x %>%  accumulate(`+`)
+
+# Exercises:
+
+#1. Implement your own version of every() using a for loop. Compare it with purrr:every(). What does purrr's version do that your version doesn't?
+
+#2. Create an enhanced col_sum() that applies a summary function to every numeric column in a data frame.
+
+#3. A possible base R equivalent of col_sum() is:
+col_sum3 <- function(df, f) {
+  is_num <- sapply(df, is.numeric)
+  df_num <- df[, is_num]
+  
+  sapply(df_num, f)
+}
+#But it has a umber of bugs as illustrated with the following inputs:
+
+df <- tibble(
+  x = 1:3,
+  y = 3:1,
+  z = c("a", "b", "c")
+)
+# OK
+col_sum3(df, mean)
+# Has problems: don't always return numeric vector
+col_sum3(df[1:2], mean)
+col_sum3(df[1], mean)
+col_sum3(df[0], mean)
+#What causes the bugs?
+
+#Answers:
+
+#1.
+every() #the version behind is:
+function (.x, .p, ...) 
+{
+  .p <- as_predicate(.p, ..., .mapper = TRUE, .allow_na = TRUE)
+  val <- TRUE
+  for (i in seq_along(.x)) {
+    val <- val && .p(.x[[i]], ...)
+    if (is_false(val)) {
+      return(FALSE)
+    }
+  }
+  val
+}
+
+#let's find out what every is doing:
+?every #returns TRUE when .p is TRUE for all elements.
+
+#exp
+xyz <- list(0:10, 5.5)
+x |> every(is.numeric)
+x |> every(is.integer) #|> is the base R "pipe" operator.
+
+# .p	
+## A predicate function (i.e. a function that returns either TRUE or FALSE) specified in one of the following ways:
+  
+##  A named function, e.g. is.character.
+
+## An anonymous function, e.g. ⁠\(x) all(x < 0)⁠ or function(x) all(x < 0).
+
+## A formula, e.g. ~ all(.x < 0). You must use .x to refer to the first argument). Only recommended if you require backward compatibility with older versions of R.
+
+
+my_every <- function(.x, fun, ...) {
+  for (i in seq_along(.x)) {
+    val[[i]] <- fun(.x[[i]], ...)
+
+  }
+  all(val, na.rm = TRUE) #we use 'all' to combine all boolean values https://stackoverflow.com/questions/28559785/r-check-if-a-list-of-true-false-values-evaluate-to-true
+}
+
+my_every(xyz, is.numeric)
