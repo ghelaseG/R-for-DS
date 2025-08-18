@@ -1265,8 +1265,40 @@ my_every(xyz, is.numeric)
 
 #2.
 col_sum2 <- function(x, fun, ...) {
-  x <- keep(x, is.numeric)
+  x <- filter(is.numeric, x)
   map(x, fun, ...)
 }
 
+?keep
 col_sum2(iris, median)
+
+#example of keep usage:
+x <- rerun(5, a = rbernoulli(1), b = sample(10))
+x
+x |> keep("a")
+x |> discard("a")
+
+#3.
+col_sum3 <- function(df, f) {
+  is_num <- sapply(df, is.numeric)
+  df_num <- df[, is_num]
+  
+  sapply(df_num, f)
+}
+df <- tibble(
+  x = 1:3,
+  y = 3:1,
+  z = c("a", "b", "c")
+)
+# OK
+col_sum3(df, mean)
+# Has problems: don't always return numeric vector
+col_sum3(df[1:2], mean)
+col_sum3(df[1], mean)
+col_sum3(df[0], mean)
+
+#it is out of range(zero value)
+#and 
+?sapply
+#sapply(simplify = TRUE) and replicate(simplify = TRUE): if X has length zero or n = 0, an empty list. Otherwise an atomic vector or matrix or list of the same length as X (of length n for replicate). If simplification occurs, the output type is determined from the highest type of the return values in the hierarchy NULL < raw < logical < integer < double < complex < character < list < expression, after coercion of pairlists to lists.
+#Simplification in sapply is only attempted if X has length greater than zero and if the return values from all elements of X are all of the same (positive) length. If the common length is one the result is a vector, and if greater than one is a matrix with a column corresponding to each element of X.
