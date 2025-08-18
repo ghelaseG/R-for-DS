@@ -1203,7 +1203,7 @@ col_sum3 <- function(df, f) {
   
   sapply(df_num, f)
 }
-#But it has a umber of bugs as illustrated with the following inputs:
+#But it has a number of bugs as illustrated with the following inputs:
 
 df <- tibble(
   x = 1:3,
@@ -1262,3 +1262,11 @@ my_every <- function(.x, fun, ...) {
 }
 
 my_every(xyz, is.numeric)
+
+#2.
+col_sum2 <- function(x, fun, ...) {
+  x <- keep(x, is.numeric)
+  map(x, fun, ...)
+}
+
+col_sum2(iris, median)
