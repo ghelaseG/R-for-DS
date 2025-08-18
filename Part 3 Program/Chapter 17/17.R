@@ -1264,14 +1264,14 @@ my_every <- function(.x, fun, ...) {
 my_every(xyz, is.numeric)
 
 #2.
-col_sum2 <- function(x, fun, ...) {
-  x <- filter(is.numeric, x)
-  map(x, fun, ...)
+col_sum2 <- function(df, fun, ...) {
+  x <- map(filter(df, is.numeric), fun, ...) #we can use keep instead of filter
 }
 
+?is.numeric
 ?keep
 col_sum2(iris, median)
-
+filter(iris, is.numeric)
 #example of keep usage:
 x <- rerun(5, a = rbernoulli(1), b = sample(10))
 x
