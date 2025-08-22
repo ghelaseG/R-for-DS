@@ -92,3 +92,54 @@ ggplot(models, aes(a1, a2)) +
     size = 6, colour = "red"
   ) +
   geom_point(aes(colour = -dist))
+
+#another option is to generate an evenly spaced grid of points (grid search)
+
+grid <- expand.grid(
+  a1 = seq(-5, 20, length = 25),
+  a2 = seq(1, 3, length = 25)
+) %>% 
+  mutate(dist = purrr::map2_dbl(a1, a2, sim1_dist))
+
+grid %>% 
+  ggplot(aes(a1, a2)) +
+  geom_point(
+    data = filter(grid, rank(dist) <= 10),
+    size = 4, colour = "red"
+  ) +
+  geom_point(aes(colour = -dist))
+
+#now let's try and overlay the 10 models:
+
+ggplot(sim1, aes(x, y)) +
+  geom_point(size = 2, colour = "grey30") +
+  geom_abline(
+    aes(intercept = a1, slope = a2, colour = -dist),
+    data = filter(grid, rank(dist) <= 10)
+  )
+
+#we can do this until we get a finer grid (best model), or we can use a tool named Newton-Raphson search.
+#the way this works, is by choosing a starting point and look around for the steepest slope, until you can not go any lower.
+#we can use optim() for this modeling:
+
+best <- optim(c(0, 0), measure_distance, data = sim1)
+best$par
+
+ggplot(sim1, aes(x, y)) +
+  geom_point(size = 2, colour = "grey30") +
+  geom_abline(intercept = best$par[1], slope = best$par[2])
+
+# you can find the best model if you can minimize the distance by modifying the parameters of the model and having a function that defines the distance between a model and a dataset.
+
+#we can also use linear models, in a form of: y = a_1 + a_2 * x_1 + a_3 * x_2 + ... + a_n * x_(n - 1)
+
+#this simple model is the same to a general linear model where n = 2 and x_1 = x
+
+#lm() formulas look like y ~ x, which lm will translate to a function like y = a_1 + a_2 * x
+
+sim1_mod <- lm(y ~ x, data = sim1)
+coef(sim1_mod)
+#similar results with optim()
+
+#lm finds the closest model in a single step
+
