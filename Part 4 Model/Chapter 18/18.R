@@ -247,9 +247,104 @@ optim_ver$par
 ?optim
 #one challenge in optimizing a three-parameter model will be that we question if those parameters are related to each other.
 
-#also, every time I run with the third paramenter, as our data has got only 2 variables, it shows a significant amount in the difference between the 3 (this is also called sloppiness).
+#also, every time I run with the third parameter, as our data has got only 2 variables, it shows a significant amount in the difference between the 3 (this is also called sloppiness).
 
 
+#Visualising Models
 
+# in the following, we are going to understand a model by looking at its predictions.
+# we can also see what the model doesn't capture (these residuals are useful because it allow us to use models to remove striking patterns - studying the remaining ones)
+
+
+# Predictions
+
+#using modelr::data_grid() to generate an evenly spaced grid
+
+grid <- sim1 %>% 
+  data_grid(x)
+grid
+
+# using modelr::add_predictions() to add the predictions from the model to a new column
+
+grid <- grid %>% 
+  add_predictions(sim1_mod)
+grid
+
+ggplot(sim1, aes(x)) +
+  geom_point(aes(y = y)) +
+  geom_line(
+    aes(y = pred),
+    data = grid,
+    color = "red",
+    size = 1
+  )
+
+# Residuals
+
+#flip side of predictions
+
+sim1 <- sim1 %>% 
+  add_residuals(sim1_mod)
+sim1
+
+#here we can understand the spread of the residuals
+
+ggplot(sim1, aes(resid)) +
+  geom_freqpoly(binwidth = 0.5)
+
+ggplot(sim1, aes(x, resid)) +
+  geom_ref_line(h = 0) +
+  geom_point()
+
+# Exercises:
+
+#1. Instead of using lm() to fit a straight line, you can use loess() to fit a smooth curve. Repeat the process of model fitting, grid generation, predictions, and visualisation on sim1 using loess() instead of lm(). How does the result compare to geom_smooth()?
+
+#2. add_predictions() is paired with gather_predictions() and spread_predictions(). How do these three functions differ?
+
+#3. What does geom_ref_line() do? What package does it come from? Why is displaying a reference line in plots showing residuals useful and important?
+
+#4. Why might you want to look at a frequency polygon of absolute residuals? What are the pros and cons comapred to looking at the raw residuals?
+
+# Answers:
+
+#1.
+sim1 <- sim1 %>% 
+  add_residuals(sim1_modeling_lm) %>% 
+  add_predictions(sim1_modeling_lm) %>% 
+  add_residuals(sim1_modeling_loess) %>% 
+  add_predictions(sim1_modeling_loess)
+sim1
+sim1_modeling_loess <- loess(y ~ x, data = sim1)
+sim1_modeling_loess
+
+sim1_modeling_lm <- lm(y ~ x, data = sim1)
+sim1_modeling_lm
+
+loess_plot <- ggplot(
+  sim1, aes(x, y)) +
+  geom_point() +
+  geom_line(aes(x, pred), data = sim1, color = "green")
+loess_plot
+
+#let's try geom_smooth()
+
+loess_plot +
+  geom_smooth(method = "loess", color = "red", se = FALSE)
+
+#they're identical
+
+#2.
+
+?add_predictions
+add_predictions(data, model, var = "pred", type = NULL)
+
+spread_predictions(data, ..., type = NULL)
+
+gather_predictions(data, ..., .pred = "pred", .model = "model", type = NULL)
+
+#spread_predictions adds one column for each model. gather_predictions adds two columns .model and .pred, and repeats the input rows for each model.
+
+#3.
 
 
