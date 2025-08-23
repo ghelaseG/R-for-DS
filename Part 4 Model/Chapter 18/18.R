@@ -366,3 +366,10 @@ help("geom_ref_line")
 
 ggplot() +
   geom_freqpoly(data = sim1_modeling_lm_resid, aes(abs(resid)), color = "blue")
+
+# the difference between the 2 is that the absolute residuals removes the negative signs,
+#I believe it is good to be used, in case our raw residual is wrong, and we can see how the prediction would look like differently.
+
+#we can never see with the absolute residual if it is under or over fitted.
+
+
