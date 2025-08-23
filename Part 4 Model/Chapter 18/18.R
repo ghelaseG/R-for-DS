@@ -228,19 +228,28 @@ coef(sim1a_modeling)
 
 #3.
 
+sim1a <- tibble(
+  x = rep(1:10, each = 3),
+  y = x * 1.5 + 6 + rt(length(x), df = 2)
+)
+
 model1 <- function(a, data) {
   a[1] + data$x * a[2] + a[3]
 }
-
-#one problem that we encounter with our dataset sim1a, is that it only got 2 variables, x and y, but let's try and see if it works:
-#let's take for example the previous function:
 
 measure_distance_test <- function(mod, data) {
   diff <- data$y - model1(mod, data)
   mean(abs(diff))
 }
 sim1a
-optim_ver_test <- optim(c(0,0), measure_distance_test, data = sim1a)
+optim_ver <- optim(c(0,0,0), measure_distance_test, data = sim1a)
+optim_ver$par
+?optim
+#one challenge in optimizing a three-parameter model will be that we question if those parameters are related to each other.
 
-#As expected, we get the Error: function cannot be evaluated at initial parameters
+#also, every time I run with the third paramenter, as our data has got only 2 variables, it shows a significant amount in the difference between the 3 (this is also called sloppiness).
+
+
+
+
 
