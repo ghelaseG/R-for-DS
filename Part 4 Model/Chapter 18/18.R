@@ -211,4 +211,15 @@ sum$coefficients
 
 #2.
 
+measure_distance <- function(mod, data) {
+  diff <- data$y - make_prediction(mod, data)
+  mean(abs(diff))
+}
 
+make_prediction <- function(a, data) {
+  a[1] + data$x * a[2]
+}
+
+
+optim_ver <- optim(c(0, 0), measure_distance, data = sim1a)
+optim_ver$par
