@@ -4,7 +4,6 @@
 #source Google: Example: If a regression model predicts a student's test score to be 85, and the actual score is 90, the residual is 5. This indicates the model underestimated the score by 5 points.
 
 #strong patterns will hide subtler trends.
-
 # there are two parts to a model:
 
 ## 1. first rule is to define a group of models that helps you to capture a pattern (a straight line or a quadratic curve)
@@ -309,17 +308,18 @@ ggplot(sim1, aes(x, resid)) +
 # Answers:
 
 #1.
-sim1 <- sim1 %>% 
-  add_residuals(sim1_modeling_lm) %>% 
-  add_predictions(sim1_modeling_lm) %>% 
-  add_residuals(sim1_modeling_loess) %>% 
-  add_predictions(sim1_modeling_loess)
-sim1
+
 sim1_modeling_loess <- loess(y ~ x, data = sim1)
 sim1_modeling_loess
 
 sim1_modeling_lm <- lm(y ~ x, data = sim1)
 sim1_modeling_lm
+
+sim1 <- sim1 %>% 
+  add_residuals(sim1_modeling_lm) %>% 
+  add_predictions(sim1_modeling_lm) %>% 
+  add_residuals(sim1_modeling_loess) %>% 
+  add_predictions(sim1_modeling_loess)
 
 loess_plot <- ggplot(
   sim1, aes(x, y)) +
@@ -347,4 +347,18 @@ gather_predictions(data, ..., .pred = "pred", .model = "model", type = NULL)
 
 #3.
 
+help("geom_ref_line")
+#Add a reference line (ggplot2).
+#package modelr
 
+#4.
+
+sim1_modeling_lm_resid <- sim1 %>% add_residuals(sim1_modeling_lm)
+sim1_modeling_lm_resid
+
+sim1_modeling_loess_resid <- sim1 %>% add_residuals(sim1_modeling_loess)
+sim1_modeling_loess_resid
+
+ggplot() +
+  geom_freqpoly(data = sim1_modeling_lm_resid, aes(resid), color = "blue") +
+  geom_freqpoly(data = sim1_modeling_loess_resid, aes(resid), color = "green")
