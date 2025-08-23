@@ -373,3 +373,32 @@ ggplot() +
 #we can never see with the absolute residual if it is under or over fitted.
 
 
+# Formulas and Model Families
+
+#recap:
+?facet_wrap
+p <- ggplot(mpg, aes(displ, hwy)) + geom_point()
+view(p)
+p + facet_wrap(vars(class))
+
+?facet_grid
+p + facet_grid(rows = vars(drv))
+?model_matrix() #can be used to see what R actually does, each column is associated with one coefficient in the model, the formula: y = a_1 * out1 + a_2 * out_2
+model_matrix(mtcars, mpg ~ cyl)
+
+#> the majority of modeling functions in R use a standard conversion from formulas to functions.
+#> for example: y ~ x is similar to y = a_1 + a_2 * x
+
+df <- tribble(
+  ~y,  ~x1,  ~x2,
+   4,    2,    5,
+   5,    1,    6
+)
+
+model_matrix(df, y ~ x1)
+
+#we can drop the column of 1 with:
+model_matrix(df, y ~ x1 - 1)
+
+model_matrix(df, y ~ x1 + x2)
+
