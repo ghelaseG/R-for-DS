@@ -327,6 +327,17 @@ loess_plot <- ggplot(
   geom_line(aes(x, pred), data = sim1, color = "green")
 loess_plot
 
+sim1_modeling_lm_resid <- sim1 %>% add_residuals(sim1_modeling_lm)
+sim1_modeling_lm_resid
+
+sim1_modeling_loess_resid <- sim1 %>% add_residuals(sim1_modeling_loess)
+sim1_modeling_loess_resid
+
+ggplot() +
+  geom_freqpoly(data = sim1_modeling_lm_resid, aes(resid), color = "blue") +
+  geom_freqpoly(data = sim1_modeling_loess_resid, aes(resid), color = "green")
+
+
 #let's try geom_smooth()
 
 loess_plot +
@@ -353,12 +364,5 @@ help("geom_ref_line")
 
 #4.
 
-sim1_modeling_lm_resid <- sim1 %>% add_residuals(sim1_modeling_lm)
-sim1_modeling_lm_resid
-
-sim1_modeling_loess_resid <- sim1 %>% add_residuals(sim1_modeling_loess)
-sim1_modeling_loess_resid
-
 ggplot() +
-  geom_freqpoly(data = sim1_modeling_lm_resid, aes(resid), color = "blue") +
-  geom_freqpoly(data = sim1_modeling_loess_resid, aes(resid), color = "green")
+  geom_freqpoly(data = sim1_modeling_lm_resid, aes(abs(resid)), color = "blue")
