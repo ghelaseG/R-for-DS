@@ -124,6 +124,7 @@ ggplot(sim1, aes(x, y)) +
 
 best <- optim(c(0, 0), measure_distance, data = sim1)
 best$par
+best
 
 ggplot(sim1, aes(x, y)) +
   geom_point(size = 2, colour = "grey30") +
@@ -142,4 +143,72 @@ coef(sim1_mod)
 #similar results with optim()
 
 #lm finds the closest model in a single step
+
+# Exercises:
+
+#1. One downside of the linear model is that it is sensitive to unusual values because the distance incorporates a squared term. Fit a linear model to the following simulated data, and visualize the results. Rerun a few times to generate different simulated datasets. What do you notice about the model?
+
+sim1a <- tibble(
+  x = rep(1:10, each = 3),
+  y = x * 1.5 + 6 + rt(length(x), df = 2)
+)
+
+#2. One way to make linear odels more robust is to use a different distance measure. For example, instead of root-mean-squared distance, you could use mean-absolute distance:
+
+measure_distance <- function(mod, data) {
+  diff <- data$y - make_prediction(mod, data)
+  mean(abs(diff))
+}
+
+#Use optim() to fit this model to the pervious simulated data and compare it to the linear model.
+
+#3. One challenge with performing numerical optimization is that it's only guaranteeed to find one local optima. What's the problem with optimizing a three-parameter model like this?
+
+model1 <- function(a, data) {
+  a[1] + data$x * a[2] + a[3]
+}
+
+#Answers:
+
+#1. 
+
+sim1a <- tibble(
+  x = rep(1:10, each = 3),
+  y = x * 1.5 + 6 + rt(length(x), df = 2)
+)
+
+sim1a_modeling <- lm(y ~ x, data = sim1a)
+summary(sim1a_modeling)
+
+ggplot(sim1a, aes(x, y)) +
+  geom_point(size = 2, color = "grey30") +
+  geom_abline(intercept = sim1a_modeling$coefficients[1], slope = sim1a_modeling$coefficients[2])
+
+# We can notice that everytime we're generating different simulated datasets, by running the summary we can see a big difference at the distance between the fitted line and the data.
+# These figures, for example min and max should be equally distributed around the line (or better said, to be approximately same distance to 0)
+# The first quantile and the third quantile to be equal distance from zero. (the same goes for the median)
+
+#Extras:
+view(sim1a)
+
+ggplot(sim1a, aes(x, y)) +
+  geom_point()
+
+ggplot(sim1a, aes(x, y)) +
+  geom_point(size = 2, colour = "grey30") +
+  geom_abline(
+    aes(intercept = a1, slope = a2, color = -dist),
+    data = filter(models, rank(dist) <= 10)
+  )
+
+coef(sim1a_modeling)
+
+hist(resid(sim1a_modeling), nclass = 2)
+boxplot(y ~ x, data = sim1a)
+
+sum <- summary(sim1a_modeling)
+sum$coefficients
+
+#2.
+
 
