@@ -178,6 +178,7 @@ sim1a <- tibble(
 )
 
 sim1a_modeling <- lm(y ~ x, data = sim1a)
+sim1a_modeling
 summary(sim1a_modeling)
 
 ggplot(sim1a, aes(x, y)) +
@@ -211,15 +212,35 @@ sum$coefficients
 
 #2.
 
+make_prediction <- function(a, data) {
+  a[1] + data$x * a[2]
+}
+
 measure_distance <- function(mod, data) {
   diff <- data$y - make_prediction(mod, data)
   mean(abs(diff))
 }
 
-make_prediction <- function(a, data) {
-  a[1] + data$x * a[2]
-}
-
-
 optim_ver <- optim(c(0, 0), measure_distance, data = sim1a)
 optim_ver$par
+
+coef(sim1a_modeling)
+
+#3.
+
+model1 <- function(a, data) {
+  a[1] + data$x * a[2] + a[3]
+}
+
+#one problem that we encounter with our dataset sim1a, is that it only got 2 variables, x and y, but let's try and see if it works:
+#let's take for example the previous function:
+
+measure_distance_test <- function(mod, data) {
+  diff <- data$y - model1(mod, data)
+  mean(abs(diff))
+}
+sim1a
+optim_ver_test <- optim(c(0,0), measure_distance_test, data = sim1a)
+
+#As expected, we get the Error: function cannot be evaluated at initial parameters
+
