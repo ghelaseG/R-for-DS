@@ -459,5 +459,15 @@ mod2 <- lm(y ~ x1 * x2, data = sim3)
 # the PLUS in our equation, will make the model estimate each effect independent of all the others.
 # we can us MULTIPLY (asterix) and in this case both the individual and interaction components are included in the model: y ~ x1 * x2 will be y = a_0 + a_1 * a1 + a_2 * a2 + a_12 * a1 * a2
 
-#to visualise these models, we need two tricks:
+#to visualise these models, we use two tricks:
+?data_grid
+data_grid(mtcars, vs, am) # To visualise a model, it is very useful to be able to generate an evenly spaced grid of points from the data. data_grid helps you do this by wrapping around tidyr::expand().
 
+##> in our case, because we got 2 predictors x1 and x2, we need to give data_grid() both variables so it can generate all combinations between the 2.
+##> now, to generate predictions for mod1 and mod2, we are using gather_predictions() (this will add as a row) - the complement is spread_predictions()
+##> the result will be:
+
+grid <- sim3 %>% 
+  data_grid(x1, x2) %>% 
+  gather_predictions(mod1, mod2)
+grid
