@@ -402,3 +402,62 @@ model_matrix(df, y ~ x1 - 1)
 
 model_matrix(df, y ~ x1 + x2)
 
+
+# Categorical variables
+
+#generating a function from a formula is easy when the predictor is continuous, but complicated when the predictor is categorical.
+
+df <- tribble(
+   ~ sex,    ~ response,
+  "male",    1,
+  "female",  2,
+  "male",    1
+)
+
+model_matrix(df, response ~ sex)
+
+ggplot(sim2) +
+  geom_point(aes(x, y))
+
+mod2 <- lm(y ~ x, data = sim2)
+
+grid <- sim2 %>% 
+  data_grid(x) %>% 
+  add_predictions(mod2)
+grid
+
+#a model with a categorical x will predict the mean value for each category, because the mean minimizes the root-mean-squared distance.
+
+#let's see this on the next graph, overlaying the predictions on top of the data:
+
+ggplot(sim2, aes(x)) +
+  geom_point(aes(y = y)) +
+  geom_point(
+    data = grid,
+    aes(y = pred),
+    color = "red",
+    size = 4
+  )
+
+tibble(x = "e") %>% 
+  add_predictions(mod2) #this wont work because our data hasn't got the variable e
+
+# Interactions (Continuous and Categorical)
+
+#let's see what happens when you combine a categorical and continuous variable, we are using sim3 for this simulation.
+
+ggplot(sim3, aes(x1, y)) +
+  geom_point(aes(colour = x2))
+
+sim3
+
+#there are 2 possible models that we can use:
+
+mod1 <- lm(y ~ x1 + x2, data = sim3)
+mod2 <- lm(y ~ x1 * x2, data = sim3)
+
+# the PLUS in our equation, will make the model estimate each effect independent of all the others.
+# we can us MULTIPLY (asterix) and in this case both the individual and interaction components are included in the model: y ~ x1 * x2 will be y = a_0 + a_1 * a1 + a_2 * a2 + a_12 * a1 * a2
+
+#to visualise these models, we need two tricks:
+
