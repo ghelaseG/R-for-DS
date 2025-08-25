@@ -466,8 +466,30 @@ data_grid(mtcars, vs, am) # To visualise a model, it is very useful to be able t
 ##> in our case, because we got 2 predictors x1 and x2, we need to give data_grid() both variables so it can generate all combinations between the 2.
 ##> now, to generate predictions for mod1 and mod2, we are using gather_predictions() (this will add as a row) - the complement is spread_predictions()
 ##> the result will be:
+?gather_predictions
 
 grid <- sim3 %>% 
   data_grid(x1, x2) %>% 
   gather_predictions(mod1, mod2)
 grid
+
+ggplot(sim3, aes(x1, y, colour = x2)) +
+  geom_point() +
+  geom_line(data = grid, aes(y = pred)) +
+  facet_wrap(~ model)
+
+#INFO! - the model that uses + has the same slope for each line, but different intercepts.
+#      - the model that uses * has a different slope and intercept for each line.
+
+#let's find out which model is better for this data:
+
+sim3 <- sim3 %>% 
+  gather_residuals(mod1, mod2)
+
+ggplot(sim3, aes(x1, resid, colour = x2)) +
+  geom_point() +
+  facet_grid(model ~ x2)
+
+
+# Interactions ( two continuous )
+
