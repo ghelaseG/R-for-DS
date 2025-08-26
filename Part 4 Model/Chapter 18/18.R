@@ -493,3 +493,121 @@ ggplot(sim3, aes(x1, resid, colour = x2)) +
 
 # Interactions ( two continuous )
 
+mod1 <- lm(y ~ x1 + x2, data = sim4)
+mod2 <- lm(y ~ x1 * x2, data = sim4)
+
+grid <- sim4 %>% 
+  data_grid(
+    x1 = seq_range(x1, 5),
+    x2 = seq_range(x2, 5)
+  ) %>% 
+  gather_predictions(mod1, mod2)
+
+grid %>%  view
+
+#seq_range helps us use spaced grid values between minimum and maximum numbers.
+
+# pretty = TRUE will generate a "pretty" sequence.
+
+seq_range(c(0.0123, 0.923423), n = 5)
+seq_range(c(0.0123, 0.923423), n = 5, pretty = TRUE)
+
+# trim = 0.1 will trim off 10% of the tail values ( you can also generate values near the center)
+
+x1 <- rcauchy(100)
+seq_range(x1, n = 5)
+
+seq_range(x1, n = 5, trim = 0.1)
+seq_range(x1, n = 5, trim = 0.25)
+seq_range(x1, n = 5, trim = 0.50)
+
+# expand = 0.1 is the opposite of trim() - expending by 10%
+
+x2 <- c(0, 1)
+seq_range(x2, n = 5)
+
+seq_range(x2, n = 5, expand = 0.1)
+seq_range(x2, n = 5, expand = 0.25)
+seq_range(x2, n = 5, expand = 0.5)
+
+ggplot(grid, aes(x1, x2)) +
+  geom_tile(aes(fill = pred)) +
+  facet_wrap(~ model)
+
+#this grid it is hard to understand, so we can try something different, using geom line:
+
+ggplot(grid, aes(x1, pred, color = x2, group = x2)) +
+  geom_line() +
+  facet_wrap(~ model)
+
+ggplot(grid, aes(x2, pred, colour = x1, group = x1)) +
+  geom_line() +
+  facet_wrap(~ model)
+
+#we need to consider both values of x1 and x2 simultaneously in order to predict y.
+# the model doesn't have to be perfect, it just has to help you reveal a little more about your data.
+
+# Transformations
+
+#we can perform transformations inside the model formula:
+#exp:
+log(y) ~ sqrt(x1) + x2 # => y = a_1 + a_2 * x1 * sqrt(x) + a_3 * x2
+
+#if your transformation involves +, *, etc.we need to wrap it in I()
+#exp:
+
+y ~ x + I(x ^ 2) # => y = a_1 + a_2 * x + a_3 * x^2
+#now, if we forget the I() and specify:
+y ~ x ^ 2 + x # this will be y ~ x * x + x meaning that y ~ x ^ 2 + x specifies y = a_1 + a_2 * x 
+
+#you can always use model_matrix to see what the equation is doing:
+
+df <- tribble(
+  ~y,   ~x,
+   1,    1,
+   2,    2,
+   3,    3
+)
+
+model_matrix(df, y ~ x^2 + x)
+
+model_matrix(df, y ~ I(x^2) + x)
+
+#we can use this transformations to approximate nonlinear functions.
+
+#we can also make use of Taylor's theorem, using a linear function to get arbitrarily close to a smooth function:
+y = a_1 + a_2 * x + a_3 * x^2 + a_4 * x ^ 3 #we can do this by using poly():
+model_matrix(df, y ~ poly(x, 2)) #the downside of using poly is that outside of the data, polynomials shoot off to positive or negative infinity
+
+#an alternative to poly:
+library(splines)
+model_matrix(df, y ~ ns(x, 2))
+
+#approximating a non-linear function:
+sim5 <- tibble(
+  x = seq(0, 3.5 * pi, length = 50),
+  y = 4 * sin(x) + rnorm(length(x))
+)
+
+ggplot(sim5, aes(x, y)) +
+  geom_point()
+
+#fitting 5 models:
+
+mod1 <- lm(y ~ ns(x, 1), data = sim5)
+mod2 <- lm(y ~ ns(x, 2), data = sim5)
+mod3 <- lm(y ~ ns(x, 3), data = sim5)
+mod4 <- lm(y ~ ns(x, 4), data = sim5)
+mod5 <- lm(y ~ ns(x, 5), data = sim5)
+
+grid <-  sim5 %>% 
+  data_grid(x = seq_range(x, n = 50, expand = 0.1)) %>% 
+  gather_predictions(mod1, mod2, mod3, mod4, mod5, .pred = "y")
+
+ggplot(sim5, aes(x, y)) +
+  geom_point() +
+  geom_line(data = grid, colour = "red") +
+  facet_wrap( ~ model)
+
+#the model can not tell you if the behavior is true - we have to rely on theory and science.
+
