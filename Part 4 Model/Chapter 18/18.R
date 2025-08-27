@@ -611,3 +611,37 @@ ggplot(sim5, aes(x, y)) +
 
 #the model can not tell you if the behavior is true - we have to rely on theory and science.
 
+# Exercises:
+
+#1. What happens if you repeat the analysis of sim2 using a model without an intercept? What happens to the model equation? What happens to the predictions:
+
+#2. Use model_matrix() to explore the equations generated for the models I fit to sim3 and sim4. Why is * a good shorthand for interaction?
+
+#3. Using the basic principles, convert the formulas in the following two models into functions. (Hint: start by converting the categorical variable into 0-1 variables.)
+
+mod1 <- lm(y ~ x1 + x2, data = sim3)
+mod2 <- lm(y ~ x1 * x2, data = sim3)
+
+#4. For sim4, which of mod1 and mod2 is better? I think mod2 does a slightly better job at removing patterns, but it's pretty subtle. Can you come up with a plot to support my claim?
+
+# Answers:
+
+#1. 
+
+mod234 <- lm(y ~ x, data = sim2)
+
+#Source geeksforgeeks: To remove the intercept from a linear model, we manually set the value of intercept zero. In this way, we may not necessarily get the best fit line but the line guaranteed passes through the origin. To set the intercept as zero we add 0 and plus sign in front of the fitting formula. This makes the intercept zero.
+
+mod_Nintercept <- lm(y ~ 0 + x, data = sim2)
+
+grid <- sim2 %>% 
+  data_grid(x) %>% 
+  add_predictions(mod234)
+grid
+
+grid2_interc <- sim2 %>% 
+  data_grid(x) %>% 
+  add_predictions(mod_Nintercept)
+grid2_interc
+
+#we are adding a zero to the model equation, but the predictions remain the same.
