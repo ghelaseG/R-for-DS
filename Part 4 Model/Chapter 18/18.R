@@ -645,3 +645,14 @@ grid2_interc <- sim2 %>%
 grid2_interc
 
 #we are adding a zero to the model equation, but the predictions remain the same.
+
+#2. 
+
+model_matrix(sim3, y ~ x1 + x2)
+model_matrix(sim3, y ~ x1 * x2)
+model_matrix(sim4, y ~ x1 * x2)
+
+# * is a good shorthand for interaction because it gives you a wider view of the calculation. 
+#Source google: symbol is a shortcut that adds both the individual predictors and their interaction term(s)
+?model_matrix
+
