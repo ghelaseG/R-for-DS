@@ -656,3 +656,18 @@ model_matrix(sim4, y ~ x1 * x2)
 #Source google: symbol is a shortcut that adds both the individual predictors and their interaction term(s)
 ?model_matrix
 
+#3. 
+
+mod1 <- lm(y ~ x1 + x2, data = sim3)
+
+mod2 <- lm(y ~ x1 + x2, data = sim3)
+
+#convert categorical variables into 0-1 variables
+
+sim3 <- sim3 %>% mutate(present = 1) %>% spread(x2, present, fill = 0)
+sim3
+
+mod1 <- lm(y ~ x1 + a + b + c + d, data = sim3)
+mod2 <- lm(y ~ x1 * a * b * c * d, data = sim3)
+
+head(model.matrix(data = sim3, y ~ x1 * a * b *c * d))
