@@ -671,3 +671,24 @@ mod1 <- lm(y ~ x1 + a + b + c + d, data = sim3)
 mod2 <- lm(y ~ x1 * a * b * c * d, data = sim3)
 
 head(model.matrix(data = sim3, y ~ x1 * a * b *c * d))
+
+#4.
+
+mod1 <- lm(y ~ x1 + x2, data = sim4)
+mod2 <- lm(y ~ x1 * x2, data = sim4)
+
+sim4_resid <- gather_residuals(sim4, mod1, mod2) 
+sim4_resid %>% view()
+
+ggplot(sim4_resid, aes(resid, colour = model)) +
+  geom_freqpoly() +
+  geom_rug()
+
+#the absolute value of the residuals
+
+ggplot(sim4_resid, aes(abs(resid), colour = model)) +
+  geom_freqpoly() +
+  geom_rug()
+
+sim4_resid %>% 
+  group_by(model) %>% summarise(resid = sd(resid))
