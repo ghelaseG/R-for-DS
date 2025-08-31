@@ -150,5 +150,29 @@ ggplot(diamonds2, aes(lcarat, lprice)) +
 # the carat of the diamond is the single most important factor for determining the price of the diamond.
 ## "the log transformation is particularly useful here because it makes the pattern linear."
 
+#3. Extract the diamonds that have very high and very low residuals. Is there anything unusual about these diamonds? Are they particularly bad or good, or do you think these are pricing errors?
+
+# Answer:
+
+#3.
+
+diamonds3 <- diamonds2 %>% 
+  add_residuals(mod_diamonds, "lresid") %>% view
+
+view(diamonds3)
+
+diamonds3 %>% 
+  select(carat, cut, clarity, depth, price, lresid) %>% 
+  filter(lresid > 1.8 | lresid < -1.9)
 
 
+diamonds3 %>% 
+  ggplot(aes(clarity, price)) +
+  geom_boxplot() +
+  facet_grid(~cut)
+
+# it looks like it can be an error
+
+#>	 0.3  Very Good VVS2     60.6  2366   1.93
+#and
+#> 5  1.03 Fair      I1       78.2  1262  -1.96
