@@ -690,5 +690,45 @@ ggplot(sim4_resid, aes(abs(resid), colour = model)) +
   geom_freqpoly() +
   geom_rug()
 
+#we can see the difference between the models by checking the standard deviation.
 sim4_resid %>% 
   group_by(model) %>% summarise(resid = sd(resid))
+
+
+# Missing Values
+
+#R's default behavior is to silently drop the missing values, but options(na.action = na.warn) makes sure you get a warning:
+
+df <- tribble(
+  ~x,   ~y,
+   1,  2.2,
+   2,   NA,
+   3,  3.5,
+   4,  8.3,
+  NA,   10,
+)
+
+df
+mod <- lm(y ~ x, data = df) #we get the following: Warning message:Dropping 2 rows with missing values 
+
+#to suppress the warning, we set na.action = na.exclude:
+
+mod <- lm(y ~ x, data = df, na.action = na.exclude)
+
+nobs(mod) #check how many observations were used
+
+# Other Model Families
+
+# this chapter was entirely about linear models, which assume a relationship of the form:
+# y = a_1 * x1 + a_2 * x2 + ... + a_n * xn
+
+#linear models assume that the residuals have a normal distribution.
+
+#> Generalized linear models: stats::glm() => extend linear models to include noncontinuous responses (exp: binary data or counts). 
+#> Generalized additive models: mgcv::gav() => extend generalized linear models to incorporate arbitrary smooth functions. For example, we can write a formula like y ~ s(x) which becomes y = f(x) and let gam estimate what that function is.
+#> Penalized linear models: glmnet::glmnet() => add a penalty term to the distance that penalizes complex models.
+#> Robus linear models: MASS::rlm() => tweak the distance to downweight points that are very far away.
+#> Trees: rpart::rpart() => attack the problem in a completely different way than linear models. Trees aren't terribly effective by themselves, but very powerful when used in aggregate by models like random forests: randomForest::randomForest() or gradient boosting machines: xgboost::xgboost.
+
+#> These models work similarly from a programming perspective. Being a skilled modeler is a mixture of some good general principles and having a big toolbox of techniques.
+
