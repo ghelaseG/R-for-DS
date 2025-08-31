@@ -140,6 +140,15 @@ ggplot(diamonds2, aes(lcarat, lprice)) +
 
 #the bright vertical strips represent the number of distribution on the xy axis - ("count" above 450)
 
+#2. If log(price) = a_0 + a_1 * log(carat), what does that say about the relationship between price and carat?
+
+# Answer:
+
+#2.
+
+#Based on the book:
+# the carat of the diamond is the single most important factor for determining the price of the diamond.
+## "the log transformation is particularly useful here because it makes the pattern linear."
 
 
 
