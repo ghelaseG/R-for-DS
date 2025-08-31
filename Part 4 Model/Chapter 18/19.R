@@ -127,3 +127,19 @@ diamonds2 %>%
   mutate(pred = round(2 ^ pred)) %>% 
   select(price, pred, carat:table, x:z) %>% 
   arrange(price)
+
+# Exercises:
+
+#1. In the plot of lcarat versus lprice, there are some bright vertical strips. What do they represent?
+
+#Answer:
+
+#1.
+ggplot(diamonds2, aes(lcarat, lprice)) +
+  geom_hex(bins = 50)
+
+#the bright vertical strips represent the number of distribution on the xy axis - ("count" above 450)
+
+
+
+
