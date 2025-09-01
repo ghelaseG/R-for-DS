@@ -191,3 +191,86 @@ diamonds2 %>%
   arrange(price) %>% view()
 
 #it is a significant difference between the 2, therefore it doesn't do a great job in predicting diamond prices.
+
+
+# What Affects the Number of Daily Flights?
+
+#we are going to check the number of flights that leave NYC per day.
+
+#we first count the number of flights per day.
+daily <- flights %>% 
+  mutate(date = make_date(year, month, day)) %>% 
+  group_by(date) %>% 
+  summarise(n = n())
+daily
+
+ggplot(daily, aes(date, n)) +
+  geom_line()
+
+
+# Day of Week
+
+daily <-  daily %>% 
+  mutate(wday = wday(date, label = TRUE))
+ggplot(daily, aes(wday, n)) +
+  geom_boxplot()
+
+#there are fewer flights on Saturday and Sunday because most travel is for business.
+#to remove this pattern we can use a model:
+
+mod <- lm(n ~ wday, data = daily)
+
+grid <- daily %>% 
+  data_grid(wday) %>% 
+  add_predictions(mod, "n")
+
+ggplot(daily, aes(wday, n)) +
+  geom_boxplot() +
+  geom_point(data = grid, colour = "red", size = 4)
+
+#we can check the residuals:
+
+daily <- daily %>% 
+  add_residuals(mod)
+
+daily %>% 
+  ggplot(aes(date, resid)) +
+  geom_ref_line(h = 0) +
+  geom_line()
+
+ggplot(daily, aes(date, resid, color = wday)) +
+  geom_ref_line(h = 0) +
+  geom_line()
+
+#our model fails to predict the flights on Saturday.
+
+#there are days with far fewer flights than expected
+daily %>% 
+  filter(resid < -100)
+
+#there seems to be soe smoother long-term trend overt the year:
+
+daily %>% 
+  ggplot(aes(date, resid)) +
+  geom_ref_line(h = 0) +
+  geom_line(color = "grey50") +
+  geom_smooth(se = FALSE, span = 0.20)
+
+#because our data is small (one year of data), we can only use our domain knowledge to see potential predictions.
+
+
+# Seasonal Saturday Effect
+
+#we tackle our failure to accurately predict the number of flights on Saturday.
+
+daily %>% 
+  filter(wday == "Sat") %>% 
+  ggplot(aes(date, n)) +
+  geom_point() +
+  geom_line() +
+  scale_x_date(
+    NULL,
+    date_breaks = "1 month",
+    date_labels = "%b"
+  )
+
