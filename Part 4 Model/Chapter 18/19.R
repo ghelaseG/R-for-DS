@@ -176,3 +176,18 @@ diamonds3 %>%
 #>	 0.3  Very Good VVS2     60.6  2366   1.93
 #and
 #> 5  1.03 Fair      I1       78.2  1262  -1.96
+
+#4. Does the final model, mod_diamond2, do a good job of predicting diamond prices? Would you trust it to tell you how much to spend if you were buying a diamond?
+
+# Answer:
+
+#4.
+
+diamonds2 %>% 
+  filter(abs(lresid2) > 1) %>% 
+  add_predictions(mod_diamond2) %>% 
+  mutate(pred = round(2 ^ pred)) %>% 
+  select(price, pred, carat:table, x:z) %>% 
+  arrange(price) %>% view()
+
+#it is a significant difference between the 2, therefore it doesn't do a great job in predicting diamond prices.
