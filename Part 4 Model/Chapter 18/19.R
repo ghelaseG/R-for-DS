@@ -274,3 +274,102 @@ daily %>%
     date_labels = "%b"
   )
 
+# this pattern can be caused by the summer holidays.
+
+#we can create a "term" variable that captures the three school terms, and check our work with a plot:
+
+term <- function(date) {
+  cut(date,
+      breaks = ymd(20130101, 20130605, 20130825, 20140101),
+      labels = c("spring", "summer", "fall"))
+}
+
+daily <- daily %>% 
+  mutate(term = term(date))
+
+daily
+
+daily %>% 
+  filter(wday == "Sat") %>% 
+  ggplot(aes(date, n, color = term)) +
+  geom_point(alpha = 1/3) +
+  geom_line() +
+  scale_x_date(
+    NULL,
+    date_breaks = "1 month",
+    date_labels = "%b"
+  )
+
+#now, let's see how this new variable affects the other days of the week:
+
+daily %>% 
+  ggplot(aes(wday, n, color = term)) +
+  geom_boxplot()
+
+mod1 <- lm(n ~ wday, data = daily)
+mod2 <- lm(n ~ wday * term, data = daily)
+
+daily %>% 
+  gather_residuals(without_term = mod1, with_term = mod2) %>% 
+  ggplot(aes(date, resid, color = model)) +
+  geom_line(alpha = 0.75)
+
+#we can see the problem by overlaying the predictions from the model into the raw data:
+
+grid <- daily %>% 
+  data_grid(wday, term) %>% 
+  add_predictions(mod2, "n")
+
+ggplot(daily, aes(wday, n)) +
+  geom_boxplot() +
+  geom_point(data = grid, color = "red") +
+  facet_wrap(~ term)
+
+#because of the outliers, the mean tends to be far away from the typical value.
+
+#using MASS::rlm() reduces the impact of the outliers on our estimates
+
+mod3 <- MASS::rlm(n ~ wday * term, data = daily)
+
+daily %>% 
+  add_residuals(mod3, "resid") %>% 
+  ggplot(aes(date, resid)) +
+  geom_hline(yintercept = 0, size = 2, color = "white") +
+  geom_line()
+
+# Computed Variables
+
+#it is a good idea to bundle everything in a function to avoid any mistakes.
+
+compute_vars <- function(data) {
+  data %>% 
+    mutate(
+      term = term(date),
+      wday = wday(date, label = TRUE)
+    )
+}
+
+#or put everything in the model:
+
+wday2 <- function(x) wday(x, label = TRUE)
+mod3 <- lm(n ~ wday2(date) * term(date), data = daily)
+
+# including the transformations will make the model self-contained.
+
+
+# Time Of Year: An Alternative Approach
+
+#we can use a flexible model:
+
+library(splines)
+
+mod <- MASS::rlm(n ~ wday * ns(date, 5), data = daily)
+
+daily %>% 
+  data_grid(wday, date = seq_range(date, n = 13)) %>% 
+  add_predictions(mod) %>% 
+  ggplot(aes(date, pred, color = wday)) +
+  geom_line() +
+  geom_point()
+
+# we can see a similar pattern in Saturday flights.
