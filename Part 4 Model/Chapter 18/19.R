@@ -373,3 +373,11 @@ daily %>%
   geom_point()
 
 # we can see a similar pattern in Saturday flights.
+
+# Exercise 1: Use you Google sleuthing skills to brainstorm why there were fewer than expected flights on January 20, May 26, and September 1. (Hint: they all have the same explanation.) How would these days generalize to antoher year?
+
+# Answer:
+
+#it was a Sunday before Monday bank holiday.
+
+
