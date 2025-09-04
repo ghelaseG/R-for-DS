@@ -374,10 +374,28 @@ daily %>%
 
 # we can see a similar pattern in Saturday flights.
 
+#Exercises:
+
 # Exercise 1: Use you Google sleuthing skills to brainstorm why there were fewer than expected flights on January 20, May 26, and September 1. (Hint: they all have the same explanation.) How would these days generalize to antoher year?
 
 # Answer:
 
 #it was a Sunday before Monday bank holiday.
+
+
+#Exercise 2: What do the three days with high positive residuals represent? How would these days generalize to another year?
+daily %>% 
+  top_n(3, resid)
+
+#Answer:
+
+#Source https://www.displayr.com › Blog: Residuals in statistics or machine learning are the difference between an observed data value and a predicted data value. They are also known as errors.
+
+#those are the days after Thanksgiving and Christmas.
+
+#when residual are very high: highlight points which are poorly predicted by the model. Source:https://www.r-bloggers.com/2016/08/visualising-residuals/
+
+
+
 
 
