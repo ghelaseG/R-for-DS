@@ -396,6 +396,26 @@ daily %>%
 #when residual are very high: highlight points which are poorly predicted by the model. Source:https://www.r-bloggers.com/2016/08/visualising-residuals/
 
 
+#Exercise 3: Create a new variable that splits the wday variable into terms, but only for Saturdays, i.e., it should have Thurs, Fri, but Sat-summer, Sat-spring, Sat-fall. How does this model compare with the model with every combination of wday and term?
 
+#Answer:
 
+daily %>% view()
 
+daily <- daily %>% 
+  unite(daily, saturdays, wday['Sat'], term, sep = "-")
+daily
+daily$wday['Sat']
+?unite
+
+new_day <- daily %>% 
+  mutate(wday = as.character(wday),
+         saturdays = ifelse(wday == "Sat", paste0(wday, "-", term), wday))
+new_day
+
+modell <- lm(n ~ wday, data = new_day)
+
+daily %>% 
+  gather_residuals(modell, mod3) %>% 
+  ggplot(aes(date, resid, colour = model)) +
+  geom_line()
