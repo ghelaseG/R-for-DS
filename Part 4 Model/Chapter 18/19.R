@@ -438,3 +438,22 @@ new_daily_resid <-
   add_residuals(new_model) %>% 
   ggplot(aes(date, resid)) +
   geom_line()
+new_daily_resid
+
+# Exercise 4: What happens if you fit a day-of-week effect that varies by month (i.e., n ~ wday * month)? Why is this not very helpful?
+
+# Answer:
+daily
+model_by_month <- lm(n ~ wday * month(date), data = daily)
+
+monthly <- daily %>% 
+  add_residuals(model_by_month) %>% 
+  ggplot(aes(date, resid)) +
+  geom_line()
+monthly
+
+daily3 <- daily %>% 
+  add_residuals(model_by_month, "resid_by_month") 
+daily3
+
+#as our data is made on a daily basis, the monthly resid are having a completely different value or better said a large standard error.
