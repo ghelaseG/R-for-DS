@@ -475,3 +475,19 @@ daily %>%
   geom_line()
 
 #in order to find the right fit for the model we have to play around with the values for spline (df), and see which one fits the model perfectly.
+
+
+# Exercise 7: We hypothesized that people leaving on Sundays are more likely to be business travelers who need to be somewhere on Monday. Explore that hypothesis by seeing how it breaks down based on distance and time: if it's true, you'd expect to see more Sunday evening flights to places that are far away.
+
+# Answer:
+
+view(flights)
+#we are going to make use of the following columns:
+## year, month, day combined
+## sched_dep_time after I'd say around 16:00 ( " expect to see more Sunday evening flights" )
+### or instead of ymd and sched_dep_time we can use the "time_hour" column as it shows " Scheduled date and hour of the flight ", but this one is not really accurate.
+## and distance column to see the "distance between airports, in miles." (this is a little bit subjective because "far away" can mean different things for many people, let's say we're going to choose something starting from 1000).
+### so if we choose a distance of min 500 miles, according to google a 500-mile flight time varies significantly depending on the aircraft's speed, but it would take approximately 1.5 to 2 hours in a typical private jet or around 4 to 5 hours in a Cessna 172 (120-140 mph cruise speed), plus additional time for takeoff and landing. For example, a private jet flying at 500 mph would take about one hour, while a Cessna 150 flying at 70 knots against a headwind might take over six hours for the same distance. 
+?flights
+
+
