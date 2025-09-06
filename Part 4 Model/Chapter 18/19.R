@@ -440,7 +440,7 @@ new_daily_resid <-
   geom_line()
 new_daily_resid
 
-# Exercise 4: What happens if you fit a day-of-week effect that varies by month (i.e., n ~ wday * month)? Why is this not very helpful?
+# Exercise 5: What happens if you fit a day-of-week effect that varies by month (i.e., n ~ wday * month)? Why is this not very helpful?
 
 # Answer:
 daily
@@ -457,3 +457,20 @@ daily3 <- daily %>%
 daily3
 
 #as our data is made on a daily basis, the monthly resid are having a completely different value or better said a large standard error.
+
+
+# Exercise 6: What would you expect the model n ~ wday + ns(date, 5) to look like? Knowing what you know about the data, why would you expect it to be not particularly effective?
+
+# Answer:
+
+mod342 <- lm(n ~ wday + ns(date, 5), data = daily) #our spline will have 5 degrees of freedom
+
+#great article : https://www.geeksforgeeks.org/machine-learning/how-to-specify-degree-argument-in-ns-in-r/
+
+summary(mod342)
+
+daily %>% 
+  add_residuals(mod342) %>% 
+  ggplot(aes(date, resid)) +
+  geom_line()
+
