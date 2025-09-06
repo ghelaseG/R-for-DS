@@ -419,3 +419,22 @@ daily %>%
   gather_residuals(modell, mod3) %>% 
   ggplot(aes(date, resid, colour = model)) +
   geom_line()
+
+#Exercise 4: Create a new wday variable that combines the day of week, term (for Saturdays), and public holidays. What do the residuals of that model look like?
+
+#Answer:
+?mutate
+?case_when
+
+combined_wday <- new_day %>% 
+  mutate(wday123 = case_when(date %in% ymd(c(20130101, 20130418, 20130421, 20131225, 20131226)) ~ "holiday", TRUE ~ "None")) %>% 
+  unite(new_wday, saturdays, wday123)
+view(combined_wday)  
+
+new_model <- lm(n ~ new_wday, data = combined_wday)
+
+new_daily_resid <- 
+  combined_wday %>% 
+  add_residuals(new_model) %>% 
+  ggplot(aes(date, resid)) +
+  geom_line()
