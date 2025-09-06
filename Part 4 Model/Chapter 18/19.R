@@ -474,3 +474,4 @@ daily %>%
   ggplot(aes(date, resid)) +
   geom_line()
 
+#in order to find the right fit for the model we have to play around with the values for spline (df), and see which one fits the model perfectly.
