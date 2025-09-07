@@ -489,10 +489,18 @@ view(flights)
 ## and distance column to see the "distance between airports, in miles." (this is a little bit subjective because "far away" can mean different things for many people, let's say we're going to choose something starting from 1000).
 ### so if we choose a distance of min 500 miles, according to google a 500-mile flight time varies significantly depending on the aircraft's speed, but it would take approximately 1.5 to 2 hours in a typical private jet or around 4 to 5 hours in a Cessna 172 (120-140 mph cruise speed), plus additional time for takeoff and landing. For example, a private jet flying at 500 mph would take about one hour, while a Cessna 150 flying at 70 knots against a headwind might take over six hours for the same distance. 
 ?flights
+library(tidyverse)
+library(lubridate)
+library(nycflights13)
+
+make_datetime_100 <- function(year, month, day, time) {
+  make_datetime(year, month, day, time %/% 100, time %% 100)
+}
+
 
 flights %>% 
-  select(year, month, day, sched_dep_time, distance) %>% 
+  select(year, month, day, sched_dep_time, distance, dep_delay) %>% 
   mutate(date = make_date(year, month, day),
          weekday = wday(date, label = TRUE),
-         evening_flights = as_time(sched_dep_time))
-  
+         sched_dep_time = make_datetime_100(year, month, day, sched_dep_time),
+         sched_dep_in_hour = hour(sched_dep_time))
