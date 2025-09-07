@@ -490,4 +490,9 @@ view(flights)
 ### so if we choose a distance of min 500 miles, according to google a 500-mile flight time varies significantly depending on the aircraft's speed, but it would take approximately 1.5 to 2 hours in a typical private jet or around 4 to 5 hours in a Cessna 172 (120-140 mph cruise speed), plus additional time for takeoff and landing. For example, a private jet flying at 500 mph would take about one hour, while a Cessna 150 flying at 70 knots against a headwind might take over six hours for the same distance. 
 ?flights
 
-
+flights %>% 
+  select(year, month, day, sched_dep_time, distance) %>% 
+  mutate(date = make_date(year, month, day),
+         weekday = wday(date, label = TRUE),
+         evening_flights = as_time(sched_dep_time))
+  
