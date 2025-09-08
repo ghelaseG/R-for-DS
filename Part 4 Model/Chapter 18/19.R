@@ -498,7 +498,7 @@ make_datetime_100 <- function(year, month, day, time) {
 }
 
 wrangling_data_flights7 <- flights %>% 
-  select(year, month, day, hour, minute, sched_dep_time, distance, dep_delay) %>% 
+  select(year, month, day, sched_dep_time, distance, dep_delay) %>% 
   mutate(date = make_date(year, month, day),
          weekday = wday(date, label = TRUE),
          sched_dep_time = make_datetime_100(year, month, day, sched_dep_time),
