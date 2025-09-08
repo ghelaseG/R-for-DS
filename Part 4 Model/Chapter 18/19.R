@@ -497,13 +497,15 @@ make_datetime_100 <- function(year, month, day, time) {
   make_datetime(year, month, day, time %/% 100, time %% 100)
 }
 
-
-flights %>% 
+wrangling_data_flights7 <- flights %>% 
   select(year, month, day, hour, minute, sched_dep_time, distance, dep_delay) %>% 
   mutate(date = make_date(year, month, day),
          weekday = wday(date, label = TRUE),
          sched_dep_time = make_datetime_100(year, month, day, sched_dep_time),
          sched_dep_in_hour = hour(sched_dep_time)) %>% 
-  filter(as.logical(flights$distance) > 500) %>% view()
+  filter(distance > 1000,
+         sched_dep_in_hour > 16)
 
-?filter
+new_data <- wrangling_data_flights7 %>% select(
+  date, weekday, sched_dep_in_hour, distance 
+)
