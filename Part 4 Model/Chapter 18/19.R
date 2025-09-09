@@ -509,3 +509,12 @@ wrangling_data_flights7 <- flights %>%
 new_data <- wrangling_data_flights7 %>% select(
   date, weekday, sched_dep_in_hour, distance 
 )
+new_data %>% 
+  ggplot() +
+  geom_bar(aes(x = sched_dep_in_hour, colour = "weekday"), position = "dodge", bins = 50) +
+  coord_cartesian(ylim = c(0, 2000)) +
+  facet_wrap(~weekday, nrow = 2) 
+?geom_bar
+# Based on our graph, I think the hypothesis it is true, it is just a small difference, only for the time between 20:00 and 22:00; everything else is looking identical.
+
+?coord_cartesian
