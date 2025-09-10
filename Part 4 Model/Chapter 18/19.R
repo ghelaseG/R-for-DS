@@ -518,3 +518,6 @@ new_data %>%
 # Based on our graph, I think the hypothesis it is true, it is just a small difference, only for the time between 20:00 and 22:00; everything else is looking identical.
 
 ?coord_cartesian
+
+# Exercise 8: It is a little frustrating that Sunday and Saturday are on separate ends of the plot. Write a small function to set the levels of the factor so that the week starts on Monday.
+
