@@ -521,3 +521,15 @@ new_data %>%
 
 # Exercise 8: It is a little frustrating that Sunday and Saturday are on separate ends of the plot. Write a small function to set the levels of the factor so that the week starts on Monday.
 
+# Answer:
+
+?rbind
+
+new_data_sunday <- function(x) {
+  fct_relevel(x, "Sun", after = 7)
+}
+
+daily %>% 
+  mutate(wday = new_data_sunday(wday)) %>% 
+  ggplot(aes(wday, n)) +
+  geom_boxplot()
