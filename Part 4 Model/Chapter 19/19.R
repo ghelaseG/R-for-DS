@@ -533,3 +533,11 @@ daily %>%
   mutate(wday = new_data_sunday(wday)) %>% 
   ggplot(aes(wday, n)) +
   geom_boxplot()
+
+# even very simple models can make a dramatic difference in your ability to tease out interactions between variables.
+
+# Some very important books mentioned:
+
+## Statistical ModelingL A fresh Approach by Danny Kaplan
+## An Introduction to Statistical Learning by Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani
+## Applied Predictive Modeling by Max Kuhn and Kjell Johnson
