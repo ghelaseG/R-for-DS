@@ -5,6 +5,7 @@
 #here we learn how to use many simple models to better understand complex datasets, use list-columns to store arbitrary data structures in a data frame and use the broom package, to turn models into tidy data.
 
 #this chapter is a bit more complex and requires a good understanding about modeling, data structures and iteration.
+#but you can use this youtube channel and video: https://www.youtube.com/watch?v=l8dBfjq6lR4&ab_channel=CradleToGraveR
 
 library(modelr)
 library(tidyverse)
@@ -21,3 +22,43 @@ gapminder %>% view()
 gapminder %>% 
   ggplot(aes(year, lifeExp, group = country)) +
   geom_line(alpha = 1/3)
+
+#from the graph, we can see that some countries doesn't follow the same pattern:
+
+nz <- filter(gapminder, country == "New Zealand")
+nz %>% 
+  ggplot(aes(year, lifeExp)) +
+  geom_line() +
+  ggtitle("full data =")
+
+nz_mod <- lm(lifeExp ~ year, data = nz)
+nz %>% 
+  add_predictions(nz_mod) %>% 
+  ggplot(aes(year, pred)) +
+  geom_line() +
+  ggtitle("Linear trend + ")
+
+nz %>% 
+  add_residuals(nz_mod) %>% 
+  ggplot(aes(year, resid)) +
+  geom_hline(yintercept = 0, color = "white", size = 3) +
+  geom_line() +
+  ggtitle("Remaining pattern")
+
+
+# Nested Data
+
+#we can use the nested data frame to repeat an action for each country, a subset of rows.
+
+by_country <- gapminder %>% 
+  group_by(country, continent) %>% 
+  nest()
+
+by_country
+
+#doing this will be easier to see all the details from a data frame
+
+by_country$data[[1]]
+
+#in a grouped data frame, each row is an observation, but in a nested data frame, each row is a group.
+#nested dataset is similar to meta data or meta observation.
