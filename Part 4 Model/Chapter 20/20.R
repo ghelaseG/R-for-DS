@@ -62,3 +62,26 @@ by_country$data[[1]]
 
 #in a grouped data frame, each row is an observation, but in a nested data frame, each row is a group.
 #nested dataset is similar to meta data or meta observation.
+
+
+# List-Columns
+
+#now we are fitting a model:
+
+country_model <- function(df) {
+  lm(lifeExp ~ year, data = df)
+}
+
+#and then we want to apply it to every data frame (are in a list)
+
+models <- map(by_country$data, country_model)
+
+by_country <- by_country %>% 
+  mutate(model = map(data, country_model))
+
+by_country
+
+#doing this will store all the related objects together.
+
+by_country %>% filter(continent == "Europe")
+by_country %>% arrange(continent, country)
