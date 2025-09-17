@@ -85,3 +85,63 @@ by_country
 
 by_country %>% filter(continent == "Europe")
 by_country %>% arrange(continent, country)
+
+
+# Unnesting
+
+by_country <- by_country %>% 
+  mutate(
+    resids = map2(data, model, add_residuals)
+  )
+
+by_country
+
+resids <- unnest(by_country, resids)
+resids
+
+resids %>% 
+  ggplot(aes(year, resid)) +
+  geom_line(aes(group = country), alpha = 1 / 3) +
+  geom_smooth(se = FALSE)
+
+# faceting by continent
+
+resids %>% 
+  ggplot(aes(year, resid, group = country)) +
+  geom_line(alpha = 1 / 3) +
+  facet_wrap(~continent)
+
+
+# Model Quality
+
+#instead of looking at the residuals, we can look at the model quality.
+
+broom::glance(nz_mod)
+
+by_country %>% 
+  mutate(glance = map(model, broom::glance)) %>% 
+  unnest(glance)
+
+glance <- by_country %>% 
+  mutate(glance = map(model, broom::glance)) %>% 
+  unnest(glance, .drop = TRUE)
+view(glance)
+
+#we can now look at models that don't fit well:
+
+glance %>% 
+  arrange(r.squared)
+
+glance %>% 
+  ggplot(aes(continent, r.squared)) +
+  geom_jitter(width = 0.5)
+
+#we could pull out the countries with bad r squared :
+
+bad_fit <- filter(glance, r.squared < 0.25)
+
+gapminder %>% 
+  semi_join(bad_fit, by = "country") %>% 
+  ggplot(aes(year, lifeExp, color = country)) +
+  geom_line()
+
