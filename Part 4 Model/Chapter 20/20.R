@@ -152,3 +152,11 @@ gapminder %>%
 #2. Explore other methods for visualizing the distrbution of R squared per continent. You might want to try the ggbeeswarm package, which provides similar methods for avoiding overlaps as jitter, but uses deterministic methods.
 
 #3. To create the last plot ( showing the data for the countries with the worst model fits ), we needed two steps: we created a data frame with one row per country and then semi-joined it to the original dataset. It's possible avoid this join if we use unnest() instead of unnest(.drop = TRUE). How?
+
+# Answers:
+
+#1. 
+#source Google:
+"""
+To implement a quadratic polynomial in R for polynomial regression, use the lm() function with either the formula y ~ x + I(x^2) to include the explicit squared term or y ~ poly(x, 2) to use the poly() function to generate orthogonal polynomial terms. The lm() function builds the model, fitting a curve to your data rather than a straight line, and I(x^2) is necessary to prevent R from misinterpreting the ^ operator in the formula. 
+"""
