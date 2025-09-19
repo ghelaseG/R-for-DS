@@ -160,3 +160,18 @@ gapminder %>%
 """
 To implement a quadratic polynomial in R for polynomial regression, use the lm() function with either the formula y ~ x + I(x^2) to include the explicit squared term or y ~ poly(x, 2) to use the poly() function to generate orthogonal polynomial terms. The lm() function builds the model, fitting a curve to your data rather than a straight line, and I(x^2) is necessary to prevent R from misinterpreting the ^ operator in the formula. 
 """
+
+mod_Quadratic <- function(df) {
+  lm(data = df, lifeExp ~ poly(year, 2))
+}
+
+quadraticC <- gapminder %>% 
+  mutate(year = year - mean(year)) %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(model = purrr::map(data, mod_Quadratic))
+
+quadraticC <- quadraticC %>% 
+  mutate(resids = map2(data, model, add_residuals))
+
+unnest(quadraticC, resids)
