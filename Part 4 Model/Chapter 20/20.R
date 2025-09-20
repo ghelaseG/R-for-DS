@@ -175,3 +175,19 @@ quadraticC <- quadraticC %>%
   mutate(resids = map2(data, model, add_residuals))
 
 unnest(quadraticC, resids)
+
+unnest(quadraticC, resids) %>% 
+  ggplot(aes(group = country)) +
+  geom_line(aes(x = year, y = resid)) +
+  facet_wrap(~continent, nrow = 2)
+
+quadraticC %>% 
+  mutate(glance = map(model, broom::glance)) %>% 
+  unnest(glance, .drop = TRUE) %>% 
+  arrange(r.squared)
+
+quadraticC %>% 
+  mutate(glance = map(model, broom::glance)) %>% 
+  unnest(glance, .drop = TRUE) %>% 
+  ggplot(aes(r.squared)) +
+  geom_histogram(bins = 100)
