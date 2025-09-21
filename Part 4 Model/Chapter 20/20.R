@@ -191,3 +191,17 @@ quadraticC %>%
   unnest(glance, .drop = TRUE) %>% 
   ggplot(aes(r.squared)) +
   geom_histogram(bins = 100)
+
+#2.
+
+library(ggbeeswarm)
+
+gapminder %>% 
+  mutate(year = year - mean(year)) %>% 
+  group_by(continent, country) %>% 
+  nest() %>% 
+  mutate(model = map(data, modquad)) %>% 
+  mutate(glance = map(model, broom::glance)) %>% 
+  unnest(glance) %>% 
+  ggplot(aes(x = continent, y = r.squared, color = continent)) +
+  
