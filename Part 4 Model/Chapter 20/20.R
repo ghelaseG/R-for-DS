@@ -200,8 +200,24 @@ gapminder %>%
   mutate(year = year - mean(year)) %>% 
   group_by(continent, country) %>% 
   nest() %>% 
-  mutate(model = map(data, modquad)) %>% 
+  mutate(model = map(data, mod_Quadratic)) %>% 
   mutate(glance = map(model, broom::glance)) %>% 
   unnest(glance) %>% 
   ggplot(aes(x = continent, y = r.squared, color = continent)) +
-  
+  geom_beeswarm()
+
+#3.
+
+gapminder %>% 
+  mutate(year = year - mean(year)) %>% 
+  group_by(country) %>% 
+  nest() %>% 
+  mutate(model = map(data, mod_Quadratic)) %>% 
+  mutate(glance = map(model, broom::glance)) %>% 
+  unnest(glance) %>% 
+  unnest(data) %>% 
+  semi_join(gapminder, by = c("pop", "country")) %>% 
+  arrange(r.squared) %>% 
+  filter(r.squared %in% unique(r.squared)[1:6]) %>% 
+  ggplot(aes(x = year + mean(gapminder$year), y = log(pop))) +
+  geom_line(aes(color = country))
