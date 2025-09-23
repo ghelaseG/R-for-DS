@@ -221,3 +221,5 @@ gapminder %>%
   filter(r.squared %in% unique(r.squared)[1:6]) %>% 
   ggplot(aes(x = year + mean(gapminder$year), y = log(pop))) +
   geom_line(aes(color = country))
+
+
