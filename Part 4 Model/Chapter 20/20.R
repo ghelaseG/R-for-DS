@@ -209,17 +209,43 @@ gapminder %>%
 #3.
 
 gapminder %>% 
-  mutate(year = year - mean(year)) %>% 
-  group_by(country) %>% 
+  group_by(country, continent) %>% 
   nest() %>% 
-  mutate(model = map(data, mod_Quadratic)) %>% 
+  mutate(model = map(data, ~lm(lifeExp ~ year, .))) %>% 
   mutate(glance = map(model, broom::glance)) %>% 
   unnest(glance) %>% 
   unnest(data) %>% 
-  semi_join(gapminder, by = c("pop", "country")) %>% 
-  arrange(r.squared) %>% 
-  filter(r.squared %in% unique(r.squared)[1:6]) %>% 
-  ggplot(aes(x = year + mean(gapminder$year), y = log(pop))) +
+  filter(r.squared < 0.25) %>% 
+  ggplot(aes(year, lifeExp)) +
   geom_line(aes(color = country))
 
 
+# List-Columns
+
+#list columns are implicit in the definition of the data frame: a data frame is a named list of equal length vectors.
+
+data.frame(x = list(1:3, 3:5))
+
+data.frame(
+  x = I(list(1:3, 3:5)),
+  y = c("1, 2", "3, 4, 5")
+)
+
+tibble(
+  x = list(1:3, 3:5),
+  y = c("1, 2", "3, 4, 5")
+)
+
+tribble(
+   ~x, ~y,
+  1:3, "1, 2",
+  3:5, "3, 4, 5"
+)
+
+#for intermediate use, list columns are great, however, the functions in R are made for atomic vectors or data frames.
+
+#there are 3 parts for an effective list column pipeline:
+
+#1. create the list column using one of the nest(), summarize() + list() or mutate() + map function
+#2. create other intermediate list columns by transforming existing list columns with map(), map2() and pmap()
+#3. simplify the list column back down to a data frame or atomic vector.
