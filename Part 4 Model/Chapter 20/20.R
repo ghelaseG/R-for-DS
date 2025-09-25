@@ -249,3 +249,14 @@ tribble(
 #1. create the list column using one of the nest(), summarize() + list() or mutate() + map function
 #2. create other intermediate list columns by transforming existing list columns with map(), map2() and pmap()
 #3. simplify the list column back down to a data frame or atomic vector.
+
+
+# Creating List-Columns
+
+# we can't create list columns with tibble(), we can do that using:
+
+## 1. tidyr::nest(): this converts a grouped of data frame into a nested data frame.
+## 2. mutate() and vectorized function that return a list.
+## 3. summarize() and summary functions that return additional results.
+
+# or you can use tibble::enframe()
