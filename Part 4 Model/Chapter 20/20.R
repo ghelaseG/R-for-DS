@@ -260,3 +260,17 @@ tribble(
 ## 3. summarize() and summary functions that return additional results.
 
 # or you can use tibble::enframe()
+
+
+# With Nesting
+
+# nest creates a nested dataframe ( list column of data frames ) with each row as a meta-observation, the other columns give variables and the list-column gives the individual observation.
+
+#group:
+gapminder %>% 
+  group_by(country, continent) %>% 
+  nest()
+
+#ungroup:
+
+
