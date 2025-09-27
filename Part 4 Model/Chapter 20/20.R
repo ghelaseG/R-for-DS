@@ -272,5 +272,37 @@ gapminder %>%
   nest()
 
 #ungroup:
+gapminder %>% 
+  nest(year:gdpPercap)
 
 
+# From Vectorized Functions
+
+# using stringr::str_split() inside mutate, we get a list column:
+
+df <- tribble(
+  ~x1,
+  "a,b,c",
+  "d,e,f,g"
+)
+
+df %>% 
+  mutate(x2 = stringr::str_split(x1, ","))
+
+df %>% 
+  mutate(x2 = stringr::str_split(x1, ",")) %>% 
+  unnest()
+
+# we could use this pattern with tidyr::separate_rows()
+
+sim <- tribble(
+  ~f,         ~params,
+  "runif",    list(min = -1, max = -1),
+  "rnorm",    list(sd = 5),
+  "rpois",    list(lambda = 10)
+)
+
+sim %>% 
+  mutate(sims = invoke_map(f, params, n = 10))
+
+#here sim is not homogeneous
