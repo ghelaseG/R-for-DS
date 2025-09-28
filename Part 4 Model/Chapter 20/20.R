@@ -306,3 +306,48 @@ sim %>%
   mutate(sims = invoke_map(f, params, n = 10))
 
 #here sim is not homogeneous
+
+
+# From Multivalued Summaries
+
+#summarize works only with summary functions
+
+mtcars %>% 
+  group_by(cyl) %>% 
+  summarise(q = quantile(mpg))
+
+mtcars %>% 
+  group_by(cyl) %>% 
+  summarise(q = list(quantile(mpg)))
+
+probs <- c(0.01, 0.25, 0.5, 0.75, 0.99)
+
+mtcars %>% 
+  group_by(cyl) %>% 
+  summarise(p = list(probs), q = list(quantile(mpg, probs))) %>% 
+  unnest()
+
+
+# From a Named List
+
+#to create a data frame that with one column that contain the elements, and one that contain the list, we can use tibble::enframe():
+
+x <- list(
+  a = 1:5,
+  b = 3:4,
+  c = 5:6
+)
+
+df <- enframe(x)
+df
+
+#this way is great for metadata
+
+df %>% 
+  mutate(
+    smry = map2_chr(
+      name, 
+      value,
+      ~ stringr::str_c(.x, ": ", .y[1])
+    )
+  )
