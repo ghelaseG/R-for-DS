@@ -351,3 +351,17 @@ df %>%
       ~ stringr::str_c(.x, ": ", .y[1])
     )
   )
+
+
+# Exercises:
+
+## 1. List all the functions that you can think of that take an atomic vector and return a list.
+
+## 2. Brainstorm useful summary functions that, like quantile(), return multiple values.
+
+## 3. What's missing in the following data frame? How does quantile() return that missing piece? Why isn't that helpful here?
+
+mtcars %>% 
+  group_by(cyl) %>% 
+  summarise(q = list(quantile(mpg))) %>% 
+  unnest()
