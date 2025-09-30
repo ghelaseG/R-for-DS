@@ -365,3 +365,10 @@ mtcars %>%
   group_by(cyl) %>% 
   summarise(q = list(quantile(mpg))) %>% 
   unnest()
+
+# Answers:
+
+#1. 
+str_split()
+str_match_all()
+map()
