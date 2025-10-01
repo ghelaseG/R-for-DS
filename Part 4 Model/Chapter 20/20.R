@@ -372,3 +372,9 @@ mtcars %>%
 str_split()
 str_match_all()
 map()
+
+#2.
+
+range()
+fivenum()
+confint()
