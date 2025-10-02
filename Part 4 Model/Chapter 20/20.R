@@ -378,3 +378,21 @@ map()
 range()
 fivenum()
 confint()
+
+#3.
+
+mtcars %>% 
+  group_by(cyl) %>% 
+  summarise(q = list(quantile(mpg))) %>% 
+  unnest()
+
+#let's check the quantile() function:
+
+quantile(mtcars$mpg)
+
+mtcars %>% 
+  group_by(cyl) %>% 
+  summarise(q = list(enframe(quantile(mpg)))) %>% 
+  unnest()
+
+#source: https://github.com/cimentadaj/R4DS-Solutions/blob/master/ch20.Rmd
