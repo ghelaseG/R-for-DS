@@ -396,3 +396,11 @@ mtcars %>%
   unnest()
 
 #source: https://github.com/cimentadaj/R4DS-Solutions/blob/master/ch20.Rmd
+
+#4. What does this code do? Why might it be useful?
+
+mtcars %>% 
+  group_by(cyl) %>% 
+  across(funs(list))
+
+#iterating over several lists at the same time
