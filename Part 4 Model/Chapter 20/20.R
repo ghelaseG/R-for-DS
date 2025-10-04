@@ -404,3 +404,10 @@ mtcars %>%
   across(funs(list))
 
 #iterating over several lists at the same time
+
+
+# Simplyfying List-Columns
+
+#we need to simplify the list-column to a regular column (atomic vector) or set of columns.
+#we can have multiple (use unnest()) or single value (use mutate() with map_lgl(), map_int(), map_dbl(), map_chr()) per element.
+
