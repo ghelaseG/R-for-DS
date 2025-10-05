@@ -411,3 +411,36 @@ mtcars %>%
 #we need to simplify the list-column to a regular column (atomic vector) or set of columns.
 #we can have multiple (use unnest()) or single value (use mutate() with map_lgl(), map_int(), map_dbl(), map_chr()) per element.
 
+
+# List to Vector
+
+# reducing a list column to an atomic vector it will be a regular column.
+
+df <- tribble(
+  ~x,
+  letters[1:5],
+  1:3,
+  runif(5)
+)
+
+df %>% mutate(
+  type = map_chr(x, typeof),
+  length = map_int(x, length)
+)
+
+#we can use this style for filtering, good when handling heterogeneous list and filter the parts that are not working for your problem.
+
+df <- tribble(
+  ~x,
+  list(a = 1, b = 2),
+  list(a = 2, c = 4)
+)
+
+df %>% mutate(
+  a = map_dbl(x, "a"),
+  b = map_dbl(x, "b", .null = NA_real_)
+)
+
+
+# Unnesting
+
