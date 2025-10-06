@@ -444,3 +444,25 @@ df %>% mutate(
 
 # Unnesting
 
+#this function is great for expanding a list-column containing data frames into rows and columns.
+
+tibble(x = 1:2, y = list(1:4, 1)) %>% unnest(y)
+
+df1 <- tribble(
+  ~x,  ~y,          ~z,
+  1,   c("a", "b"), 1:2,
+  2,   "c",           3
+)
+df1
+
+df1 %>% unnest(c(y, z))
+
+df2 <- tribble(
+  ~x,  ~y,         ~z,
+  1,   "a",        1:2,
+  2,  c("b", "c"),   3
+)
+df2
+
+
+#unnesting can happen when we've got the same number of rows
