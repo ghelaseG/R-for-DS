@@ -479,3 +479,12 @@ df2
 
 #2.
 #the most common type of vectors are: numeric, character, date and time, or logical
+
+
+# Making Tidy Data with broom
+
+#we can turn models into tidy data frames by using:
+
+## broom::glance(model) - returning a row for each model
+## broom::tidy(model) - returning a row for each coefficient in the model
+## broom::augment(model, data) - returning a row for each row in data
