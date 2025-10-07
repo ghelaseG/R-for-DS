@@ -464,5 +464,18 @@ df2 <- tribble(
 )
 df2
 
-
 #unnesting can happen when we've got the same number of rows
+
+# Exercises:
+
+#1. Why might the lengths() function be useful for creating atomic vector columns from list-columns?
+#2. List the most common types of vector found in a data frame. What makes lists different?
+
+# Answers:
+
+#1.
+?lengths()
+#This function loops over x and returns a compatible vector containing the length of each element in x. Effectively, length(x[[i]]) is called for all i, so any methods on length are considered.
+
+#2.
+#the most common type of vectors are: numeric, character, date and time, or logical
