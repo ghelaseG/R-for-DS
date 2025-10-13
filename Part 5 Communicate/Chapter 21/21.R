@@ -50,3 +50,28 @@ output: html_document
 Skills: Python, R, SQL.
 
 """
+
+#2. Using the R Markdown quick reference, figure out how to:
+
+#a. Add a footnote.
+"""
+[^ ]
+"""
+
+#b. Add a horizontal rule.
+"""
+Horizontal Rule / Page Break
+Three or more asterisks or dashes:
+
+******
+
+------
+"""
+#c. Add a block quote.
+"""
+Blockquotes
+A friend once said:
+
+> It's always better to give 
+> than to receive.
+"""
