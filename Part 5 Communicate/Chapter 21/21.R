@@ -75,3 +75,23 @@ A friend once said:
 > It's always better to give 
 > than to receive.
 """
+
+#3. Copy and paste the contents of diamond-sizes.Rmd from https::/github.com/hadley/r4ds/tree/master/rmarkdown into a local R Markdown document. Check that you can run it, then add text after the frequency polygon that describes its most striking features.
+
+
+# Code Chunks
+
+#to run code inside R MArkdown we can:
+
+#use keyboard shortcut Cmd-Alt-I
+#Insert button
+#or manually typing: ```{r} and ```
+
+#the chunk header looks like this:
+
+# ```{r, followed by an optional chunk name, followed by comma-separated options, followed by }. Next comes the R code and the chunk end is indicated by a final ```
+
+
+# Chunk Names
+
+#chunks can be give an optional name, useful when you want to navigate between these, graphics have an unique name and set up networks of cached chunks.
