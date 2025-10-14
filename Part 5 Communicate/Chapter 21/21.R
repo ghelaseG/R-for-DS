@@ -95,3 +95,11 @@ A friend once said:
 # Chunk Names
 
 #chunks can be give an optional name, useful when you want to navigate between these, graphics have an unique name and set up networks of cached chunks.
+
+
+# Chunk Options
+
+## https://yihui.org/knitr/options/
+
+#great website
+
