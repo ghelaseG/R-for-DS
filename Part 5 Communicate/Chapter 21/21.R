@@ -99,7 +99,70 @@ A friend once said:
 
 # Chunk Options
 
-## https://yihui.org/knitr/options/
+## https://yihui.org/knitr/options/: great website
 
-#great website
+#most important set of options control:
+
+# eval = FALSE: prevents code from being evaluated.
+# include = FALSE: runs but not showing the code.
+# echo = FALSE: prevents code but not the results.
+# message = FALSE or warning = FALSE: prevents messages or warnings from appearing.
+# results = 'hide': hides printed output.
+# fig.show = 'hide': hides plots.
+# error = TRUE: causes the render to continue even if code has an error.
+
+
+# Table
+
+# R Markdown prints data frames and matrices by default.
+
+mtcars[1:5, 1:10]
+
+#to have this displayed with additional formatting we can use knitr::kable function.
+
+knitr::kable(
+  mtcars[1:5, ],
+  caption = "A knitr kable."
+)
+
+# ?knitr::kable #we can also use packages such as xtable, stargazer, pander, tables and ascii.
+
+
+# Caching
+
+# each knit starts from a clean state, but if we have computations that takes a long time, then the solution will be to set cache = TRUE (this will save the output on disk).
+# knitr plays a smart role, because if he doesn't see any changes, then it will reuse the cached results.
+
+#however, this process must be used with care:
+
+```{r raw_data}
+rawdata <- readr::read_csv("a_very_large_file.csv")
+```
+
+```{r processed_data, cached = TRUE}
+processed_data <- rawdata %>% 
+  filter(!is.na(import_var)) %>% 
+  mutate(new_variable = complicated_transformation(x, y, z))
+```
+
+#in the next example, the code will rerun only if the dplyr pipeline is changed, not the read_csv().
+
+```
+{r processed_data, cached = TRUE, dependson = "raw_data"}
+processed_data <- rawdata %>% 
+  filter(!is.na(import_var)) %>% 
+  mutate(new_variable = complicated_transformation(x, y, z))
+```
+
+#to track changes to a file we can use: cache.extra.
+#file.info(): you get all the information about the file
+
+```{r raw_data, cache.extra = file.info("a_very_large_file.csv")}
+rawdata <- readr::read_csv("a_very_large_file.csv")
+```
+
+#we can clear all the caches with knitr::clean_cache()
+
+#these chunks can be named after the function you create. (David Robinson X / twitter)
+
 
