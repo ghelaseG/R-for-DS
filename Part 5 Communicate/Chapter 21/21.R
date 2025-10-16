@@ -166,3 +166,12 @@ rawdata <- readr::read_csv("a_very_large_file.csv")
 #these chunks can be named after the function you create. (David Robinson X / twitter)
 
 
+# Global options
+
+# we can use knitr::opts_chunk$set() in a code chunk to change the options.
+
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE
+)
+
