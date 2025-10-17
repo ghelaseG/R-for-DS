@@ -175,3 +175,47 @@ knitr::opts_chunk$set(
   collapse = TRUE
 )
 
+# you can also prepare a report with:
+knitr::opts_chunk$set(
+  echo = FALSE
+)
+
+#this will hide the code, other options will be to setting up:
+## message = FALSE
+## warning = FALSE
+
+
+# Inline Code
+
+# to embed R code we can do it using `r`, for example:
+
+"
+We have data about `r nrow(diamonds)` diamonds. Only `r nrow(diamonds) - nrow(smaller)` are larger than 2.5 carats. The distribution of the remainder is shown below:
+"
+
+#this will result in:
+
+"
+We have data about 53940 diamons. Only 126 are larger than 2.5 carats. The distribution of the remainder is shown below:
+"
+
+# we can insert numbers into text using format(), and big.mark() to make numbers easier to read.
+
+comma <- function(x) format(x, digits = 2, big.mark = ",")
+comma(3455543)
+comma(.1234675757868)
+
+# Exercises:
+
+#1. Add a section that explores how diamond sizes vary by cut, color, and clarity. Assume you're writing a report for someone who doesn't know R, and instead of setting echo = FALSE on each chunk, set a global option.
+
+#2. Download diamond-sizes.Rmd from https://github.com/hadley/r4ds/tree/master/rmarkdown. Add a section that describes the largest 20 diamonds, including a table that displays their most important attributes.
+
+#3. Modify diamonds-sizes.Rmd to use comma() to produce nicely formatted output. Also include the percentage of diamonds that are larger than 2.5 carats.
+
+#4. Set up a network of chunks where d depends on c and b, and both b and c depend on a. Have each chunk print lubridate::now(), set cache = TRUE, then verify your understanding of caching.
+
+
+
+# Troubleshooting
+
