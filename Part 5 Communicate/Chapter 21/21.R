@@ -221,7 +221,5 @@ comma(.1234675757868)
 
 #code from https://jrnold.github.io/r4ds-exercise-solutions/r-markdown.html#exercise-27.3.3
 
-
-
 # Troubleshooting
 
