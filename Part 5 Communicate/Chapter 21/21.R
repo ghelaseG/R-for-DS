@@ -215,6 +215,12 @@ comma(.1234675757868)
 
 #4. Set up a network of chunks where d depends on c and b, and both b and c depend on a. Have each chunk print lubridate::now(), set cache = TRUE, then verify your understanding of caching.
 
+# Solution:
+
+#1.
+
+#code from https://jrnold.github.io/r4ds-exercise-solutions/r-markdown.html#exercise-27.3.3
+
 
 
 # Troubleshooting

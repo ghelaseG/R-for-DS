@@ -1,0 +1,47 @@
+---
+title: "Exercise1"
+output: html_document
+date: "2025-10-18"
+---
+
+```{r knitr_opts, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r setup, message = FALSE}
+library("ggplot2")
+library("dplyr")
+```
+
+```{r}
+smaller <- diamonds %>% 
+  filter(carat <= 2.5)
+```
+
+```{r include = FALSE, purl = FALSE}
+larger <- nrow(diamonds) - nrow(smaller)
+percentage_larger <- larger / nrow(diamonds) * 100
+
+comma <- function(x) {
+  format(x, digits = 2, big.mark = ",")
+}
+```
+
+## Explore How Diamond Sizes Vary by Cut, Colour and Clarity
+
+Diamonds with low quality tend to be larger:
+```{r}
+ggplot(diamonds, aes(y = carat, x = cut)) +
+  geom_boxplot()
+```
+
+Also, diamonds with worse colour tend to be larger:
+```{r}
+ggplot(diamonds, aes(y = carat, x = color)) +
+  geom_boxplot()
+```
+
+And of course, diamonds with worse clarity tend to be larger:
+```{r}
+ggplot(diamonds, aes(y = carat, x = clarity)) +
+  geom_boxplot()
