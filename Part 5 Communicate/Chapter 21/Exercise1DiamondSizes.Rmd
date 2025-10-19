@@ -45,3 +45,5 @@ And of course, diamonds with worse clarity tend to be larger:
 ```{r}
 ggplot(diamonds, aes(y = carat, x = clarity)) +
   geom_boxplot()
+```
+

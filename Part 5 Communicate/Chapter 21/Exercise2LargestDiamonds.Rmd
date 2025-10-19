@@ -1,0 +1,25 @@
+---
+title: "Exercise2LargestDiamonds"
+output: html_document
+date: "2025-10-19"
+---
+
+```{r knitr_opts, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r setup, message = FALSE}
+library("ggplot2")
+library("dplyr")
+```
+
+# Largest 20 diamonds
+
+```{r results='asis'}
+diamonds %>% 
+  arrange(desc(depth)) %>% 
+  slice(1:20) %>% 
+  select(depth, carat, cut, color, clarity) %>% 
+  knitr::kable(
+    caption = "The largest 20 diamonds in the dataset"
+  )
