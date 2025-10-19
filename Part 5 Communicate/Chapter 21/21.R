@@ -223,9 +223,13 @@ comma(.1234675757868)
 #see Exercise1DiamondSizes.Rmd
 
 #2.
+library(ggplot2)
+library(dplyr)
+View(diamonds)
+# see Exercise2LargestDiamonds.Rmd
 
+#3.
 
+# see Exercise3LargerThanTwoPointFive.html
 
-
-# Troubleshooting
 

@@ -13,19 +13,6 @@ library("ggplot2")
 library("dplyr")
 ```
 
-```{r}
-smaller <- diamonds %>% 
-  filter(carat <= 2.5)
-```
-
-```{r include = FALSE, purl = FALSE}
-larger <- nrow(diamonds) - nrow(smaller)
-percentage_larger <- larger / nrow(diamonds) * 100
-
-comma <- function(x) {
-  format(x, digits = 2, big.mark = ",")
-}
-```
 
 ## Explore How Diamond Sizes Vary by Cut, Colour and Clarity
 

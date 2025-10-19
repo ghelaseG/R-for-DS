@@ -1,0 +1,41 @@
+---
+title: "Exercise3Comma"
+output: html_document
+date: "2025-10-19"
+---
+
+```{r knitr_ops, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r setup, message = FALSE}
+library("ggplot2")
+library("dplyr")
+```
+
+```{r}
+smaller <- diamonds %>% 
+  filter(carat <= 2.5)
+```
+
+```{r include = FALSE, purl = FALSE}
+larger <- nrow(diamonds) - nrow(smaller)
+percentage_larger <- larger / nrow(diamonds) * 100
+
+comma <- function(x) {
+  format(x, digits = 3, big.mark = ",")
+}
+```
+
+## Percentage of diamonds larger than 2.5 carats
+
+Our data is about `r comma(nrow(diamonds))` diamonds.
+`r larger` are larger than 2.5 carats. In percentage this will be `r round(percentage_larger, 1)`%.
+
+See the graph below:
+
+```{r}
+smaller %>% 
+  ggplot(aes(carat)) +
+  geom_freqpoly(binwidth = 0.2)
+```
