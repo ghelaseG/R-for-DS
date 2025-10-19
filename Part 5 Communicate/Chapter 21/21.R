@@ -232,4 +232,6 @@ View(diamonds)
 
 # see Exercise3LargerThanTwoPointFive.html
 
+#4.
 
+# see Exercise4Caching.Rmd

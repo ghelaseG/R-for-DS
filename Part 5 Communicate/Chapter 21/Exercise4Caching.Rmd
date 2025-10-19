@@ -1,0 +1,35 @@
+---
+title: "Exercise4"
+output: html_document
+date: "2025-10-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```
+
+The chunk `a` is independent.
+```{r a}
+print(lubridate::now())
+x <- 10
+```
+
+The chunk `b` depends on `a`.
+```{r b, dependson = c("a")}
+print(lubridate::now())
+y <- x + 2
+```
+
+Chunk `c` depends on `a`.
+```{r c, dependson = c("a")}
+print(lubridate::now())
+z <- x * 3
+```
+
+And finally, the chunk `d` depends on `c` and `b`:
+```{r d, dependson = c("c", "b")}
+print(lubridate::now())
+w <- y + z
+```
+
+After running multiple times, you'll realize that the file is running with the first results.
