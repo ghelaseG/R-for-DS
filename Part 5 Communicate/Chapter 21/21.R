@@ -235,3 +235,97 @@ View(diamonds)
 #4.
 
 # see Exercise4Caching.Rmd
+
+
+# Troubleshooting
+
+# one way to troubleshoot in R is to restart the environment and then try to run all chunks or use CTRL ALT R.
+# then check the working directory.
+# last chance is to set error = TRUE and then use print() and str()
+
+
+# YAML Header
+
+#we can gain control of the document settings by changing the YAML header.
+# Parameters:
+
+# we can include more than one parameters in our documents. This is useful when we want to re render the report many times with different values.
+
+```
+output: html_document
+params:
+  my_class: "suv"
+```
+
+```{r setup, include = FALSE}
+library(ggplot2)
+library(dplyr)
+
+class <- mpg %>% filter(class == params$my_class)
+```
+
+# Fuel economy for `r params$my_class`s
+
+```{r, message = FALSE}
+ggplot(class, aes(displ, hwy)) +
+  geom_point() +
+  geom_smooth(se = FALSE)
+```
+
+#we can even write atomic vectors directly into the YAML header
+"""
+---
+title: "Parameters"
+output: html_document
+date: "2025-10-19"
+params:
+  my_class: "suv"
+  start: !r lubridate::ymd("2025-01-01")
+  snapshot: !r lubridate::ymd_hms("2015-01-01 12:30:00")
+---
+"""
+
+http://bit.ly/ParamReports
+
+rmarkdown::render(
+  "fuel-economy.Rmd",
+  params = list(my_class = "suv")
+)
+
+#powerful together with purrr:pwalk()
+
+library(rmarkdown)
+
+reports <- tibble(
+  class = unique(mpg$class),
+  filename = stringr::str_c("fuel-economy-", class, ".html"),
+  params = purrr::map(class, ~ list(my_class = .))
+)
+reports
+
+reports %>% 
+  select(output_file = filename, params) %>% 
+  purrr::pwalk(rmarkdown::render, input = "fuel-economy.Rmd")
+
+
+render("input.Rmd")
+rmarkdown::render(envir = parent.frame(),
+                  output_file = "YourOutputFile.pdf")
+getwd()
+
+
+?rmarkdown::render
+
+getwd()
+
+
+# Bibliographies and Citations
+
+#Pandoc can generate citations and bibliography easily
+
+#using:
+
+bibliography: rmarkdown.bib
+
+#we can use BibLaTeX, endnote and medline
+

@@ -1,0 +1,30 @@
+---
+title: "Parameters"
+output: html_document
+date: "2025-10-19"
+params:
+  my_class: "suv"
+  start: !r lubridate::ymd("2025-01-01")
+  snapshot: !r lubridate::ymd_hms("2015-01-01 12:30:00")
+---
+
+```{r knitr_opts, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r setup, include = FALSE}
+library("ggplot2")
+library("dplyr")
+
+class <- mpg %>% filter(class == params$my_class)
+```
+
+# Fuel economy for `r params$my_class`s
+
+```{r, message = FALSE}
+ggplot(class, aes(displ, hwy)) +
+  geom_point() +
+  geom_smooth(se = FALSE)
+```
+
+

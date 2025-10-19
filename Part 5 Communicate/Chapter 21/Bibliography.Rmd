@@ -1,0 +1,21 @@
+---
+title: "Bibliography"
+output: html_document
+date: "2025-10-19"
+bibliography: rmarkdown.bib
+csl: apa.csl
+---
+
+Separate multiple citations with a `;`:
+Blah blah [@smith01; @doe99].
+
+You can add arbitrary comments inside the square brackets:
+Blah blah [see @doe99, pp. 33-35; also @smith04, ch. 1].
+
+Remove the square brackets to create an in-text citation:
+@smith04 says blah, or @smith04 [p. 33] says blah.
+
+Add a `-` beofre the citation to suppress the author's name:
+Smith says blah [-@smith04]
+
+# References
