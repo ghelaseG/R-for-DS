@@ -69,7 +69,26 @@ ggplot(df, aes(x, y)) +
 # Answers:
 
 #1.
+mpg %>% view()
+?mpg
+?fct_reorder
+
+mpg %>% summarize(x = fct_reorder(class, hwy),
+                  y = hwy)
+mpg %>% summarise(x = unique(manufacturer))
 
 
+ggplot(mpg, aes(x = fct_reorder(manufacturer, cty), y = cty, colour = class, group = class)) +
+  geom_point() +
+  coord_flip() +
+  labs(
+    x = "15 x Manufacturer Names",
+    y = "City Miles Per Gallon",
+    colour = "Class Of Car",
+    title = paste("Subcompact / Compact Cars tend to have Higher Fuel Consumption in the City"),
+    subtitle = paste("Honda, Volkswagen and Toyota are the top 3"),
+    caption = "Data from fueleconomy.gov"
+  ) +
+  theme_minimal()
 
 
