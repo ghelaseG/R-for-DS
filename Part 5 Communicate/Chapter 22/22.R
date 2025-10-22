@@ -108,3 +108,16 @@ ggplot(mpg2, aes(displ, lhwy)) +
   geom_smooth(se = FALSE)
 
 #trial part1
+
+library(modelr)
+
+mod1 <- lm(displ ~ hwy, data = mpg)
+
+grid <- mpg %>% 
+  add_predictions(mod1, "lhwy")
+
+view(grid)
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  geom_line(data = grid, colour = "red")
