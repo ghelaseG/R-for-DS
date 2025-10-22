@@ -91,4 +91,20 @@ ggplot(mpg, aes(x = fct_reorder(manufacturer, cty), y = cty, colour = class, gro
   ) +
   theme_minimal()
 
+#2.
 
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  geom_smooth(se = FALSE)
+
+mpg2 <- mpg %>% 
+  filter(hwy <= 40) %>% 
+  mutate(lhwy = log2(hwy))
+
+view(mpg2)
+
+ggplot(mpg2, aes(displ, lhwy)) +
+  geom_point(aes(colour = class)) +
+  geom_smooth(se = FALSE)
+
+#trial part1
