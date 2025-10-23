@@ -99,13 +99,25 @@ ggplot(mpg, aes(displ, hwy)) +
 
 mpg2 <- mpg %>% 
   filter(hwy <= 40) %>% 
-  mutate(lhwy = log2(hwy))
+  mutate(lhwy = log2(hwy), ldispl = log2(displ))
 
 view(mpg2)
 
 ggplot(mpg2, aes(displ, lhwy)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE)
+
+mod2 <- lm(ldispl ~ lhwy, data = mpg2)
+
+# or
+
+grid2 <- mpg2 %>% 
+  add_residuals(mod2) %>% 
+  add_predictions(mod2, "lhwy")
+  
+ggplot(grid2, aes(lhwy, ldispl)) +
+  geom_point(aes(colour = class)) +
+  geom_smooth(se = FALSE, method = "lm")
 
 #trial part1
 
@@ -114,10 +126,31 @@ library(modelr)
 mod1 <- lm(displ ~ hwy, data = mpg)
 
 grid <- mpg %>% 
-  add_predictions(mod1, "lhwy")
+  add_residuals(mod1) %>% 
+  add_predictions(mod1, "hwy")
 
 view(grid)
 
-ggplot(mpg, aes(displ, hwy)) +
+ggplot(grid, aes(displ, hwy)) +
   geom_point(aes(colour = class)) +
   geom_line(data = grid, colour = "red")
+
+# or
+
+ggplot(grid, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  geom_smooth(se = FALSE, method = "lm")
+
+# trial part 2
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  geom_smooth(se = FALSE, span = 1.8)
+
+# trial part 3 - using linear model
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  geom_smooth(se = FALSE, method = "lm")
+
+# trial part 4
