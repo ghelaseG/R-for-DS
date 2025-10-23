@@ -97,24 +97,24 @@ ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE)
 
-mpg2 <- mpg %>% 
-  filter(hwy <= 40) %>% 
-  mutate(lhwy = log2(hwy), ldispl = log2(displ))
-
-view(mpg2)
 
 ggplot(mpg2, aes(displ, lhwy)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE)
 
-mod2 <- lm(ldispl ~ lhwy, data = mpg2)
+# the winner/best model is the following code:
+mpg2 <- mpg %>% 
+  filter(hwy <= 40) %>% 
+  mutate(lhwy = log2(hwy), ldispl = log2(displ))
 
-# or
+#view(mpg2)
+
+mod2 <- lm(ldispl ~ lhwy, data = mpg2)
 
 grid2 <- mpg2 %>% 
   add_residuals(mod2) %>% 
   add_predictions(mod2, "lhwy")
-  
+
 ggplot(grid2, aes(lhwy, ldispl)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE, method = "lm")
@@ -153,4 +153,14 @@ ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE, method = "lm")
 
-# trial part 4
+# trial part 4 - making some adjustments to the linear model
+
+mod2 <- lm(ldispl ~ lhwy, data = mpg2)
+
+grid2 <- mpg2 %>% 
+  add_residuals(mod2) %>% 
+  add_predictions(mod2, "lhwy")
+
+ggplot(grid2, aes(lhwy, ldispl)) +
+  geom_point(aes(colour = class)) +
+  geom_smooth(se = FALSE, method = "lm")
