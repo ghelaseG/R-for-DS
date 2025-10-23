@@ -176,7 +176,18 @@ mod2 <- lm(ldispl ~ lhwy, data = mpg2)
 grid2 <- mpg2 %>% 
   add_residuals(mod2) %>% 
   add_predictions(mod2, "lhwy")
-
+view(mpg)
 ggplot(grid2, aes(ldispl, lhwy)) +
   geom_point(aes(colour = class)) +
-  geom_smooth(se = FALSE, method = "lm")
+  geom_smooth(se = FALSE, method = "lm") +
+  labs(
+    x = "Engine Displacement",
+    y = "Highway Miles Per Gallon",
+    colour = "Car Type",
+    title = paste(
+      "Having A Bigger Engine Results In Higher Consumption"),
+    subtitle = paste(
+      "2 Seater and SUV's are Leading the Chart"),
+    caption = "Data from fueleconomy.gov"
+    ) +
+  theme_linedraw()
