@@ -82,7 +82,7 @@ ggplot(mpg, aes(x = fct_reorder(manufacturer, cty), y = cty, colour = class, gro
   geom_point() +
   coord_flip() +
   labs(
-    x = "15 x Manufacturer Names",
+    x = "15 x Car Manufacturer Names",
     y = "City Miles Per Gallon",
     colour = "Class Of Car",
     title = paste("Subcompact / Compact Cars tend to have Higher Fuel Consumption in the City"),
@@ -102,12 +102,10 @@ ggplot(mpg2, aes(displ, lhwy)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE)
 
-# the winner/best model is the following code:
+# the winner/best fitted model is the following code:
 mpg2 <- mpg %>% 
   filter(hwy <= 40) %>% 
   mutate(lhwy = log2(hwy), ldispl = log2(displ))
-
-#view(mpg2)
 
 mod2 <- lm(ldispl ~ lhwy, data = mpg2)
 
@@ -115,7 +113,7 @@ grid2 <- mpg2 %>%
   add_residuals(mod2) %>% 
   add_predictions(mod2, "lhwy")
 
-ggplot(grid2, aes(lhwy, ldispl)) +
+ggplot(grid2, aes(ldispl, lhwy)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE, method = "lm")
 
@@ -161,6 +159,24 @@ grid2 <- mpg2 %>%
   add_residuals(mod2) %>% 
   add_predictions(mod2, "lhwy")
 
-ggplot(grid2, aes(lhwy, ldispl)) +
+ggplot(grid2, aes(ldispl, lhwy)) +
+  geom_point(aes(colour = class)) +
+  geom_smooth(se = FALSE, method = "lm")
+
+#3.
+
+#we are using the last graph as an example:
+
+mpg2 <- mpg %>% 
+  filter(hwy <= 40) %>% 
+  mutate(lhwy = log2(hwy), ldispl = log2(displ))
+
+mod2 <- lm(ldispl ~ lhwy, data = mpg2)
+
+grid2 <- mpg2 %>% 
+  add_residuals(mod2) %>% 
+  add_predictions(mod2, "lhwy")
+
+ggplot(grid2, aes(ldispl, lhwy)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE, method = "lm")
