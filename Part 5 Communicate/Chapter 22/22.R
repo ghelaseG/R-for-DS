@@ -191,3 +191,19 @@ ggplot(grid2, aes(ldispl, lhwy)) +
     caption = "Data from fueleconomy.gov"
     ) +
   theme_linedraw()
+
+
+# Annotations
+
+#it is good to label groups / individual observations.
+#we can do this using geom_text() (this is useful for labeling)
+
+# example:
+
+best_in_class <- mpg %>% 
+  group_by(class) %>% 
+  filter(row_number(desc(hwy)) == 1)
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  
