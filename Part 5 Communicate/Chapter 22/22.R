@@ -206,4 +206,90 @@ best_in_class <- mpg %>%
 
 ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(color = class)) +
-  
+  geom_text(aes(label = model), data = best_in_class)
+
+#we can also use geom_label:
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  geom_label(
+    aes(label = model),
+    data = best_in_class,
+    nudge_y = 2,
+    alpha = 0.5
+  )
+
+#to avoid overlapping we can use ggrepel:
+install.packages("ggrepel")
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  geom_point(size = 3, shape = 1, data = best_in_class) +
+  ggrepel::geom_label_repel(
+    aes(label = model),
+    data = best_in_class
+  )
+
+class_avg <- mpg %>% 
+  group_by(class) %>% 
+  summarise(
+    displ = median(displ),
+    hwy = median(hwy)
+  )
+
+ggplot(mpg, aes(displ, hwy, colour = class)) +
+  ggrepel::geom_label_repel(aes(label = class),
+    data = class_avg,
+    size = 0,
+    label.size = 0,
+    segment.color = NA
+  ) +
+  geom_point() +
+  theme(legend.position = "none")
+
+label <- mpg %>% 
+  summarise(
+    displ, max(displ),
+    hwy = max(hwy),
+    label = paste(
+      "Increasing engine size is \nrelated to decreasing fuel economy."
+    )
+  )
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  geom_text(
+    aes(label = label),
+    data = label,
+    vjust = "top",
+    hjust = "right"
+  )
+
+label <- tibble(
+  displ = Inf,
+  hwy = Inf,
+  label = paste(
+    "Increasing engine size is \nrelated to decreasing fuel economy."
+  )
+)
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  geom_text(
+    aes(label = label),
+    data = label,
+    vjust = "top",
+    hjust = "right"
+  )
+
+#instead of \n we can use stringr::str_wrap()
+
+"Increasing engine size related to decreasing fuel economy." %>% 
+  stringr::str_wrap(width = 40) %>% 
+  writeLines()
+
+#other useful geom in ggplot2:
+
+## geom_hline() and geom_vline() to add reference lines
+## geom_rect() to draw a rectangle
+## geom_segment() to draw attention with an arrow.
