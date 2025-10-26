@@ -398,3 +398,44 @@ ggplot(gapminder, aes(year, lifeExp)) +
   )
   
 ?ggrepel::geom_label_repel
+
+#4.
+
+?geom_label
+
+#> label.padding: Amount of padding around label. Defaults to 0.25 lines.
+#> label.r: Radius of rounded corners. Defaults to 0.15 lines.
+#> label.size: Size of label border, in mm.
+
+#5.
+
+?arrow
+arrow(angle = 30, length = unit(0.25, "inches"),
+      ends = "last", type = "open")
+arrow()
+str(arrow(type = "closed"), give.attr=FALSE)
+
+"""
+angle	
+The angle of the arrow head in degrees (smaller numbers produce narrower, pointier arrows). Essentially describes the width of the arrow head.
+
+length	
+A unit specifying the length of the arrow head (from tip to base).
+
+ends	
+One of 'last', 'first', or 'both', indicating which ends of the line to draw arrow heads.
+
+type	
+One of 'open' or 'closed' indicating whether the arrow head should be a closed triangle.
+"""
+view(mtcars)
+mtcars %>% 
+  ggplot(aes(hp, cyl)) +
+  geom_point() +
+  geom_segment(x = 203, xend = 304, y = 6, yend = 8, arrow = arrow())
+
+mtcars %>% 
+  ggplot(aes(hp, cyl)) +
+  geom_point() +
+  geom_segment(x = 203, xend = 304, y = 6, yend = 8, arrow = arrow(angle = 12, type = "closed", ends = "both"))
+
