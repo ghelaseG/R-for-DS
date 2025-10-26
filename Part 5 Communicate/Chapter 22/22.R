@@ -6,7 +6,6 @@ library(ggplot2)
 # Label
 
 # with good labels we can transition from exploratory to expository graphic.
-
 ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(color = class)) +
   geom_smooth(se = FALSE) +
@@ -15,9 +14,7 @@ ggplot(mpg, aes(displ, hwy)) +
       "Fuel efficiency generally decreases with engine size"
     )
   )
-
 #we are using title to explain in short the result
-
 #we can also use subtitle and caption (text at the bottom right)
 
 ggplot(mpg, aes(displ, hwy)) +
@@ -31,9 +28,7 @@ ggplot(mpg, aes(displ, hwy)) +
       "Two seaters (sports cars) are an exception because of their light weight"
     ),
     caption = "Data from fueleconomy.gov"
-  )
-
-# labs() replace the axis and legend titles
+  )# labs() replace the axis and legend titles
 
 ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(color = class)) +
@@ -43,10 +38,9 @@ ggplot(mpg, aes(displ, hwy)) +
     y = "Highway fuel economy (mpg)",
     colour = "Car type"
   )
-
 ?plotmath
-#we can also use mathematical equations
 
+#we can also use mathematical equations
 df <- tibble(
   x = runif(10),
   y = runif(10)
@@ -57,26 +51,16 @@ ggplot(df, aes(x, y)) +
     x = quote(sum(x[i] ^ 2, i == 1, n)),
     y = quote(alpha + beta + frac(delta, theta))
   )
-
 # Exercises:
-
 #1. Create one plot on the fuel economy data with customized title, subtitle, caption, x, y and colour labels.
-
 #2. The geom_smooth() is somewhat misleading because the hwy for large engines is skewed upwards due to the inclusion of light-weight sports cars with big engines. Use your modeling tools to fit and display a better model.
-
 #3. Take an exploratory graphic that you've created in the last month, and add informative titles to make it easier tfor others to understand.
 
 # Answers:
-
 #1.
-mpg %>% view()
-?mpg
-?fct_reorder
-
 mpg %>% summarize(x = fct_reorder(class, hwy),
                   y = hwy)
 mpg %>% summarise(x = unique(manufacturer))
-
 
 ggplot(mpg, aes(x = fct_reorder(manufacturer, cty), y = cty, colour = class, group = class)) +
   geom_point() +
@@ -92,11 +76,9 @@ ggplot(mpg, aes(x = fct_reorder(manufacturer, cty), y = cty, colour = class, gro
   theme_minimal()
 
 #2.
-
 ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE)
-
 
 ggplot(mpg2, aes(displ, lhwy)) +
   geom_point(aes(colour = class)) +
@@ -118,7 +100,6 @@ ggplot(grid2, aes(ldispl, lhwy)) +
   geom_smooth(se = FALSE, method = "lm")
 
 #trial part1
-
 library(modelr)
 
 mod1 <- lm(displ ~ hwy, data = mpg)
@@ -127,32 +108,26 @@ grid <- mpg %>%
   add_residuals(mod1) %>% 
   add_predictions(mod1, "hwy")
 
-view(grid)
-
 ggplot(grid, aes(displ, hwy)) +
   geom_point(aes(colour = class)) +
   geom_line(data = grid, colour = "red")
 
 # or
-
 ggplot(grid, aes(displ, hwy)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE, method = "lm")
 
 # trial part 2
-
 ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE, span = 1.8)
 
 # trial part 3 - using linear model
-
 ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = class)) +
   geom_smooth(se = FALSE, method = "lm")
 
 # trial part 4 - making some adjustments to the linear model
-
 mod2 <- lm(ldispl ~ lhwy, data = mpg2)
 
 grid2 <- mpg2 %>% 
@@ -164,9 +139,7 @@ ggplot(grid2, aes(ldispl, lhwy)) +
   geom_smooth(se = FALSE, method = "lm")
 
 #3.
-
 #we are using the last graph as an example:
-
 mpg2 <- mpg %>% 
   filter(hwy <= 40) %>% 
   mutate(lhwy = log2(hwy), ldispl = log2(displ))
@@ -192,14 +165,12 @@ ggplot(grid2, aes(ldispl, lhwy)) +
     ) +
   theme_linedraw()
 
-
 # Annotations
 
 #it is good to label groups / individual observations.
 #we can do this using geom_text() (this is useful for labeling)
 
 # example:
-
 best_in_class <- mpg %>% 
   group_by(class) %>% 
   filter(row_number(desc(hwy)) == 1)
@@ -209,7 +180,6 @@ ggplot(mpg, aes(displ, hwy)) +
   geom_text(aes(label = model), data = best_in_class)
 
 #we can also use geom_label:
-
 ggplot(mpg, aes(displ, hwy)) +
   geom_point(aes(colour = class)) +
   geom_label(
@@ -283,19 +253,16 @@ ggplot(mpg, aes(displ, hwy)) +
   )
 
 #instead of \n we can use stringr::str_wrap()
-
 "Increasing engine size related to decreasing fuel economy." %>% 
   stringr::str_wrap(width = 40) %>% 
   writeLines()
 
 #other useful geom in ggplot2:
-
 ## geom_hline() and geom_vline() to add reference lines
 ## geom_rect() to draw a rectangle
 ## geom_segment() to draw attention with an arrow.
 
 # Exercises:
-
 #1. Use geom_text() with infinite positions to place text at the four corners of the plot.
 #2. Read the documentation for annotate(). How can you use it to add a text label to a plot without having to create a tibble?
 #3. How do labels with geom_text() interact with faceting? How can you add a label to a single facet? How can you put a different label in each facet? (Hint: think about the underlying data.)
@@ -316,8 +283,6 @@ label_exercise1 <- tibble(
   text = c("Top left", "Bottom left", "Top right", "Bottom right")
 )
 
-label_exercise1
-
 ggplot(mpg, aes(displ, hwy)) +
   geom_point() +
   geom_text(aes(
@@ -327,7 +292,6 @@ ggplot(mpg, aes(displ, hwy)) +
   ), data = label_exercise1)
 
 #2.
-
 ?annotate
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
 p + annotate("text", x = 4, y = 25, label = "Some text")
@@ -342,7 +306,6 @@ gapminder %>%
   geom_text(aes(label = country)) #interaction not looking good
 
 #adding a label to a single faceting:
-
 label123 <- tibble(
   year = Inf,
   pop = Inf,
@@ -363,7 +326,6 @@ gapminder %>%
   facet_wrap(~continent)
 
 # put different label in each facet
-
 label321 <- tibble(
   year = Inf,
   pop = Inf,
@@ -387,7 +349,6 @@ best_in_life_expectancy <- gapminder %>%
   group_by(country) %>% 
   filter(row_number(desc(lifeExp)) == 1)
 
-view(mpg)
 ggplot(gapminder, aes(year, lifeExp)) +
   geom_point(aes(colour = country), show.legend = FALSE) +
   geom_point(size = 3, shape = 3, data = best_in_life_expectancy) +
@@ -396,11 +357,8 @@ ggplot(gapminder, aes(year, lifeExp)) +
     aes(label = country), max.overlaps = 33,
     data = best_in_life_expectancy
   )
-  
-?ggrepel::geom_label_repel
 
 #4.
-
 ?geom_label
 
 #> label.padding: Amount of padding around label. Defaults to 0.25 lines.
@@ -408,7 +366,6 @@ ggplot(gapminder, aes(year, lifeExp)) +
 #> label.size: Size of label border, in mm.
 
 #5.
-
 ?arrow
 arrow(angle = 30, length = unit(0.25, "inches"),
       ends = "last", type = "open")
@@ -416,19 +373,14 @@ arrow()
 str(arrow(type = "closed"), give.attr=FALSE)
 
 """
-angle	
-The angle of the arrow head in degrees (smaller numbers produce narrower, pointier arrows). Essentially describes the width of the arrow head.
+angle: The angle of the arrow head in degrees (smaller numbers produce narrower, pointier arrows). Essentially describes the width of the arrow head.
 
-length	
-A unit specifying the length of the arrow head (from tip to base).
+length: A unit specifying the length of the arrow head (from tip to base).
 
-ends	
-One of 'last', 'first', or 'both', indicating which ends of the line to draw arrow heads.
+ends: One of 'last', 'first', or 'both', indicating which ends of the line to draw arrow heads.
 
-type	
-One of 'open' or 'closed' indicating whether the arrow head should be a closed triangle.
+type: One of 'open' or 'closed' indicating whether the arrow head should be a closed triangle.
 """
-view(mtcars)
 mtcars %>% 
   ggplot(aes(hp, cyl)) +
   geom_point() +
@@ -439,3 +391,63 @@ mtcars %>%
   geom_point() +
   geom_segment(x = 203, xend = 304, y = 6, yend = 8, arrow = arrow(angle = 12, type = "closed", ends = "both"))
 
+# Scales
+
+# with scales you can manage your plots data values and many another things.
+# for example, the next 2 graphs are the same:
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class))
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class)) +
+  scale_x_continuous() +
+  scale_y_continuous() +
+  scale_color_discrete()
+
+# Axis Ticks and Legend Keys
+
+#labels controls the text label and breaks controls the position of the ticks.
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  scale_y_continuous(breaks = seq(15, 40, by = 5))
+
+#we can also set the labels to NULL - useful for maps
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  scale_x_continuous(labels = NULL) +
+  scale_y_continuous(labels = NULL)
+
+#we can use breaks to highlight observations
+presidential %>% 
+  mutate(id = 33 + row_number()) %>% 
+  ggplot(aes(start, id)) +
+  geom_point() +
+  geom_segment(aes(xend = end, yend = id)) +
+  scale_x_date(
+    NULL,
+    breaks = presidential$start,
+    date_labels = "'%y"
+  )# we can also use date_breaks() - this takes a string "2days" etc.
+
+# Legend Layout
+
+#we can use a theme for our legend:
+base <- ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class))
+base + theme(legend.position = "left")
+base + theme(legend.position = "top")
+base + theme(legend.position = "right") #default
+base + theme(legend.position = "bottom")             
+base + theme(legend.position = "none")
+
+#we can also control the legends display using guides()
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme(legend.position = "bottom") +
+  guides(
+    color = guide_legend(
+      nrow = 1,
+      override.aes = list(size = 4)
+    )
+  )
