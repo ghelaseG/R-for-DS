@@ -293,3 +293,35 @@ ggplot(mpg, aes(displ, hwy)) +
 ## geom_hline() and geom_vline() to add reference lines
 ## geom_rect() to draw a rectangle
 ## geom_segment() to draw attention with an arrow.
+
+# Exercises:
+
+#1. Use geom_text() with infinite positions to place text at the four corners of the plot.
+#2. Read the documentation for annotate(). How can you use it to add a text label to a plot without having to create a tibble?
+#3. How do labels with geom_text() interact with faceting? How can you add a label to a single facet? How can you put a different label in each facet? (Hint: think about the underlying data.)
+#4. What arguments to geom_label() control the appearance of the background box?
+#5. What are the four arguments to arrow()? How do they work? Create a series of plots that demonstrate the most important options.
+
+# Answers:
+?tibble
+#example:
+a <- 1:5
+tibble(a, a * 2)
+
+label_exercise1 <- tibble(
+  displ = c(-Inf, -Inf, Inf, Inf),
+  hwy = c(Inf, -Inf, Inf, -Inf),
+  hjust = c('left', 'left', 'right', 'right'),
+  vjust = c('top', 'bottom', 'top', 'bottom'),
+  text = c("Top left", "Bottom left", "Top right", "Bottom right")
+)
+
+label_exercise1
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  geom_text(aes(
+    label = text,
+    hjust = hjust,
+    vjust = vjust
+  ), data = label_exercise1)
