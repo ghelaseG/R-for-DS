@@ -325,3 +325,76 @@ ggplot(mpg, aes(displ, hwy)) +
     hjust = hjust,
     vjust = vjust
   ), data = label_exercise1)
+
+#2.
+
+?annotate
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+p + annotate("text", x = 4, y = 25, label = "Some text")
+
+#3.
+library(gapminder)
+view(gapminder)
+gapminder %>% 
+  ggplot(aes(year, pop, group = country)) +
+  geom_point(aes(colour = country), show.legend = FALSE) +
+  facet_wrap(~continent) +
+  geom_text(aes(label = country)) #interaction not looking good
+
+#adding a label to a single faceting:
+
+label123 <- tibble(
+  year = Inf,
+  pop = Inf,
+  label = paste(
+    "A massive change in life expectancy for the last 60 years."
+  )
+)
+
+gapminder %>% 
+  ggplot(aes(year, pop)) +
+  geom_point(aes(colour = country), show.legend = FALSE) +
+  geom_text(
+    aes(label = label),
+    data = label123,
+    vjust = 'top',
+    hjust = 'right'
+  ) +
+  facet_wrap(~continent)
+
+# put different label in each facet
+
+label321 <- tibble(
+  year = Inf,
+  pop = Inf,
+  continent = unique(gapminder$continent),
+  text = str_c("Increase in life expectancy in ", continent)
+)
+
+gapminder %>% 
+  ggplot(aes(year, pop)) +
+  geom_point(aes(colour = country), show.legend = FALSE) +
+  geom_text(
+    aes(label = text),
+    data = label321,
+    vjust = 'top',
+    hjust = 'right'
+  ) +
+  facet_wrap(~continent)
+
+#we can try using ggrepel, and I think this will be the best option:
+best_in_life_expectancy <- gapminder %>% 
+  group_by(country) %>% 
+  filter(row_number(desc(lifeExp)) == 1)
+
+view(mpg)
+ggplot(gapminder, aes(year, lifeExp)) +
+  geom_point(aes(colour = country), show.legend = FALSE) +
+  geom_point(size = 3, shape = 3, data = best_in_life_expectancy) +
+  facet_wrap(~continent) +
+  ggrepel::geom_label_repel(
+    aes(label = country), max.overlaps = 33,
+    data = best_in_life_expectancy
+  )
+  
+?ggrepel::geom_label_repel
