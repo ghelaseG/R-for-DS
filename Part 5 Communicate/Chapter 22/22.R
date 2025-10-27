@@ -451,3 +451,20 @@ ggplot(mpg, aes(displ, hwy)) +
       override.aes = list(size = 4)
     )
   )
+
+# Replacing a Scale
+
+#continuous position and colour scales are the ones that we are replacing.
+#after log-transforming the data, we can easily rescale everything so we can have on both axes the main values.
+#previous examples:
+ggplot(diamonds, aes(carat, price)) +
+  geom_bin2d()
+
+ggplot(diamonds, aes(log10(carat), log10(price))) +
+  geom_bin2d()
+
+#now the new example will be:
+ggplot(diamonds, aes(carat, price)) +
+  geom_bin2d() +
+  scale_x_log10() +
+  scale_y_log10()
