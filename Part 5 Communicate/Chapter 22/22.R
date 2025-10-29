@@ -504,3 +504,13 @@ ggplot(df, aes(x, y)) +
   geom_hex() +
   viridis::scale_fill_viridis() +
   coord_fixed()
+
+#Exercises:
+#1. Why doesn't the following code override the default scale?
+ggplot(df, aes(x, y)) +
+  geom_hex() +
+  scale_fill_gradient(low = "white", high = "red") +
+  coord_fixed()
+#because we should of used scale_fill_gradient instead of "scale_color_gradient".
+
+#2. 
