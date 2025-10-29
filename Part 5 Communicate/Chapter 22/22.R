@@ -513,4 +513,32 @@ ggplot(df, aes(x, y)) +
   coord_fixed()
 #because we should of used scale_fill_gradient instead of "scale_color_gradient".
 
-#2. 
+#2. What is the first argument to every scale? How does it compare to labs()?
+#for the majority of scale, the argument can be "Additional parameters passed on to the scale type"
+#and for the labs: A list of new name-value pairs. The name should be an aesthetic.
+
+#3. Change the display of the presidential terms by:
+#a. Combining the two variants shown above.
+#b. Improving the display of the y-axis.
+#c. Labeling each term with the name of the president.
+#d. Adding informative plot labels.
+#e. Placing breaks every four years (this is trickier than it seems!).
+presidential %>% 
+  mutate(id = 33 + row_number()) %>% 
+  ggplot(aes(start, id, color = party)) +
+  geom_point() +
+  geom_segment(aes(xend = end, yend = id)) +
+  scale_color_manual(
+    values = c(Republican = "red", Democratic = "blue")
+  ) +
+  labs(
+    colour = "Type of Party",
+    x = "Presidency Period",
+    y = "12 US Presidents"
+  )  #a
+?fct_inorder
+f <- factor(c("b", "b", "a", "c", "c", "c"))
+f
+fct_inorder(f)
+fct_infreq(f)
+?geom_segment
