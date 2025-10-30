@@ -535,10 +535,17 @@ presidential %>%
     colour = "Type of Party",
     x = "Presidency Period",
     y = "12 US Presidents"
-  )  #a
-?fct_inorder
-f <- factor(c("b", "b", "a", "c", "c", "c"))
-f
-fct_inorder(f)
-fct_infreq(f)
-?geom_segment
+  ) + 
+  scale_y_continuous(breaks = presidential$id,
+                         labels = presidential$name)
+
+
+
+
+# #a
+# ?fct_inorder
+# f <- factor(c("b", "b", "a", "c", "c", "c"))
+# f
+# fct_inorder(f)
+# fct_infreq(f)
+# ?geom_segment
