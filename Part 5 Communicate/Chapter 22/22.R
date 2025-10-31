@@ -524,10 +524,12 @@ ggplot(df, aes(x, y)) +
 #d. Adding informative plot labels.
 #e. Placing breaks every four years (this is trickier than it seems!).
 presidential %>% 
-  mutate(id = 33 + row_number()) %>% 
-  ggplot(aes(start, id, color = party)) +
+  mutate(id = 33 + row_number(),
+         name_president = fct_inorder(str_c(name, "(", id,")"))) %>% 
+  ggplot(aes(start, name_president, color = party)) +
   geom_point() +
-  geom_segment(aes(xend = end, yend = id)) +
+  geom_segment(aes(xend = end, yend = name_president)) +
+  scale_y_discrete(NULL) +
   scale_color_manual(
     values = c(Republican = "red", Democratic = "blue")
   ) +
@@ -535,11 +537,7 @@ presidential %>%
     colour = "Type of Party",
     x = "Presidency Period",
     y = "12 US Presidents"
-  ) + 
-  scale_y_continuous(breaks = presidential$id,
-                         labels = presidential$name)
-
-
+  )
 
 
 # #a
@@ -549,3 +547,5 @@ presidential %>%
 # fct_inorder(f)
 # fct_infreq(f)
 # ?geom_segment
+
+
