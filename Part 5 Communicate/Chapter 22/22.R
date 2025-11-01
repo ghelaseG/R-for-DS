@@ -537,8 +537,12 @@ presidential %>%
     colour = "Type of Party",
     x = "Presidency Period",
     y = "12 US Presidents"
-  )
-
+  ) +
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.ticks.y = element_blank()
+  ) +
+  theme_minimal()
 
 # #a
 # ?fct_inorder
