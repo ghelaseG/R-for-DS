@@ -551,3 +551,58 @@ presidential %>%
 ggplot(diamonds, aes(carat, price)) +
   geom_point(aes(color = cut), alpha = 1/20) +
   guides(colour = guide_legend(override.aes = list(alpha = 1)))
+
+# Zooming
+#We can control the plot limits in different ways, either by adjusting what data is plotted, setting the limits in each scale, or setting xlim and ylim in coord_cartesian().
+ggplot(mpg, mapping =aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth() +
+  coord_cartesian(xlim = c(5, 7), ylim = c(10, 30))
+
+mpg %>% 
+  filter(displ >= 5, displ <= 7, hwy >= 10, hwy <= 30) %>% 
+  ggplot(aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth()
+
+suv <- mpg %>% filter(class == "suv")
+compact <- mpg %>% filter(class == "compact")
+
+ggplot(suv, aes(displ, hwy, color = drv)) +
+  geom_point()
+
+ggplot(compact, aes(displ, hwy, color = drv)) +
+  geom_point()
+
+#sharing the scales over the plots
+x_scale <- scale_x_continuous(limits = range(mpg$displ))
+y_scale <- scale_y_continuous(limits = range(mpg$hwy))
+col_scale <- scale_color_discrete(limits = unique(mpg$drv))
+
+ggplot(suv, aes(displ, hwy, color = drv)) +
+  geom_point() +
+  x_scale +
+  y_scale +
+  col_scale
+
+ggplot(compact, aes(displ, hwy, color = drv)) +
+  geom_point() +
+  x_scale +
+  y_scale +
+  col_scale
+#or we could of used faceting.
+
+#Themes
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(color = class)) +
+  geom_smooth(se = FALSE) +
+  theme_bw() #linedrew, classic, dark, gray, light, minimal or void
+
+#Saving Your plots
+#we can save the most recent plots with ggsave() or knitr.
+
+#Figure Sizing
+#figure size in R Markdown is one of the hardest part.
+#the main options are fig.width, fig.height, fig.asp, out.width and out.height(check book to see the right set-up by the author)
+
+#great idea to name code chunks with figures.
