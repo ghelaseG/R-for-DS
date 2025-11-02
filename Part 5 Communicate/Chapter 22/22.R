@@ -529,14 +529,17 @@ presidential %>%
   ggplot(aes(start, name_president, color = party)) +
   geom_point() +
   geom_segment(aes(xend = end, yend = name_president)) +
-  scale_y_discrete(NULL) +
-  scale_color_manual(
-    values = c(Republican = "red", Democratic = "blue")
-  ) +
   labs(
+    title = "Presidential Terms In the United States of America",
+    subtitle = "Terms period: 1953 to 2021",
     colour = "Type of Party",
     x = "Presidency Period",
-    y = "12 US Presidents"
+    y = "US Presidents"
+  ) +
+  scale_x_date(date_breaks = "4 years",
+               date_labels = "%y'") +
+  scale_color_manual(
+    values = c(Republican = "red", Democratic = "blue")
   ) +
   theme(
     panel.grid.minor = element_blank(),
@@ -544,12 +547,6 @@ presidential %>%
   ) +
   theme_minimal()
 
-# #a
-# ?fct_inorder
-# f <- factor(c("b", "b", "a", "c", "c", "c"))
-# f
-# fct_inorder(f)
-# fct_infreq(f)
-# ?geom_segment
-
-
+#4. Use override.aes to make the legend on the following plot easier to see:
+ggplot(diamonds, aes(carat, price)) +
+  
