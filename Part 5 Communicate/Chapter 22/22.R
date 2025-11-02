@@ -549,4 +549,5 @@ presidential %>%
 
 #4. Use override.aes to make the legend on the following plot easier to see:
 ggplot(diamonds, aes(carat, price)) +
-  
+  geom_point(aes(color = cut), alpha = 1/20) +
+  guides(colour = guide_legend(override.aes = list(alpha = 1)))
