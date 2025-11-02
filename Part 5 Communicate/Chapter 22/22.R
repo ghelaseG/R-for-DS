@@ -606,3 +606,4 @@ ggplot(mpg, aes(displ, hwy)) +
 #the main options are fig.width, fig.height, fig.asp, out.width and out.height(check book to see the right set-up by the author)
 
 #great idea to name code chunks with figures.
+
