@@ -1,0 +1,49 @@
+"""
+---
+title: "23"
+output: html_document
+---
+
+```
+{r}
+rmarkdown::render(
+ "diamond-sizes.Rmd",
+ output_format = "word_document"
+)
+```
+
+rendering a document with floating table of contents:
+output:
+  html_document:
+    toc: true
+    toc_float: true
+
+rendering to multiple outputs:
+output:
+  html_document:
+    toc: true
+    toc_float: true
+  pdf_document: default
+  
+we can turn off the default display using
+knitr::opts_chunk$set(echo = FALSE)
+
+for html_documents, using click to see the code:
+output:
+  html_document:
+    code_folding: hide
+    
+use at the same time, html and git as output
+output:
+  html_notebook: default
+  github_document: default
+  
+For presentations, the first # means first(beginning)  of slide, and ## level header. Also using *** means new slide without header.
+
+flexdashboard is a great way to create dashboards:
+"#" begins a new page
+"##" new column
+"###" new row
+example:
+"""
+
